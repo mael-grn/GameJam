@@ -7,8 +7,8 @@ class Character:
         self.imageD = pygame.image.load("./assets/img/character.png")
         self.imageG = pygame.image.load("./assets/img/characterG.png")
         # Redimensionne le personnage à 50x50 pixels
-        self.imageD = pygame.transform.scale(self.imageD, (50, 50))
-        self.imageG = pygame.transform.scale(self.imageG, (50, 50))
+        self.imageD = pygame.transform.scale(self.imageD, (125, 125))
+        self.imageG = pygame.transform.scale(self.imageG, (125, 125))
         self.images.append(self.imageD)
         self.images.append(self.imageG)
         self.image = self.images[cote]
