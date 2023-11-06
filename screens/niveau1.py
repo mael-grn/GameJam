@@ -3,7 +3,6 @@ import character
 import screens.error as error
 
 def ouvrir_niveau(screen):
-
     # Définit l'horloge pour connaître le temps qui a passé
     clock = pygame.time.Clock()
     # Pour savoir quand la boucle du jeu se termine
