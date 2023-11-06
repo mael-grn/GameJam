@@ -7,7 +7,10 @@ def ouvrir_menu(screen) :
     running = True
     dt=0
     clock = pygame.time.Clock()
-
+    nom_joueur = ""
+    jouer_color = (97, 195, 161)
+    score_color = (97, 195, 161)
+    quitter_color = (97, 195, 161)
 
     while running :
 
@@ -16,28 +19,42 @@ def ouvrir_menu(screen) :
 
         #chargement de la police
         chemin = "./assets/fonts/pinball.ttf"
-        font = pygame.font.Font(chemin, 36)  # Vous pouvez ajuster la taille de la police
+        font = pygame.font.Font(chemin, 50) 
+        font_big = pygame.font.Font(chemin, 60) 
 
         #chargement du logo
         logo = pygame.image.load("./assets/img/game_logo.jpg")
         #redimmensionner le logo
         logo_small = pygame.transform.scale(logo, (logo.get_width()/2, logo.get_height()/2))
-        screen.blit(logo_small, (screen.get_width() // 2 - logo_small.get_width()/2, screen.get_height() // 3 - logo_small.get_height()/2))
+        screen.blit(logo_small, (screen.get_width() // 2 - logo_small.get_width()/2, screen.get_height() // 4 - logo_small.get_height()/2))
+
+        #creation du champs contenant le nom du joueur
+        player = font_big.render("PSEUDO : "+nom_joueur, True, (97, 195, 161))
+        player_rec = player.get_rect()
+        player_rec.center = ((screen.get_width() // 2), (screen.get_height() // 3)*2)
+        screen.blit(player, player_rec)
 
         #creation du bouton quitter
-        quitter = font.render("QUITTER", True, (255, 0, 0))  # (255, 0, 0) représente la couleur rouge (RVB)
+        quitter = font.render("QUITTER", True, quitter_color)
         quitter_rec = quitter.get_rect()
-        quitter_rec.center = ((screen.get_width() // 3)*2, (screen.get_height() // 3)*2)
+        quitter_rec.center = ((screen.get_width() // 3)*2, (screen.get_height() // 3)*2.5)
         screen.blit(quitter, quitter_rec)
 
         #creation du bouton jouer
-        jouer = font.render("JOUER", True, (255, 0, 0))  # (255, 0, 0) représente la couleur rouge (RVB)
+        jouer = font.render("JOUER", True, jouer_color)  # (255, 0, 0) représente la couleur rouge (RVB)
         jouer_rec = jouer.get_rect()
-        jouer_rec.center = ((screen.get_width() // 3), (screen.get_height() // 3)*2)
+        jouer_rec.center = ((screen.get_width() // 3), (screen.get_height() // 3)*2.5)
         screen.blit(jouer, jouer_rec)
 
         #gestion des evenements
         for event in pygame.event.get():
+
+            #si les touches du clavier sont pressées
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    nom_joueur = nom_joueur[:-1]
+                else:
+                    nom_joueur += event.unicode
 
             #en cas de cliques
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -54,6 +71,21 @@ def ouvrir_menu(screen) :
                 if jouer_rec.collidepoint(event.pos):
                     running=False
                     n1.ouvrir_niveau(screen)
+
+            if event.type == pygame.MOUSEMOTION:
+                if jouer_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    jouer_color = (255, 255, 255)
+                else:
+                    jouer_color = (97, 195, 161)
+
+                if quitter_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    quitter_color = (255, 255, 255)
+                else:
+                    quitter_color = (97, 195, 161)
+
+            
 
         # Comme les dessions sont fait dans un buffer, permute le buffer
         pygame.display.flip()
