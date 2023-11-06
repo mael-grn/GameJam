@@ -2,6 +2,7 @@ import pygame
 import pickle
 import screens.error as error
 import screens.niveau1 as n1
+import screens.score as menu_score
 
 def ouvrir_menu(screen) : 
     running = True
@@ -51,13 +52,19 @@ def ouvrir_menu(screen) :
         #creation du bouton quitter
         quitter = font.render("QUITTER", True, quitter_color)
         quitter_rec = quitter.get_rect()
-        quitter_rec.center = ((screen.get_width() // 3)*2, (screen.get_height() // 3)*2.5)
+        quitter_rec.center = ((screen.get_width() // 4)*3, (screen.get_height() // 3)*2.5)
         screen.blit(quitter, quitter_rec)
+
+        #creation du bouton score
+        score = font.render("SCORE", True, score_color)
+        score_rec = score.get_rect()
+        score_rec.center = ((screen.get_width() // 4)*2, (screen.get_height() // 3)*2.5)
+        screen.blit(score, score_rec)
 
         #creation du bouton jouer
         jouer = font.render("JOUER", True, jouer_color)  # (255, 0, 0) représente la couleur rouge (RVB)
         jouer_rec = jouer.get_rect()
-        jouer_rec.center = ((screen.get_width() // 3), (screen.get_height() // 3)*2.5)
+        jouer_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
         screen.blit(jouer, jouer_rec)
 
         #gestion des evenements
@@ -90,6 +97,10 @@ def ouvrir_menu(screen) :
                         ajout_score(nom_joueur)
                         running=False
                         n1.ouvrir_niveau(screen)
+                #si clique sur bouton score
+                if score_rec.collidepoint(event.pos):
+                    running=False
+                    menu_score.ouvrir_score(screen, dict_score)
 
             if event.type == pygame.MOUSEMOTION:
                 if jouer_rec.collidepoint(event.pos):
@@ -103,6 +114,12 @@ def ouvrir_menu(screen) :
                     quitter_color = (255, 255, 255)
                 else:
                     quitter_color = (97, 195, 161)
+
+                if score_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    score_color = (255, 255, 255)
+                else:
+                    score_color = (97, 195, 161)
 
             
 
