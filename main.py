@@ -1,3 +1,3 @@
 import pygame
-print("hello world")
+print("hello ...")
 
