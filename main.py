@@ -1,4 +1,6 @@
 import pygame
+print("hello world")
+
 
 def main():
     # Démmarre le module 
