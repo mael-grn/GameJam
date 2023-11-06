@@ -25,9 +25,9 @@ def ouvrir_niveau(screen):
         
 
         # Affiche le personnage
-        character_obj.move(pygame.key.get_pressed())
+        character_obj.inputs(pygame.key.get_pressed())
         character_obj.draw(screen)
-
+       
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()
         # Limite le frame rate à 60 images par seconde et retourne le temps réel passé

@@ -1,5 +1,5 @@
 import pygame
-
+import projectile
 class Character:
     def __init__(self, x, y):
         # Charge les images depuis les nouveaux chemins
@@ -23,7 +23,7 @@ class Character:
         self.walk_step = 0  # 0 pour image 1, 1 pour image 2
         self.last_image_time = pygame.time.get_ticks()  # Temps de la dernière image
 
-    def move(self, keys):
+    def inputs(self, keys):
         if keys[pygame.K_q]:
             self.rect.x -= self.speed
             self.direction = 1  # Gauche
