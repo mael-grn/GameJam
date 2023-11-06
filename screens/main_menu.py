@@ -12,6 +12,20 @@ def ouvrir_menu(screen) :
     score_color = (97, 195, 161)
     quitter_color = (97, 195, 161)
 
+    dict_score = {}
+    #recuperation des scores sauvegardés
+    try:
+        with open("./data/score.pkl", "rb") as fichier:
+            dict_score = pickle.load(fichier)
+    except (EOFError, FileNotFoundError):
+        # Gérer le cas où le fichier est vide ou n'existe pas
+        dictionnaire_charge = {}
+
+    def ajout_score(pseudo, score=0) :
+        dict_score[pseudo] = score
+        with open("./data/score.pkl", "wb") as fichier:
+            pickle.dump(dict_score, fichier)
+
     while running :
 
         #arriere plan
@@ -61,7 +75,7 @@ def ouvrir_menu(screen) :
 
                 #si fermeture fenetre
                 if event.type == pygame.QUIT:
-                    running=False
+                    running = False
                     pygame.quit()
                 # Si clique sur bouton quitter
                 if quitter_rec.collidepoint(event.pos):
@@ -69,8 +83,13 @@ def ouvrir_menu(screen) :
                     pygame.quit()
                 #si clique sur bouton jouer
                 if jouer_rec.collidepoint(event.pos):
-                    running=False
-                    n1.ouvrir_niveau(screen)
+
+                    if nom_joueur in dict_score:
+                        jouer_color = (255, 0, 0)
+                    else:
+                        ajout_score(nom_joueur)
+                        running=False
+                        n1.ouvrir_niveau(screen)
 
             if event.type == pygame.MOUSEMOTION:
                 if jouer_rec.collidepoint(event.pos):
@@ -93,4 +112,3 @@ def ouvrir_menu(screen) :
         dt = clock.tick(60) 
     
                 
-    
