@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" name="porte" tilewidth="32" tileheight="32" tilecount="16" columns="4">
-  <image source="../../../../Downloads/porte.png" trans="ff00ff" width="128" height="128"/>
+  <image source="porte.png" trans="ff00ff" width="128" height="128"/>
  </tileset>
  <tileset firstgid="17" source="test_porte(10).tsx"/>
  <tileset firstgid="33" source="couleur.tsx"/>
