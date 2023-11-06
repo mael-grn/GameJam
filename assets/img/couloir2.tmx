@@ -19,6 +19,7 @@
  <tileset firstgid="394" source="sous_sol.tsx"/>
  <tileset firstgid="400" source="sous_sol(1).tsx"/>
  <tileset firstgid="409" source="sous_sol(2).tsx"/>
+ <tileset firstgid="421" source="bonhomme1.tsx"/>
  <layer id="1" name="Tile Layer 1" width="32" height="24">
   <data encoding="csv">
 44,44,44,44,44,45,45,45,45,45,45,45,45,45,45,45,44,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,
