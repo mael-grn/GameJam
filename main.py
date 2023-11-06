@@ -1,5 +1,6 @@
 import pygame
 import screens.error as error
+import screens.main_menu as menu
 
 def main():
     # Démmarre le module 
@@ -22,7 +23,9 @@ def main():
                 running = False
         # Efface l'écran précédent en remplissant l'écran 
         screen.fill("blue")
-        error.show_error(screen, "test")
+        
+        menu.ouvrir_menu(screen)
+        running=False
         # Comme les dessions sont fait dans un buffer, permute le buffer
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
