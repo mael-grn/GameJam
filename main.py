@@ -22,7 +22,7 @@ def main():
                 running = False
         # Efface l'écran précédent en remplissant l'écran 
         screen.fill("blue")
-        error.error(screen, "bonjour")
+        error.show_error(screen, "bonjour")
         # Comme les dessions sont fait dans un buffer, permute le buffer
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
