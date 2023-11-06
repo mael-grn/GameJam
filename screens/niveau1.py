@@ -11,7 +11,7 @@ def ouvrir_niveau(screen):
     dt = 0
 
     # Crée un personnage
-    character_obj = character.Character(640, 360,0)  # Position initiale du personnage
+    character_obj = character.Character(640, 360)  # Position initiale du personnage
 
     # Boucle de l'animation
     while running:
