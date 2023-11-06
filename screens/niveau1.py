@@ -36,5 +36,4 @@ def ouvrir_niveau(screen):
     # Termine proprement le module
     pygame.quit()
 
-# Appel au programme principal
-main()
+

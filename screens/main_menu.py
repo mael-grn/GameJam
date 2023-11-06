@@ -1,5 +1,6 @@
 import pygame
 import screens.error as error
+import screens.niveau1 as n1
 
 def ouvrir_menu(screen) : 
     running = True
@@ -9,7 +10,6 @@ def ouvrir_menu(screen) :
         screen.fill("black")
         chemin = "./assets/fonts/pinball.ttf"
         font = pygame.font.Font(chemin, 36)  # Vous pouvez ajuster la taille de la police
-        font.set_italic(not font.italic)
 
         logo = pygame.image.load("./assets/img/game_logo.jpg")
         #redimmensionner le logo
@@ -30,6 +30,7 @@ def ouvrir_menu(screen) :
 
         #gestion du clique sur quitter
         for event in pygame.event.get():
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.type == pygame.QUIT:
                     running=False
@@ -40,7 +41,11 @@ def ouvrir_menu(screen) :
                     pygame.quit()
                 if jouer_rec.collidepoint(event.pos):
                     running=False
-                    error.show_error(screen, "Aucun niveau créé")
+                    n1.ouvrir_niveau(screen)
+
+                    
+
+
 
         # Comme les dessions sont fait dans un buffer, permute le buffer
         pygame.display.flip()
