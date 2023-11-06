@@ -91,7 +91,7 @@ def ouvrir_menu(screen) :
                 #si clique sur bouton jouer
                 if jouer_rec.collidepoint(event.pos):
 
-                    if nom_joueur in dict_score:
+                    if (nom_joueur in dict_score) | (nom_joueur == "") :
                         jouer_color = (255, 0, 0)
                     else:
                         ajout_score(nom_joueur)

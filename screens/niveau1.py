@@ -22,6 +22,7 @@ def ouvrir_niveau(screen):
                 running = False
         # Efface l'écran précédent en remplissant l'écran 
         screen.fill((0, 0, 255))  # Remplace "blue" par (0, 0, 255) pour définir la couleur bleue
+        
 
         # Affiche le personnage
         character_obj.move(pygame.key.get_pressed())
