@@ -2,6 +2,7 @@ import pickle
 import character
 import pygame
 import projectile
+import enemy
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #tmx_data correspond aux données de la map chargée
