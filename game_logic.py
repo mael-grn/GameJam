@@ -1,4 +1,6 @@
 import pickle
+import character
+import pygame
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #id represente l'identifiant de l'objet avec lequel on veut detecter la collision, dans le fichier tmx
@@ -30,3 +32,14 @@ def ajout_score(pseudo, score=0) :
     dict_score[pseudo] = score
     with open("./data/score.pkl", "wb") as fichier:
         pickle.dump(dict_score, fichier)
+
+def move_character(character_obj, key, map):
+    
+    if key[pygame.K_q]:
+        character_obj.move_left()  # Appel à la méthode move_left du personnage
+    elif key[pygame.K_d]:
+        character_obj.move_right()  # Appel à la méthode move_right du personnage
+    if key[pygame.K_z]:
+        character_obj.move_up()  # Appel à la méthode move_up du personnage
+    elif key[pygame.K_s]:
+        character_obj.move_down()  # Appel à la méthode move_down du personnage

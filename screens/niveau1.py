@@ -2,6 +2,7 @@ import pygame
 import character
 import screens.error as error
 import pytmx
+import game_logic
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -13,6 +14,7 @@ def ouvrir_niveau(screen):
 
     # Crée un personnage
     character_obj = character.Character(640, 360)  # Position initiale du personnage
+    
 
      # Chargement de la carte
     tmx_map = pytmx.load_pygame('./assets/maps/couloir1.tmx')
@@ -35,9 +37,10 @@ def ouvrir_niveau(screen):
 
                 
         
-
+        
         # Affiche le personnage
-        character_obj.inputs(pygame.key.get_pressed())
+        #character_obj.inputs(pygame.key.get_pressed())
+        game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map)
         character_obj.draw(screen)
        
         # Comme les dessins sont faits dans un buffer, permute le buffer

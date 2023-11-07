@@ -28,39 +28,44 @@ class Character:
         self.direction = 0  # 0 pour droite, 1 pour gauche
         self.walk_step = 0  # 0 pour image 1, 1 pour image 2
         self.last_image_time = pygame.time.get_ticks()  # Temps de la dernière image
+    
+    def move_left(self):
+        self.rect.x -= self.speed
+        self.direction = 1  # Gauche
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
+    
+    def move_right(self):
+        self.rect.x += self.speed
+        self.direction = 0  # Droite
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
-    def inputs(self, keys):
-        if keys[pygame.K_q]:
-            self.rect.x -= self.speed
-            self.direction = 1  # Gauche
-        elif keys[pygame.K_d]:
-            self.rect.x += self.speed
-            self.direction = 0  # Droite
+    def move_up(self):
+        self.rect.y -= self.speed
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
-        if keys[pygame.K_z]:
-            self.rect.y -= self.speed
-            
-        elif keys[pygame.K_s]:
-            self.rect.y += self.speed            
+    def move_down(self):
+        self.rect.y += self.speed  
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
-        # Vérifie s'il y a un déplacement vertical
-        is_vertical_movement = keys[pygame.K_z] or keys[pygame.K_s]
-        # Vérifie s'il y a un déplacement horizontal
-        is_horizontal_movement = keys[pygame.K_q] or keys[pygame.K_d]
+    def get_x(self):
+        return self.rect.x
+    
+    def get_y(self):
+        return self.rect.y
 
-        # Si le personnage se déplace verticalement, alternez entre les images bonhomme1 et bonhomme2
-        if is_vertical_movement:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
-                self.walk_step = 1 - self.walk_step
-                self.last_image_time = current_time
-
-        # Si le personnage se déplace horizontalement, alternez entre les images bonhomme1retourne et bonhomme2retourne
-        if is_horizontal_movement:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
-                self.walk_step = 1 - self.walk_step
-                self.last_image_time = current_time
+    
 
     def draw(self, screen):
         # Récupère l'image en fonction de la direction et de l'étape de marche
