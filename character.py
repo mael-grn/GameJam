@@ -21,7 +21,7 @@ class Character:
         ]
 
         # Redimensionne les images à 50x50 pixels
-        self.images = [[pygame.transform.scale(img, (125, 125)) for img in direction] for direction in self.images]
+        self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
         self.rect.topleft = (x, y)
         self.speed = constants.CHARACTER_SPEED
@@ -60,10 +60,12 @@ class Character:
             self.last_image_time = current_time
 
     def get_x(self):
-        return self.rect.x
+        return self.rect.x+20
     
     def get_y(self):
-        return self.rect.y
+        return self.rect.y+80
+    
+    
 
     
 

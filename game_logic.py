@@ -14,16 +14,18 @@ def check_collision(character_x, character_y, tmx_data):
     for layer in tmx_data.visible_layers:
        
         if layer.data:
-
             #print(" x : " + str(character_x) + " y : "+str(character_y)+ " calc1 : "+ str(character_x // 32)+ " calc2 : " + str(character_y // 32))
-            if layer.data[character_y // 32][character_x // 32]:
+            tile = layer.data[character_y // tmx_data.tileheight][character_x // tmx_data.tilewidth]
+            if tile:
                 name = layer.name 
-                print(name)
+                print(f"Coordonnées ({character_x}, {character_y}) correspondent au layer : {layer.name}")
                 if "99" in name:
                     
                     return "wall"
                 
             return "none"
+    
+    
 
 
 def get_score():  
