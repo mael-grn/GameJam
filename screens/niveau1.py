@@ -17,16 +17,16 @@ def ouvrir_niveau(screen):
     
 
      # Chargement de la carte
-    tmx_map = pytmx.load_pygame('./assets/maps/couloir1.tmx')
+    tmx_map = pytmx.load_pygame('./assets/maps/sol.tmx')
     projectiles = []
-    tmx_map_data = pytmx.TiledMap('./assets/maps/couloir1.tmx')
-    game_logic.check_collision(character_obj.get_x(), character_obj.get_y(), tmx_map_data)
+    tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
+    
 
     while running:
 
         screen.fill((0, 0, 0))
          
-        
+       
 
        #affichage de la carte
         for layer in tmx_map.visible_layers:
@@ -48,7 +48,7 @@ def ouvrir_niveau(screen):
 
         # Affiche le personnage
         #character_obj.inputs(pygame.key.get_pressed())
-        game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map)
+        game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
         character_obj.draw(screen)
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()

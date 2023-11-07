@@ -4,16 +4,26 @@ import pygame
 import projectile
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
-#id represente l'identifiant de l'objet avec lequel on veut detecter la collision, dans le fichier tmx
-#tmx_map correspond a la carte dans laquel on se trouve
+#tmx_data correspond aux données de la map chargée
+#renvoi wall si la collision ne permets pas au personnage de passer, 
+#room#xx si le peronnage rentre la une piece numero xx
+#damage#xx si le personnage prends xx degats 
+#none sinon
 def check_collision(character_x, character_y, tmx_data):
     
     for layer in tmx_data.visible_layers:
        
         if layer.data:
-            tile = layer.data[character_x // tmx_data.tileheight][character_y // tmx_data.tilewidth]
-            if tile:
-                print(f"Coordonnées ({character_x}, {character_y}) correspondent au layer : {layer.name}")
+
+            #print(" x : " + str(character_x) + " y : "+str(character_y)+ " calc1 : "+ str(character_x // 32)+ " calc2 : " + str(character_y // 32))
+            if layer.data[character_y // 32][character_x // 32]:
+                name = layer.name 
+                print(name)
+                if "99" in name:
+                    
+                    return "wall"
+                
+            return "none"
 
 
 def get_score():  
@@ -33,17 +43,24 @@ def ajout_score(pseudo, score=0) :
     with open("./data/score.pkl", "wb") as fichier:
         pickle.dump(dict_score, fichier)
 
-def move_character(character_obj, key, map):
+def move_character(character_obj, key, map_data):
     
     if key[pygame.K_q]:
-
-        character_obj.move_left()  # Appel à la méthode move_left du personnage
+        coll = check_collision(character_obj.get_x(), character_obj.get_y(), map_data)
+        if coll != "wall":
+            character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
-        character_obj.move_right()  # Appel à la méthode move_right du personnage
+        coll = check_collision(character_obj.get_x(), character_obj.get_y(), map_data)
+        if coll != "wall":
+            character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
-        character_obj.move_up()  # Appel à la méthode move_up du personnage
+        coll = check_collision(character_obj.get_x(), character_obj.get_y(), map_data)
+        if coll != "wall":
+            character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
-        character_obj.move_down()  # Appel à la méthode move_down du personnage
+        coll = check_collision(character_obj.get_x(), character_obj.get_y(), map_data)
+        if coll != "wall":
+            character_obj.move_down()  # Appel à la méthode move_down du personnage
 
 def tirer(character_x,character_y,souris_x,souris_y,screen):
     if(souris_x> 1024/2):
