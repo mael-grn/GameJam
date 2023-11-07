@@ -15,7 +15,7 @@ def ouvrir_niveau(screen):
     character_obj = character.Character(640, 360)  # Position initiale du personnage
 
      # Chargement de la carte
-    tmx_map = pytmx.load_pygame('./assets/img/couloir1.tmx')
+    tmx_map = pytmx.load_pygame('./assets/maps/couloir1.tmx')
 
     while running:
 
