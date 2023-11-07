@@ -59,14 +59,8 @@ class Character:
             self.walk_step = 1 - self.walk_step
             self.last_image_time = current_time
 
-    def get_x(self):
-        return self.rect.x+20
-    
-    def get_y(self):
-        return self.rect.y+80
-    
-    
-
+    def get_rect(self): #left high
+        return self.rect
     
 
     def draw(self, screen):
