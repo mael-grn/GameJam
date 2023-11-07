@@ -1,6 +1,7 @@
 import pygame
 import character
 import screens.error as error
+import pytmx
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -13,15 +14,26 @@ def ouvrir_niveau(screen):
     # Crée un personnage
     character_obj = character.Character(640, 360)  # Position initiale du personnage
 
-    # Boucle de l'animation
+     # Chargement de la carte
+    tmx_map = pytmx.load_pygame('./assets/img/couloir1.tmx')
+
     while running:
+
+        screen.fill((0, 0, 0))
+       
+       #affichage de la carte
+        for layer in tmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer):
+                for x, y, image in layer.tiles():
+                    screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
+
         # Parcourt tous les événements pour les traiter
         for event in pygame.event.get():
             # QUIT signifie que l'utilisateur a fermé la fenêtre
             if event.type == pygame.QUIT:
                 running = False
-        # Efface l'écran précédent en remplissant l'écran 
-        screen.fill((0, 0, 255))  # Remplace "blue" par (0, 0, 255) pour définir la couleur bleue
+
+                
         
 
         # Affiche le personnage

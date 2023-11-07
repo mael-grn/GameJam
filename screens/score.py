@@ -2,7 +2,7 @@ import pygame
 import screens.error as error
 import screens.main_menu as menu
 
-def ouvrir_score(screen, dict_score):
+def ouvrir_score(screen, dictionnaire_score):
 
     # Définit l'horloge pour connaitre le temps qui a passé
     clock = pygame.time.Clock()
@@ -12,11 +12,13 @@ def ouvrir_score(screen, dict_score):
     dt = 0
 
     retour_color = (97, 195, 161)
+    dict_score = {}
+    dict_score = dictionnaire_score
 
     # Boucle de l'animation
     while running:
         
-
+        
         # Remplit l'écran avec une couleur de fond (avant de dessiner le texte)
         screen.fill((0, 0, 0))
 

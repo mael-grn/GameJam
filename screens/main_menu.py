@@ -3,6 +3,7 @@ import pickle
 import screens.error as error
 import screens.niveau1 as n1
 import screens.score as menu_score
+import game_logic
 
 def ouvrir_menu(screen) : 
     running = True
@@ -12,20 +13,6 @@ def ouvrir_menu(screen) :
     jouer_color = (97, 195, 161)
     score_color = (97, 195, 161)
     quitter_color = (97, 195, 161)
-
-    dict_score = {}
-    #recuperation des scores sauvegardés
-    try:
-        with open("./data/score.pkl", "rb") as fichier:
-            dict_score = pickle.load(fichier)
-    except (EOFError, FileNotFoundError):
-        # Gérer le cas où le fichier est vide ou n'existe pas
-        dictionnaire_charge = {}
-
-    def ajout_score(pseudo, score=0) :
-        dict_score[pseudo] = score
-        with open("./data/score.pkl", "wb") as fichier:
-            pickle.dump(dict_score, fichier)
 
     while running :
 
@@ -91,16 +78,16 @@ def ouvrir_menu(screen) :
                 #si clique sur bouton jouer
                 if jouer_rec.collidepoint(event.pos):
 
-                    if (nom_joueur in dict_score) | (nom_joueur == "") :
+                    if (nom_joueur in game_logic.get_score()) | (nom_joueur == "") :
                         jouer_color = (255, 0, 0)
                     else:
-                        ajout_score(nom_joueur)
+                        game_logic.ajout_score(nom_joueur)
                         running=False
                         n1.ouvrir_niveau(screen)
                 #si clique sur bouton score
                 if score_rec.collidepoint(event.pos):
                     running=False
-                    menu_score.ouvrir_score(screen, dict_score)
+                    menu_score.ouvrir_score(screen, game_logic.get_score())
 
             if event.type == pygame.MOUSEMOTION:
                 if jouer_rec.collidepoint(event.pos):

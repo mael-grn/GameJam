@@ -1,0 +1,2 @@
+CHARACTER_SPEED = 5
+ANIMATION_SPEED = 500 #millisecondes

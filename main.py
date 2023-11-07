@@ -6,7 +6,7 @@ def main():
     # Démmarre le module 
     pygame.init()
     # définit l'écran et sa taille
-    screen = pygame.display.set_mode((1280, 720))
+    screen = pygame.display.set_mode((1024, 768))
     # Définit l'horloge pour connaitre le temps qui a passé
     clock = pygame.time.Clock()
     # Pour savoir quand la boucle du jeu se termine
