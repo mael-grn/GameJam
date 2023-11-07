@@ -59,6 +59,9 @@ class Character:
             self.walk_step = 1 - self.walk_step
             self.last_image_time = current_time
 
+    def get_rect(self): #left high
+        return self.rect
+    
     def get_x(self):
         return self.rect.x
     
