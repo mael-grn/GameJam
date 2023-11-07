@@ -59,7 +59,7 @@ def ouvrir_niveau(screen):
 
         for monstre in monstres:
             monstre.draw(screen)  # Dessinez le monstre à l'écran
-            print(monstre)
+            #print(monstre)
 
         # Affiche le personnage
         #character_obj.inputs(pygame.key.get_pressed())

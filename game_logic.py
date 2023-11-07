@@ -8,25 +8,23 @@ import pytmx
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #tmx_data correspond aux données de la map chargée
-#renvoi wall si la collision ne permets pas au personnage de passer, 
+#renvoi 2 si la collision ne permets pas au personnage de passer, 
 #room#xx si le peronnage rentre la une piece numero xx
 #damage#xx si le personnage prends xx degats 
-#none sinon
+#0 sinon
 #format hitbox :
 #a b
 #c d
-def check_collision(character_obj, tmx_data):
-    rect = character_obj.get_rect()
-    x, y, w, h = rect.x, rect.y, rect.width, rect.height
+def check_collision(x, y, w, h, tmx_data):
 
     collision_detected = False
 
     for layer in tmx_data.visible_layers:
         if layer.data and "99" in layer.name:
-            left_top = (x // tmx_data.tilewidth+1, y // tmx_data.tileheight+1)
-            right_top = ((x + w - 1) // tmx_data.tilewidth+1, y // tmx_data.tileheight+1)
-            left_bottom = (x // tmx_data.tilewidth+1, (y + h - 1) // tmx_data.tileheight+1)
-            right_bottom = ((x + w - 1) // tmx_data.tilewidth+1, (y + h - 1) // tmx_data.tileheight+1)
+            left_top = (x // tmx_data.tilewidth, y // tmx_data.tileheight)
+            right_top = ((x + w) // tmx_data.tilewidth, y // tmx_data.tileheight)
+            left_bottom = (x // tmx_data.tilewidth, (y + h) // tmx_data.tileheight)
+            right_bottom = ((x + w) // tmx_data.tilewidth, (y + h) // tmx_data.tileheight)
 
             #print(f"Left Top: {left_top}, Right Top: {right_top}, Left Bottom: {left_bottom}, Right Bottom: {right_bottom}")
 
@@ -35,11 +33,13 @@ def check_collision(character_obj, tmx_data):
             for corner in corners:
                 if layer.data[corner[1]][corner[0]]:
                     print("wall")
+                    return 0
                     collision_detected = True
                     break
 
     if not collision_detected:
         print("none")
+        return 0
 
 
             
@@ -84,21 +84,27 @@ def ajout_score(pseudo, score=0) :
         pickle.dump(dict_score, fichier)
 
 def move_character(character_obj, key, map_data):
-    
+    rect = character_obj.get_rect()
+    x = rect.x
+    y = rect.y
+    w = rect.width
+    h = rect.height
     if key[pygame.K_q]:
-        coll = check_collision(character_obj, map_data)
-        character_obj.move_left()  # Appel à la méthode move_left du personnage
+        coll = check_collision(x-1, y, w, h, map_data) #simulation mouvement à gauche
+        if coll != "wall":
+            character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
-        coll = check_collision(character_obj, map_data)
-
-        character_obj.move_right()  # Appel à la méthode move_right du personnage
+        coll = check_collision(x+1, y, w, h, map_data) #simulation mouvement à droite
+        if coll != "wall":
+            character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
-        coll = check_collision(character_obj, map_data)
-
-        character_obj.move_up()  # Appel à la méthode move_up du personnage
+        coll = check_collision(x, y-1, w, h, map_data) #simulation mouvement à haut
+        if coll != "wall":
+            character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
-        coll = check_collision(character_obj, map_data)
-        character_obj.move_down()  # Appel à la méthode move_down du personnage
+        coll = check_collision(x, y+1, w, h, map_data) #simulation mouvement à bas
+        if coll != "wall":
+            character_obj.move_down()  # Appel à la méthode move_down du personnage
 
 def tirer(character_x,character_y,souris_x,souris_y,screen):
     un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y)
