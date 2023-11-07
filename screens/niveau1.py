@@ -23,14 +23,14 @@ def ouvrir_niveau(screen):
     tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
     
     monstres = []  # Créez une liste vide pour stocker les monstres
-   
+    projectilesMonstres = [] #crée liste pour projectiles monstres
     monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png")
     monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png")
     monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png")
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
-
+    tire = False
     pygame.mixer.init()
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
     pygame.mixer.music.play()
@@ -38,8 +38,14 @@ def ouvrir_niveau(screen):
     while running:
         screen.fill((0, 0, 0))
         if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
-                pygame.mixer.music.load('./assets/music/combat.mp3')
-                pygame.mixer.music.play()
+                if(tire):
+                    pygame.mixer.music.load('./assets/music/intro_chill.mp3')
+                    pygame.mixer.music.play()
+                    tire = False
+                else:
+                    pygame.mixer.music.load('./assets/music/combat.mp3')
+                    pygame.mixer.music.play()
+                    tire = True
        #affichage de la carte
         for layer in tmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
@@ -48,13 +54,12 @@ def ouvrir_niveau(screen):
 
         # Parcourt tous les événements pour les traiter
         for event in pygame.event.get():
-            # QUIT signifie que l'utilisateur a fermé la fenêtre
+            # QUIT signifie que l'utilisateur a fermé la fenêtrez
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire:
                 mouse_x, mouse_y = event.pos
-                projectiles.append(game_logic.tirer(character_obj.get_centre_x(), character_obj.get_centre_y(), mouse_x, mouse_y, screen))
-        
+                projectiles.append(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png"))
         for proj in projectiles:
             proj.update()        
              
@@ -66,8 +71,21 @@ def ouvrir_niveau(screen):
                     projectiles.remove(proj)  # Supprimez le projectile s'il touche un ennemi
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
             proj.draw(screen)    
-
+        
+        for proj in projectilesMonstres:
+            proj.update()        
+             
+            for monstre in monstres:
+                if proj.rect.colliderect(character_obj.rect):
+                    print("touché")
+                    projectilesMonstres.remove(proj)  # Supprimez le projectile s'il touche un ennemiQZ
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
+            proj.draw(screen)   
         for monstre in monstres:
+            monstre.draw(screen)  # Dessinez le monstre à l'écran
+        while(len(monstres)>0 and len(projectilesMonstres)<5):
+            for monstre in monstres:
+                projectilesMonstres.append(game_logic.tirer(monstre.get_centre_x(),monstre.get_centre_y(),character_obj.get_centre_x(),character_obj.get_centre_y(),screen, "./assets/img/tir_pc.png"))
             monstre.draw(screen)  
 
         character_rect = character_obj.get_rect()

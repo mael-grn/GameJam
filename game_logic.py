@@ -106,6 +106,6 @@ def move_character(character_obj, key, map_data):
         if coll != "wall":
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
-def tirer(character_x,character_y,souris_x,souris_y,screen):
-    un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y)
+def tirer(character_x,character_y,souris_x,souris_y,screen,path):
+    un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path)
     return un_proj

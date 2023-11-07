@@ -42,7 +42,10 @@ class Enemy:
 
     def is_alive(self):
         return self.hp > 0
-
+    def get_centre_x(self):
+        return self.rect.centerx
+    def get_centre_y(self):
+        return self.rect.centery
     def draw(self, screen):
         if not self.eliminated:  # Dessinez l'ennemi uniquement s'il n'est pas éliminé
             screen.blit(self.image, self.rect)
