@@ -18,7 +18,6 @@ def ouvrir_menu(screen) :
 
         #arriere plan
         screen.fill("black")
-
         #chargement de la police
         chemin = "./assets/fonts/pinball.ttf"
         font = pygame.font.Font(chemin, 50) 

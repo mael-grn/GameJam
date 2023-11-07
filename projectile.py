@@ -1,9 +1,9 @@
 import pygame
 import math
 class Projectile:
-    def __init__(self, x, y, target_x, target_y):
+    def __init__(self, x, y, target_x, target_y,path):
         # Charge l'image depuis le nouveau chemin
-        self.image = pygame.image.load("./assets/img/note_tire_noir.png")
+        self.image = pygame.image.load(path)
 
         # Redimensionne le projectile à 20x20 pixels
         self.image = pygame.transform.scale(self.image, (50, 50))
