@@ -50,7 +50,7 @@ def ouvrir_niveau(screen):
                     tire = True
        #affichage de la carte
         for layer in tmx_map.visible_layers:
-            if isinstance(layer, pytmx.TiledTileLayer) and "99" in layer.name:
+            if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, image in layer.tiles():
                     screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
 
