@@ -44,6 +44,11 @@ def move_character(character_obj, key, map):
         character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
         character_obj.move_down()  # Appel à la méthode move_down du personnage
-def tirer(x,y,screen):
-    un_proj = projectile.Projectile(x,y,0)
-    un_proj.draw(screen)
+
+def tirer(character_x,character_y,souris_x,souris_y,screen):
+    if(souris_x> 1024/2):
+        direction =0
+    else:
+        direction =1
+    un_proj = projectile.Projectile(character_x,character_y, direction)
+    return un_proj

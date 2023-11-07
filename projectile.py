@@ -13,19 +13,19 @@ class Projectile:
         # Redimensionne le projectile à 20x20 pixels
         self.imageD = pygame.transform.scale(self.imageD, (20, 20))
         self.imageG = pygame.transform.scale(self.imageG, (20, 20))
-        self.imageG = pygame.transform.scale(self.imageH, (20, 20))
-        self.imageG = pygame.transform.scale(self.imageB, (20, 20))
+        self.imageH = pygame.transform.scale(self.imageH, (20, 20))
+        self.imageB = pygame.transform.scale(self.imageB, (20, 20))
         #initialise la liste d'image
         self.images.append(self.imageD)
         self.images.append(self.imageG)
         self.images.append(self.imageH)
         self.images.append(self.imageB)
 
-        self.speed = 5  # Vitesse du projectile
         self.image = self.images[cote]
-        self.rect = self.images[cote].get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.rect.x += self.speed
-
+        self.speed = 5  # Vitesse du projectile
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+    def update(self):
+        self.rect.x += self.speed
