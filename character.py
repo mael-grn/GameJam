@@ -41,8 +41,7 @@ class Character:
             self.rect.y -= self.speed
             
         elif keys[pygame.K_s]:
-            self.rect.y += self.speed
-            
+            self.rect.y += self.speed            
 
         # Vérifie s'il y a un déplacement vertical
         is_vertical_movement = keys[pygame.K_z] or keys[pygame.K_s]
