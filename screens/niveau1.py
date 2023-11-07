@@ -24,9 +24,9 @@ def ouvrir_niveau(screen):
     
     monstres = []  # Créez une liste vide pour stocker les monstres
    
-    monstre1 = enemy.Enemy("Monstre1", 200, 200, 50, 10, "./assets/img/character.png")
-    monstre2 = enemy.Enemy("Monstre2", 300, 300, 50, 10, "./assets/img/character.png")
-    monstre3 = enemy.Enemy("Monstre3", 400, 400, 50, 10, "./assets/img/character.png")
+    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png")
+    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png")
+    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png")
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
@@ -55,7 +55,15 @@ def ouvrir_niveau(screen):
                 projectiles.append(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen))
         for proj in projectiles:
             proj.update()        
-            proj.draw(screen)     
+             
+            for monstre in monstres:
+                if proj.rect.colliderect(monstre.rect):
+                    monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
+                    if not monstre.is_alive():
+                        monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
+                    projectiles.remove(proj)  # Supprimez le projectile s'il touche un ennemiQZ
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
+            proj.draw(screen)    
 
         for monstre in monstres:
             monstre.draw(screen)  # Dessinez le monstre à l'écran
