@@ -18,12 +18,19 @@ import pytmx
 def check_collision(x, y, w, h, tmx_data):
 
     for layer in tmx_data.visible_layers:
+        
+        
 
         if layer.data:
             tile = layer.data[y // tmx_data.tileheight][x // tmx_data.tilewidth]
             if tile:
-
+                
                 print(f"Coordonnées ({x}, {y}) correspondent au layer : {layer.name}")
+
+                if "collision" in layer.name:
+                    return 2
+
+                
 
     '''
     collision_detected = False
@@ -92,24 +99,24 @@ def move_character(character_obj, key, map_data):
 
     
     rect = character_obj.get_rect()
-    x = rect.x
-    y = rect.y
+    x = rect.centerx+1
+    y = rect.centery+1
     w = rect.width
     h = rect.height
     if key[pygame.K_q]:
-        coll = check_collision(x-2, y, w, h, map_data) #simulation mouvement à gauche
+        coll = check_collision(x-3, y+1, w, h, map_data) #simulation mouvement à gauche
         if coll != 2:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
-        coll = check_collision(x+2, y, w, h, map_data) #simulation mouvement à droite
+        coll = check_collision(x+3, y-1, w, h, map_data) #simulation mouvement à droite
         if coll != 2:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
-        coll = check_collision(x, y-2, w, h, map_data) #simulation mouvement à haut
+        coll = check_collision(x+1, y-3, w, h, map_data) #simulation mouvement à haut
         if coll != 2:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
-        coll = check_collision(x, y+2, w, h, map_data) #simulation mouvement à bas
+        coll = check_collision(x-1, y+3, w, h, map_data) #simulation mouvement à bas
         if coll != 2:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
