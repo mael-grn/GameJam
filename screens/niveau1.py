@@ -39,7 +39,7 @@ def ouvrir_niveau(screen):
             # QUIT signifie que l'utilisateur a fermé la fenêtre
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and len(projectiles)<5:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = event.pos
                 projectiles.append(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen))
         for proj in projectiles:
