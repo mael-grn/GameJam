@@ -21,6 +21,8 @@ def ouvrir_niveau(screen):
     tmx_map = pytmx.load_pygame('./assets/maps/sol.tmx')
     projectiles = []
     tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
+
+    
     
     monstres = []  # Créez une liste vide pour stocker les monstres
    
@@ -41,7 +43,7 @@ def ouvrir_niveau(screen):
 
        #affichage de la carte
         for layer in tmx_map.visible_layers:
-            if isinstance(layer, pytmx.TiledTileLayer):
+            if isinstance(layer, pytmx.TiledTileLayer) and "99" in layer.name:
                 for x, y, image in layer.tiles():
                     screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
 

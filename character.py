@@ -23,7 +23,9 @@ class Character:
         # Redimensionne les images à 50x50 pixels
         self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
-        self.rect.topleft = (x, y)
+        self.rect.width=50
+        self.rect.height=70
+        self.rect.center = (x, y)
         self.speed = constants.CHARACTER_SPEED
         self.direction = 0  # 0 pour droite, 1 pour gauche
         self.walk_step = 0  # 0 pour image 1, 1 pour image 2

@@ -17,23 +17,45 @@ import pytmx
 #c d
 def check_collision(x, y, w, h, tmx_data):
 
+    for layer in tmx_data.visible_layers:
+
+        if layer.data:
+            tile = layer.data[y // tmx_data.tileheight][x // tmx_data.tilewidth]
+            if tile:
+
+                print(f"Coordonnées ({x}, {y}) correspondent au layer : {layer.name}")
+
+    '''
     collision_detected = False
 
     for layer in tmx_data.visible_layers:
-        if layer.data and "99" in layer.name:
-            left_top = (x // tmx_data.tilewidth, y // tmx_data.tileheight)
-            right_top = ((x + w) // tmx_data.tilewidth, y // tmx_data.tileheight)
-            left_bottom = (x // tmx_data.tilewidth, (y + h) // tmx_data.tileheight)
-            right_bottom = ((x + w) // tmx_data.tilewidth, (y + h) // tmx_data.tileheight)
+        if layer.data:
+            left_top = ((x - w//2) // tmx_data.tilewidth, (y-h//2) // tmx_data.tileheight)
+            right_top = ((x + w//2) // tmx_data.tilewidth, (y-h//2) // tmx_data.tileheight)
+            left_bottom = ((x - w//2) // tmx_data.tilewidth, (y + h//2) // tmx_data.tileheight)
+            right_bottom = ((x + w//2) // tmx_data.tilewidth, (y + h//2) // tmx_data.tileheight)
 
-            #print(f"Left Top: {left_top}, Right Top: {right_top}, Left Bottom: {left_bottom}, Right Bottom: {right_bottom}")
+            # Generate additional points along the sides
+            additional_points = []
 
-            corners = [left_top, right_top, left_bottom, right_bottom]
+            for i in range(left_top[1] + 1, left_bottom[1]):
+                additional_points.append((left_top[0], i))
+            for i in range(right_top[1] + 1, right_bottom[1]):
+                additional_points.append((right_top[0], i))
+            for i in range(left_top[0] + 1, right_top[0]):
+                additional_points.append((i, left_top[1]))
+            for i in range(left_bottom[0] + 1, right_bottom[0]):
+                additional_points.append((i, left_bottom[1]))
 
-            for corner in corners:
-                if layer.data[corner[1]][corner[0]]:
+            # Combine all points to check for collisions
+            points_to_check = [left_top, right_top, left_bottom, right_bottom] + additional_points
+
+            
+
+            for point in points_to_check:
+                if layer.data[point[1]][point[0]] and "99" in layer.name:
                     print("wall")
-                    return 0
+                    return 2
                     collision_detected = True
                     break
 
@@ -41,28 +63,11 @@ def check_collision(x, y, w, h, tmx_data):
         print("none")
         return 0
 
-
+    '''
             
             
 
-    #---
-    '''
-    for layer in tmx_data.visible_layers:
-       
-        if layer.data:
-            #print(" x : " + str(character_x) + " y : "+str(character_y)+ " calc1 : "+ str(character_x // 32)+ " calc2 : " + str(character_y // 32))
-            #ATTENTION !!! pour layer.data, les coordonées doivent etre inversées !!
-            tile = layer.data[character_y // tmx_data.tileheight][character_x // tmx_data.tilewidth]
-            if tile:
-                name = layer.name 
-                print(f"Coordonnées ({character_x}, {character_y}) correspondent au layer : {layer.name}")
-                if "99" in name:
-                    print("wall")
-                    return "wall"
-                print("sol")
-                
-            return "none"
-    '''
+
     
 
 
@@ -84,26 +89,28 @@ def ajout_score(pseudo, score=0) :
         pickle.dump(dict_score, fichier)
 
 def move_character(character_obj, key, map_data):
+
+    
     rect = character_obj.get_rect()
     x = rect.x
     y = rect.y
     w = rect.width
     h = rect.height
     if key[pygame.K_q]:
-        coll = check_collision(x-1, y, w, h, map_data) #simulation mouvement à gauche
-        if coll != "wall":
+        coll = check_collision(x-2, y, w, h, map_data) #simulation mouvement à gauche
+        if coll != 2:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
-        coll = check_collision(x+1, y, w, h, map_data) #simulation mouvement à droite
-        if coll != "wall":
+        coll = check_collision(x+2, y, w, h, map_data) #simulation mouvement à droite
+        if coll != 2:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
-        coll = check_collision(x, y-1, w, h, map_data) #simulation mouvement à haut
-        if coll != "wall":
+        coll = check_collision(x, y-2, w, h, map_data) #simulation mouvement à haut
+        if coll != 2:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
-        coll = check_collision(x, y+1, w, h, map_data) #simulation mouvement à bas
-        if coll != "wall":
+        coll = check_collision(x, y+2, w, h, map_data) #simulation mouvement à bas
+        if coll != 2:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
 def tirer(character_x,character_y,souris_x,souris_y,screen):
