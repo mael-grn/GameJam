@@ -62,6 +62,16 @@ class Character:
     def get_rect(self): #left high
         return self.rect
     
+    def get_x(self):
+        return self.rect.x
+    
+    def get_y(self):
+        return self.rect.y
+
+    def get_centre_x(self):
+        return self.rect.centerx
+    def get_centre_y(self):
+        return self.rect.centery
 
     def draw(self, screen):
         # Récupère l'image en fonction de la direction et de l'étape de marche

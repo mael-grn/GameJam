@@ -2,6 +2,8 @@ import pickle
 import character
 import pygame
 import projectile
+import enemy
+import math
 import pytmx
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
@@ -99,9 +101,5 @@ def move_character(character_obj, key, map_data):
         character_obj.move_down()  # Appel à la méthode move_down du personnage
 
 def tirer(character_x,character_y,souris_x,souris_y,screen):
-    if(souris_x> 1024/2):
-        direction =0
-    else:
-        direction =1
-    un_proj = projectile.Projectile(character_x,character_y, direction)
+    un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y)
     return un_proj
