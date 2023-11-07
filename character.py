@@ -60,14 +60,15 @@ class Character:
             self.last_image_time = current_time
 
     def get_x(self):
-        return self.rect.x+20
+        return self.rect.x
     
     def get_y(self):
-        return self.rect.y+80
-    
-    
+        return self.rect.y
 
-    
+    def get_centre_x(self):
+        return self.rect.centerx
+    def get_centre_y(self):
+        return self.rect.centery
 
     def draw(self, screen):
         # Récupère l'image en fonction de la direction et de l'étape de marche
