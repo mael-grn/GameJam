@@ -21,11 +21,11 @@ class Projectile:
         self.images.append(self.imageH)
         self.images.append(self.imageB)
 
-        self.speed = 10  # Vitesse du projectile
+        self.speed = 5  # Vitesse du projectile
         self.image = self.images[cote]
         self.rect = self.images[cote].get_rect()
         self.rect.topleft = (x, y)
-        self.speed = 5
+        self.rect.x += self.speed
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

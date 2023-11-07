@@ -1,6 +1,7 @@
 import pickle
 import character
 import pygame
+import projectile
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #id represente l'identifiant de l'objet avec lequel on veut detecter la collision, dans le fichier tmx
@@ -43,3 +44,6 @@ def move_character(character_obj, key, map):
         character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
         character_obj.move_down()  # Appel à la méthode move_down du personnage
+def tirer(x,y,screen):
+    un_proj = projectile.Projectile(x,y,0)
+    un_proj.draw(screen)

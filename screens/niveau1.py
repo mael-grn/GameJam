@@ -34,6 +34,9 @@ def ouvrir_niveau(screen):
             # QUIT signifie que l'utilisateur a fermé la fenêtre
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = event.pos
+                game_logic.tirer(mouse_x,mouse_y,screen)
 
                 
         
