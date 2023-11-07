@@ -30,51 +30,6 @@ def check_collision(x, y, w, h, tmx_data):
                 if "collision" in layer.name:
                     return 2
 
-                
-
-    '''
-    collision_detected = False
-
-    for layer in tmx_data.visible_layers:
-        if layer.data:
-            left_top = ((x - w//2) // tmx_data.tilewidth, (y-h//2) // tmx_data.tileheight)
-            right_top = ((x + w//2) // tmx_data.tilewidth, (y-h//2) // tmx_data.tileheight)
-            left_bottom = ((x - w//2) // tmx_data.tilewidth, (y + h//2) // tmx_data.tileheight)
-            right_bottom = ((x + w//2) // tmx_data.tilewidth, (y + h//2) // tmx_data.tileheight)
-
-            # Generate additional points along the sides
-            additional_points = []
-
-            for i in range(left_top[1] + 1, left_bottom[1]):
-                additional_points.append((left_top[0], i))
-            for i in range(right_top[1] + 1, right_bottom[1]):
-                additional_points.append((right_top[0], i))
-            for i in range(left_top[0] + 1, right_top[0]):
-                additional_points.append((i, left_top[1]))
-            for i in range(left_bottom[0] + 1, right_bottom[0]):
-                additional_points.append((i, left_bottom[1]))
-
-            # Combine all points to check for collisions
-            points_to_check = [left_top, right_top, left_bottom, right_bottom] + additional_points
-
-            
-
-            for point in points_to_check:
-                if layer.data[point[1]][point[0]] and "99" in layer.name:
-                    print("wall")
-                    return 2
-                    collision_detected = True
-                    break
-
-    if not collision_detected:
-        print("none")
-        return 0
-
-    '''
-            
-            
-
-
     
 
 
@@ -83,10 +38,13 @@ def get_score():
     #recuperation des scores sauvegardés
     try:
         with open("./data/score.pkl", "rb") as fichier:
-            dict_score = pickle.load(fichier)
+            dict_temp = pickle.load(fichier)
+            dict_score = {cle: valeur for cle, valeur in sorted(dict_temp.items(), key=lambda item: item[1], reverse=True)}
+
     except (EOFError, FileNotFoundError):
         # Gérer le cas où le fichier est vide ou n'existe pas
         dict_score = {}
+    
     return dict_score
 
 def ajout_score(pseudo, score=0) :

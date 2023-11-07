@@ -15,6 +15,8 @@ def ouvrir_score(screen, dictionnaire_score):
     dict_score = {}
     dict_score = dictionnaire_score
 
+    retour_button_path = "./assets/buttons/simple_normal.png"
+
     # Boucle de l'animation
     while running:
         
@@ -23,48 +25,85 @@ def ouvrir_score(screen, dictionnaire_score):
         screen.fill((0, 0, 0))
 
         chemin = "./assets/fonts/pinball.ttf"
-        font = pygame.font.Font(chemin, 50) 
-        font_big = pygame.font.Font(chemin, 60) 
+        font = pygame.font.Font(chemin, 27) 
+        font_big = pygame.font.Font(chemin, 50)
+        font_small = pygame.font.Font(chemin, 20)
         
         # Affichage du titre
-        titre = font_big.render("SCORES", True, (97, 195, 161))
+        #arriere plan
+        titre_bg = pygame.image.load("./assets/img/title_bg.png")
+        #redimmensionner le logo
+        titre_bg_big = pygame.transform.scale(titre_bg, (titre_bg.get_width()*4, titre_bg.get_height()*4))
+        titre_bg_rec = titre_bg_big.get_rect()
+        titre_bg_rec.center = ((screen.get_width() // 2), 50)
+        screen.blit(titre_bg_big, titre_bg_rec)
+        #texte
+        titre = font_big.render("MEILLEURS SCORES", True, (0,0,0))
         titre_rec = titre.get_rect()
         titre_rec.center = (screen.get_width() // 2, 50)
         screen.blit(titre, titre_rec)
         
         # Affichage du bouton retour
-        retour = font.render("RETOUR", True, retour_color)
+        #arriere plan
+        retour_button = pygame.image.load(retour_button_path)
+        retour_button_big = pygame.transform.scale(retour_button, (retour_button.get_width(), retour_button.get_height()))
+        retour_button_rec = retour_button_big.get_rect()
+        retour_button_rec.center = (20, 20)
+        screen.blit(retour_button_big, retour_button_rec)
+        #texte
+        retour = font_small.render("<-", True, (0,0,0))
         retour_rec = retour.get_rect()
-        retour_rec.center = (150, 50)
+        retour_rec.center = (20, 20)
         screen.blit(retour, retour_rec)
 
-        from_top = 150
+        from_top = 175 #marge des score 
+
+        #arriere plan des scores
+        score_bg = pygame.image.load("./assets/img/list.png")
+        #redimmensionner le logo
+        score_bg_big = pygame.transform.scale(score_bg, (score_bg.get_width()*4, score_bg.get_height()*4))
+        score_bg_rec = score_bg_big.get_rect()
+        score_bg_rec.center = ((screen.get_width() // 2), (screen.get_width() // 2)-100)
+        screen.blit(score_bg_big, score_bg_rec)
+
+        # Variable de compteur pour le nombre d'itérations
+        compteur_iterations = 0
 
         for pseudo, val in dict_score.items():
+            if compteur_iterations >= 14:
+                break  # Sortir de la boucle si nous avons atteint 14 itérations
+
             # Affichage du score
-            unScore = font.render(f"{pseudo} : {val}", True, (97, 195, 161))
+            unScore = font.render(f"{pseudo} : {val}", True, (0, 0, 0))
             unScore_rec = unScore.get_rect()
             unScore_rec.center = (screen.get_width() // 2, from_top)
             screen.blit(unScore, unScore_rec)
 
-            from_top += 75
+            from_top += score_bg_rec.height // 14 -1
+
+            # Incrémenter le compteur d'itérations
+            compteur_iterations += 1
 
         for event in pygame.event.get():
             # QUIT signifie que l'utilisateur a fermé la fenêtre
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.type == pygame.QUIT:
-                    running = False
+            if event.type == pygame.QUIT:
+                running = False
 
-                if retour_rec.collidepoint(event.pos):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if retour_button_rec.collidepoint(event.pos):
+                    retour_button_path = "./assets/buttons/simple_press.png"
+            
+            if event.type == pygame.MOUSEBUTTONUP:
+                if retour_button_rec.collidepoint(event.pos):
                     running=False
                     menu.ouvrir_menu(screen)
 
             if event.type == pygame.MOUSEMOTION:
                 if retour_rec.collidepoint(event.pos):
                     # Changer la couleur du texte lorsque la souris survole le bouton
-                    retour_color = (255, 255, 255)
+                    retour_button_path = "./assets/buttons/simple_over.png"
                 else:
-                    retour_color = (97, 195, 161)
+                    retour_button_path = "./assets/buttons/simple_normal.png"
 
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()
