@@ -17,6 +17,9 @@ def main():
 
     # Boucle de l'animation
     while running:
+        pygame.mixer.init()
+        pygame.mixer.music.load('./assets/music/menu.mp3')
+        pygame.mixer.music.play()
         # Parcourt tous les evenements pour les traiter
         for event in pygame.event.get():
             # QUIT signifie que l'utilisateur a fermé la fenêtre

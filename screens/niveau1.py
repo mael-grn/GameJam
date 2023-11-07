@@ -31,14 +31,16 @@ def ouvrir_niveau(screen):
     monstres.append(monstre2)
     monstres.append(monstre3)
 
-    
+    pygame.mixer.init()
+    pygame.mixer.music.load('./assets/music/intro_chill.mp3')
+    pygame.mixer.music.play()
 
     while running:
 
         screen.fill((0, 0, 0))
-         
-       
-
+        if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
+                pygame.mixer.music.load('./assets/music/combat.mp3')
+                pygame.mixer.music.play()
        #affichage de la carte
         for layer in tmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
@@ -50,7 +52,7 @@ def ouvrir_niveau(screen):
             # QUIT signifie que l'utilisateur a fermé la fenêtre
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1:
                 mouse_x, mouse_y = event.pos
                 projectiles.append(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen))
         for proj in projectiles:
