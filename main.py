@@ -1,12 +1,13 @@
 import pygame
 import screens.error as error
 import screens.main_menu as menu
+import constants
 
 def main():
     # Démmarre le module 
     pygame.init()
     # définit l'écran et sa taille
-    screen = pygame.display.set_mode((1024, 768))
+    screen = pygame.display.set_mode(constants.TAILLE_ECRAN)
     # Définit l'horloge pour connaitre le temps qui a passé
     clock = pygame.time.Clock()
     # Pour savoir quand la boucle du jeu se termine
