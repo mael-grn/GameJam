@@ -14,6 +14,8 @@ def ouvrir_menu(screen) :
     score_color = (97, 195, 161)
     quitter_color = (97, 195, 161)
 
+    jouer_path = "./assets/buttons/play_normal.png"
+
     while running :
 
         #arriere plan
@@ -48,10 +50,12 @@ def ouvrir_menu(screen) :
         screen.blit(score, score_rec)
 
         #creation du bouton jouer
-        jouer = font.render("JOUER", True, jouer_color)  # (255, 0, 0) représente la couleur rouge (RVB)
-        jouer_rec = jouer.get_rect()
+        #jouer = font.render("JOUER", True, jouer_color)  # (255, 0, 0) représente la couleur rouge (RVB)
+        jouer = pygame.image.load(jouer_path)
+        jouer_big = pygame.transform.scale(jouer, (jouer.get_width()*2, jouer.get_height()*2))
+        jouer_rec = jouer_big.get_rect()
         jouer_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
-        screen.blit(jouer, jouer_rec)
+        screen.blit(jouer_big, jouer_rec)
 
         #gestion des evenements
         for event in pygame.event.get():
@@ -76,10 +80,9 @@ def ouvrir_menu(screen) :
                     pygame.quit()
                 #si clique sur bouton jouer
                 if jouer_rec.collidepoint(event.pos):
-
-                    if (nom_joueur == "") :
-                        jouer_color = (255, 0, 0)
-                    else:
+                    jouer_path = "./assets/buttons/play_press.png"
+                    if (nom_joueur != "") :
+                        
                         game_logic.ajout_score(nom_joueur)
                         running=False
                         n1.ouvrir_niveau(screen)
@@ -91,9 +94,9 @@ def ouvrir_menu(screen) :
             if event.type == pygame.MOUSEMOTION:
                 if jouer_rec.collidepoint(event.pos):
                     # Changer la couleur du texte lorsque la souris survole le bouton
-                    jouer_color = (255, 255, 255)
+                    jouer_path = "./assets/buttons/play_over.png"
                 else:
-                    jouer_color = (97, 195, 161)
+                    jouer_path = "./assets/buttons/play_normal.png"
 
                 if quitter_rec.collidepoint(event.pos):
                     # Changer la couleur du texte lorsque la souris survole le bouton
