@@ -5,16 +5,15 @@ import pygame
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #id represente l'identifiant de l'objet avec lequel on veut detecter la collision, dans le fichier tmx
 #tmx_map correspond a la carte dans laquel on se trouve
-def check_collision(x, y, id, tmx_map):
+def check_collision(character_x, character_y, tmx_data):
+    
+    for layer in tmx_data.visible_layers:
+       
+        if layer.data:
+            tile = layer.data[character_x // tmx_data.tileheight][character_y // tmx_data.tilewidth]
+            if tile:
+                print(f"Coordonnées ({character_x}, {character_y}) correspondent au layer : {layer.name}")
 
-    # Calculez les indices de tuiles correspondant aux coordonnées du personnage
-    tile_x = x // tmx_map.tilewidth
-    tile_y = y // tmx_map.tileheight
-
-    # Vérifiez s'il y a une collision à ces indices de tuiles
-    if id in tmx_map.get_tile_properties(tile_x, tile_y, 0):
-        return True  # Collision détectée
-    return False  # Pas de collision
 
 def get_score():  
     dict_score = {}
@@ -36,6 +35,7 @@ def ajout_score(pseudo, score=0) :
 def move_character(character_obj, key, map):
     
     if key[pygame.K_q]:
+
         character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
         character_obj.move_right()  # Appel à la méthode move_right du personnage

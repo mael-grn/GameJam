@@ -78,7 +78,7 @@ def ouvrir_menu(screen) :
                 #si clique sur bouton jouer
                 if jouer_rec.collidepoint(event.pos):
 
-                    if (nom_joueur in game_logic.get_score()) | (nom_joueur == "") :
+                    if (nom_joueur == "") :
                         jouer_color = (255, 0, 0)
                     else:
                         game_logic.ajout_score(nom_joueur)
@@ -111,6 +111,7 @@ def ouvrir_menu(screen) :
             
 
         # Comme les dessions sont fait dans un buffer, permute le buffer
+        
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
         dt = clock.tick(60) 

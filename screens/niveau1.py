@@ -18,16 +18,21 @@ def ouvrir_niveau(screen):
 
      # Chargement de la carte
     tmx_map = pytmx.load_pygame('./assets/maps/couloir1.tmx')
+    tmx_map_data = pytmx.TiledMap('./assets/maps/couloir1.tmx')
+    game_logic.check_collision(character_obj.get_x(), character_obj.get_y(), tmx_map_data)
 
     while running:
 
         screen.fill((0, 0, 0))
-       
+         
+        
+
        #affichage de la carte
         for layer in tmx_map.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
                 for x, y, image in layer.tiles():
                     screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
+
 
         # Parcourt tous les événements pour les traiter
         for event in pygame.event.get():
