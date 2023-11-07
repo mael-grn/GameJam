@@ -3,6 +3,7 @@ import character
 import screens.error as error
 import pytmx
 import game_logic
+import enemy
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -20,6 +21,16 @@ def ouvrir_niveau(screen):
     tmx_map = pytmx.load_pygame('./assets/maps/sol.tmx')
     projectiles = []
     tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
+    
+    monstres = []  # Créez une liste vide pour stocker les monstres
+   
+    monstre1 = enemy.Enemy("Monstre1", 200, 200, 50, 10, "./assets/img/character.png")
+    monstre2 = enemy.Enemy("Monstre2", 300, 300, 50, 10, "./assets/img/character.png")
+    monstre3 = enemy.Enemy("Monstre3", 400, 400, 50, 10, "./assets/img/character.png")
+    monstres.append(monstre1)
+    monstres.append(monstre2)
+    monstres.append(monstre3)
+
     
 
     while running:
@@ -45,6 +56,10 @@ def ouvrir_niveau(screen):
         for proj in projectiles:
             proj.update()        
             proj.draw(screen)     
+
+        for monstre in monstres:
+            monstre.draw(screen)  # Dessinez le monstre à l'écran
+            print(monstre)
 
         # Affiche le personnage
         #character_obj.inputs(pygame.key.get_pressed())

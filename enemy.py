@@ -40,8 +40,6 @@ class Enemy:
         if not self.eliminated:  # Dessinez l'ennemi uniquement s'il n'est pas éliminé
             screen.blit(self.image, self.rect)
 
-    def update(self):
-        # Logique de mise à jour de l'ennemi
-        if not self.eliminated:  # Mettez à jour uniquement si l'ennemi n'est pas éliminé
-            # Par exemple, réduisez la vie de l'ennemi s'il est touché
-            self.take_damage(1)  # L'ennemi perd 1 point de vie à chaque mise à jour s'il est touché
+   
+       
+           
