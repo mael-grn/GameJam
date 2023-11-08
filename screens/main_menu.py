@@ -120,17 +120,19 @@ def ouvrir_menu(screen) :
             if event.type == pygame.MOUSEBUTTONUP:
                 # Si clique sur bouton quitter
                 if quitter_button_rec.collidepoint(event.pos):
+                    game_logic.play_sound("clic")
                     running=False
                     pygame.quit()
                 #si clique sur bouton jouer
                 if jouer_button_rec.collidepoint(event.pos):
                     if (nom_joueur != "") :
-                        
+                        game_logic.play_sound("clic")
                         game_logic.ajout_score(nom_joueur)
                         running=False
                         n1.ouvrir_niveau(screen)
                 #si clique sur bouton score
                 if score_button_rec.collidepoint(event.pos):
+                    game_logic.play_sound("clic")
                     running=False
                     menu_score.ouvrir_score(screen, game_logic.get_score())
 

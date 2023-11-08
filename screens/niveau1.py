@@ -208,6 +208,7 @@ def ouvrir_niveau(screen):
                     pygame.mixer.music.stop
                     pygame.mixer.music.load('./assets/music/menu.mp3')
                     pygame.mixer.music.play()
+                    game_logic.play_sound("gameOver")
                     screens.game_over.ouvrir_game_over(screen)
 
 

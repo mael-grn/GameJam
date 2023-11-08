@@ -232,3 +232,16 @@ def get_name(v):
     for lv in locals():
         if eval(lv) is v:
             return lv
+        
+def play_sound(sound):
+    # Initialisation de Pygame
+    pygame.init()
+
+    # Créez un objet mixer pour gérer les sons
+    pygame.mixer.init()
+
+    # Chargez le fichier audio que vous souhaitez jouer
+    son = pygame.mixer.Sound('./assets/sounds/'+sound+'.mp3')
+
+    # Jouez le son
+    son.play()

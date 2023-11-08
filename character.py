@@ -46,6 +46,7 @@ class Character:
     def get_proj(self):
         return self.projectiles
     def add_proj(self, proj):
+        game_logic.play_sound("blast")
         self.projectiles.append(proj)
     def del_proj(self,ind):
         del(self.projectiles[ind])
@@ -100,6 +101,7 @@ class Character:
         screen.blit(image, self.rect)
 
     def take_damage(self, damage):
+        game_logic.play_sound("takeDamage")
         if not self.invincible:
             self.hp -= damage
             if self.hp <= 0:
@@ -159,6 +161,7 @@ class Character:
         
 
     def increase_pieces(self, amount):
+        game_logic.play_sound("coin")
         self.pieces += amount
 
     def get_pieces(self):
