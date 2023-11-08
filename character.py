@@ -32,6 +32,8 @@ class Character:
         self.last_image_time = pygame.time.get_ticks()  # Temps de la dernière image
         self.hp = 3  # Initialisez les HP à leur valeur maximale
         self.hp_timer = 0
+        self.heart_image = pygame.image.load("./assets/img/coeur.png")
+        self.heart_width, self.heart_height = self.heart_image.get_width(), self.heart_image.get_height()
 
     def move_left(self):
         self.rect.x -= self.speed
@@ -88,6 +90,7 @@ class Character:
         if self.hp <= 0:
             self.hp = 0  # Le personnage a 0 points de vie
             self.eliminated = True  # Marquez l'ennemi comme éliminé
+        
 
     def heal(self, amount):
         self.hp += amount
@@ -103,7 +106,7 @@ class Character:
     def is_alive(self):
         return self.hp > 0
 
-    def update(self):   #je ne l'utilise pas encore
+    def update(self):   
         # Augmentez le compteur du timer de la santé
         self.hp_timer += 1 / 60  # Augmente d'une seconde chaque frame (60 FPS)
 
@@ -111,4 +114,14 @@ class Character:
         if self.hp_timer >= 1:
             self.hp_timer = 0  # Réinitialisez le timer
             self.take_damage(1)  # Faites perdre 1 HP au personnage
+
+    def draw_hearts(self, screen):
+        heart_spacing = 5  # Espace entre les cœurs
+        heart_size = 60  # Taille des cœurs
+
+        for i in range(self.get_hp()):
+            x = i * (heart_size + heart_spacing) + 5  # Calcul de la position x en fonction de l'index
+            y = 5  # Position y
+            heart_image = pygame.transform.scale(self.heart_image, (heart_size, heart_size))
+            screen.blit(heart_image, (x, y))
 
