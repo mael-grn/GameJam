@@ -6,6 +6,7 @@ import enemy
 import math
 import pytmx
 import constants
+import piece
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #tmx_data correspond aux données de la map chargée
@@ -51,7 +52,6 @@ def get_next_rect(rect, direction):
     
     return rectangle
 
-
 def get_score():  
     dict_score = {}
     #recuperation des scores sauvegardés
@@ -72,14 +72,9 @@ def ajout_score(pseudo, score=0) :
     with open("./data/score.pkl", "wb") as fichier:
         pickle.dump(dict_score, fichier)
 
-def move_character(character_obj, key, map_data):
-
-    
+def move_character(character_obj, key, map_data): 
     rect = character_obj.get_rect()
-    x = rect.centerx
-    y = rect.centery
-    w = rect.width
-    h = rect.height
+
     if key[pygame.K_q]:
         coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
         if not 2 in coll:
@@ -180,6 +175,7 @@ def affiche_dialogue(screen, text):
 
 def wrap_text(text, max_line_length=62):
 
+
     nbr_ligne = len(text)//max_line_length +1
     lines = []
 
@@ -190,3 +186,43 @@ def wrap_text(text, max_line_length=62):
         lines.append(ligne)
 
     return lines
+
+#gere les impacts des projectiles sur les monstres
+def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_supprimer):
+    for index, proj in enumerate(character_obj.get_proj()):
+            proj.update()
+            
+            for monstre in monstres:
+                rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
+                if proj.rect.colliderect(monstre.rect):
+                    monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
+                    if not monstre.is_alive():
+                        une_piece=piece.Piece(monstre.rect.x, monstre.rect.y, "./assets/img/piece.png", "./assets/img/pieceReverse.png")
+                        pieces.append(une_piece)
+                        monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
+                    # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
+            
+            if proj.rect.colliderect(monstre.rect) or 2 in check_collision(rectangle,tmx_data):
+                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+    
+    return indices_proj_a_supprimer
+
+def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):
+    if len(pieces)>0:
+        for piece_obj in pieces:
+            piece_obj.draw(screen)
+            if piece_obj.check_collision(character_obj.get_rect()):
+                character_obj.increase_pieces(1)
+                pieces.remove(piece_obj)  # Supprimez la pièce
+
+    # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
+    indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
+    for index in indices_proj_a_supprimer:
+        character_obj.del_proj(index)
+
+    # Affichez les projectiles restants
+    for proj in character_obj.get_proj():
+        proj.draw(screen)
+
+    return indices_proj_a_supprimer
