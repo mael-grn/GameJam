@@ -1,9 +1,8 @@
 import pygame
 
-class Piece(pygame.sprite.Sprite):
+class Piece:
     def __init__(self, x, y, image1_path, image2_path):
-        super().__init__()  # Appel au constructeur de la classe mère
-
+        
         # Chargez les deux images de la pièce
         self.image1 = pygame.image.load(image1_path)
         self.image2 = pygame.image.load(image2_path)

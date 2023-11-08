@@ -6,6 +6,7 @@ import game_logic
 import enemy
 import screens.game_over
 import time
+import piece
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -36,6 +37,7 @@ def ouvrir_niveau(screen):
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
+    pieces=[]
     tire = False
     pygame.mixer.init()
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
@@ -81,9 +83,16 @@ def ouvrir_niveau(screen):
                 if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
+                        une_piece=piece.Piece(monstre.rect.x, monstre.rect.y, "./assets/img/piece.png", "./assets/img/pieceReverse.png")
+                        pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
+
+
                     indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
+        if len(pieces)>0:
+            for piece_obj in pieces:
+                piece_obj.draw(screen)
 
         # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
         indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
