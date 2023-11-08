@@ -28,7 +28,11 @@ def check_collision(rect, tmx_data):
                     if tile:
                         #si le rectangle est superposé à un mur (code 99 dans le nom du layer):
                         if "99" in layer.name:
-                            return 2 #retour du code 2 (collision)
+                            return {2 : ""} #retour du code 2 (collision)
+                        elif "vers" in layer.name:
+                            return {1 : layer.name.split("_")}
+                        
+    return {0:""}
                 
             
 #direction = u pour up, d pour down, l pour left et r pour right
@@ -78,19 +82,19 @@ def move_character(character_obj, key, map_data):
     h = rect.height
     if key[pygame.K_q]:
         coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
-        if coll != 2:
+        if not 2 in coll:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
         coll = check_collision(get_next_rect(rect, "r"), map_data)  #simulation mouvement à droite
-        if coll != 2:
+        if not 2 in coll:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
         coll = check_collision(get_next_rect(rect, "u"), map_data)  #simulation mouvement à haut
-        if coll != 2:
+        if not 2 in coll:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
         coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
-        if coll != 2:
+        if not 2 in coll:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
 def tirer(character_x,character_y,souris_x,souris_y,screen,path):

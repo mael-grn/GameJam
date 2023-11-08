@@ -100,7 +100,7 @@ def ouvrir_niveau(screen):
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
             
-            if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+            if proj.rect.colliderect(monstre.rect) or 2 in game_logic.check_collision(rectangle,tmx_map_data):
                 indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
 
         if len(pieces)>0:
@@ -126,7 +126,7 @@ def ouvrir_niveau(screen):
             if(len(monstre.get_proj())>0):
                 for proj in monstre.get_proj():
                     rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
-                    if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+                    if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle,tmx_map_data):
                         monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
                     proj.update()
                     proj.draw(screen)
@@ -156,6 +156,14 @@ def ouvrir_niveau(screen):
         # Affiche le personnage
         game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
         character_obj.draw(screen)
+
+        
+        #coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
+
+        #code changement salle : 1 : xx ou xx est le nom de la salle
+        #if 1 in coll:
+        #    print(coll[1])
+
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()
         # Limite le frame rate à 60 images par seconde et retourne le temps réel passé
