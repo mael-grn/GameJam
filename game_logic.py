@@ -226,3 +226,9 @@ def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):
         proj.draw(screen)
 
     return indices_proj_a_supprimer
+
+def get_name(v):
+ 
+    for lv in locals():
+        if eval(lv) is v:
+            return lv

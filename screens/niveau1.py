@@ -27,27 +27,32 @@ def ouvrir_niveau(screen):
     character_obj = character.Character(640, 360)  # Position initiale du personnage
 
     # Création des salles
-    amphi_c1 = salle.Salle("amphi_c1.tmx", character_obj,[], [])
-    amphi = salle.Salle("amphi.tmx", character_obj, [], [])
-    couloir1 = salle.Salle("couloir1.tmx", character_obj, [], [])
-    couloir2 = salle.Salle("couloir2.tmx", character_obj, [], [])
-    couloir3 = salle.Salle("couloir3.tmx", character_obj, [], [])
-    etage1_couoir1 = salle.Salle("etage1_couoir1.tmx", character_obj, [], [])
-    etage1 = salle.Salle("etage1.tmx", character_obj, [], [])
-    foodtruck = salle.Salle("foodtruck.tmx", character_obj, [], [])
-    salle21 = salle.Salle("salle21.tmx", character_obj, [], [])
-    salle33 = salle.Salle("salle33.tmx", character_obj, [], [])
-    salle39 = salle.Salle("salle39.tmx", character_obj, [], [])
-    salle110 = salle.Salle("salle110.tmx", character_obj, [], [])
-    salle115 = salle.Salle("salle115.tmx", character_obj, [], [])
-    salleS35 = salle.Salle("salleS35.tmx", character_obj, [], [])
-    salleS36 = salle.Salle("salleS36.tmx", character_obj, [], [])
-    salleS37 = salle.Salle("salleS37.tmx", character_obj, [], [])
-    sol = salle.Salle("sol.tmx", character_obj, [], [])
-    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1.tmx", character_obj, [], [])
-    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2.tmx", character_obj, [], [])
-    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3.tmx", character_obj, [], [])
+    amphi_c1 = salle.Salle("amphi_c1.tmx", character_obj,[], [], {"amphi" : (19*32, 6*32), "etage1" : (16*32, 18*32)})
+    amphi = salle.Salle("amphi.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    couloir1 = salle.Salle("couloir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    couloir2 = salle.Salle("couloir2.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    couloir3 = salle.Salle("couloir3.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    etage1_couoir1 = salle.Salle("etage1_couoir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    etage1 = salle.Salle("etage1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    foodtruck = salle.Salle("foodtruck.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salle21 = salle.Salle("salle21.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salle33 = salle.Salle("salle33.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salle39 = salle.Salle("salle39.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salle110 = salle.Salle("salle110.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salle115 = salle.Salle("salle115.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salleS35 = salle.Salle("salleS35.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salleS36 = salle.Salle("salleS36.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    salleS37 = salle.Salle("salleS37.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    sol = salle.Salle("sol.tmx", character_obj, [], [], {"couloir1" : (5*32, 14*32)})
+    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
 
+    room_list = {}
+    for salle in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
+        room_list[game_logic.get_name(salle)] = salle
+    
+    
     current_salle=sol ## Salle de spawn
 
     
@@ -108,9 +113,13 @@ def ouvrir_niveau(screen):
         #code changement salle : 1 : xx ou xx est le nom de la salle
         if 1 in coll:
             if current_room != coll[1]:
+                char_rect = character_obj.get_rect()
+                next_room = room_list[coll[1]]
+                char_rect.x = next_room.dict[current_room]
                 current_room = coll[1]
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
+                
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
         if dt==0: #si toute premiere iteration boucle (debut du jeu)
