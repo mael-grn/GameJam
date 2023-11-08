@@ -45,6 +45,8 @@ def ouvrir_niveau(screen):
 
     while running:
         screen.fill((0, 0, 0))
+        if len(monstres)==0:
+            tire = False
         if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
                 if(tire):
                     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
@@ -80,19 +82,21 @@ def ouvrir_niveau(screen):
             # Parcourez les monstres
             for monstre in monstres:
                 rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
-                if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+                if proj.rect.colliderect(monstre.rect):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
                         une_piece=piece.Piece(monstre.rect.x, monstre.rect.y, "./assets/img/piece.png", "./assets/img/pieceReverse.png")
                         pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
-
-
-                    indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+                    # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
         if len(pieces)>0:
             for piece_obj in pieces:
                 piece_obj.draw(screen)
+            
+        if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+            indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+
 
         # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
         indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
