@@ -18,4 +18,8 @@ class Projectile:
         screen.blit(self.image, self.rect)
     def update(self):
         self.rect.x += self.speed * math.cos(self.angle_rad)        
-        self.rect.y += self.speed * math.sin(self.angle_rad)        
+        self.rect.y += self.speed * math.sin(self.angle_rad)  
+    def get_x(self):
+        return self.rect.x     
+    def get_y(self):
+        return self.rect.y 
