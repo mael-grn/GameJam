@@ -5,6 +5,7 @@ import pytmx
 import game_logic
 import enemy
 import screens.game_over
+import time
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -19,11 +20,14 @@ def ouvrir_niveau(screen):
 
      # Chargement de la carte
     tmx_map = pytmx.load_pygame('./assets/maps/sol.tmx')
-    projectiles = []
     tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
 
-    
-    
+    i=0
+    ind_proj_char =0
+    projectiles = []
+    min_proj_count = 5  # Initialisation à une valeur infinie
+    monstre_a_tirer = None
+    delay =0
     monstres = []  # Créez une liste vide pour stocker les monstres
     projectilesMonstres = [] #crée liste pour projectiles monstres
     monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png")
@@ -63,34 +67,50 @@ def ouvrir_niveau(screen):
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire:
                 mouse_x, mouse_y = event.pos
-                projectiles.append(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png"))
-        for proj in projectiles:
-            proj.update()        
-             
+                character_obj.add_proj(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png"))
+        # Liste des indices des projectiles à supprimer
+        indices_proj_a_supprimer = []
+
+        # Parcourez les projectiles de character_obj
+        for index, proj in enumerate(character_obj.get_proj()):
+            proj.update()
+            
+            # Parcourez les monstres
             for monstre in monstres:
                 if proj.rect.colliderect(monstre.rect):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
-                    projectiles.remove(proj)  # Supprimez le projectile s'il touche un ennemi
+                    indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
-            proj.draw(screen)    
+
+        # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
+        indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
+        for index in indices_proj_a_supprimer:
+            character_obj.del_proj(index)
+
+        # Affichez les projectiles restants
+        for proj in character_obj.get_proj():
+            proj.draw(screen)
         
-        for proj in projectilesMonstres:
-            proj.update()        
-             
-            for monstre in monstres:
-                if proj.rect.colliderect(character_obj.rect):
-                    print("touché")
-                    projectilesMonstres.remove(proj)  # Supprimez le projectile s'il touche un ennemiQZ
-                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
-            proj.draw(screen)   
+
+
+        for monstre in monstres:
+            num_proj =0
+            delay += 1/60
+            if (len(monstre.get_proj())<3 and delay>=1):
+                monstre.add_proj(game_logic.tirer(monstre.get_centre_x(),monstre.get_centre_y(),character_obj.get_centre_x(),character_obj.get_centre_y(),screen, "./assets/img/tir_pc.png"))
+                delay=0
+            if(len(monstre.get_proj())>0):
+                for proj in monstre.get_proj():
+                    if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(proj.get_x(),proj.get_y(),50,2,tmx_map_data):
+                        monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemiQZ
+                    proj.update()
+                    proj.draw(screen)
+                    num_proj = num_proj+1   
+        
         for monstre in monstres:
             monstre.draw(screen)  # Dessinez le monstre à l'écran
-        while(len(monstres)>0 and len(projectilesMonstres)<5):
-            for monstre in monstres:
-                projectilesMonstres.append(game_logic.tirer(monstre.get_centre_x(),monstre.get_centre_y(),character_obj.get_centre_x(),character_obj.get_centre_y(),screen, "./assets/img/tir_pc.png"))
-            monstre.draw(screen)  
 
         character_rect = character_obj.get_rect()
         for monstre in monstres:

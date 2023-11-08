@@ -38,6 +38,13 @@ class Character:
         self.invincible = False  # Variable pour gérer l'invincibilité
         self.invincible_start_time = 0  # Temps où l'invincibilité a commencé
 
+        self.projectiles = []
+    def get_proj(self):
+        return self.projectiles
+    def add_proj(self, proj):
+        self.projectiles.append(proj)
+    def del_proj(self,ind):
+        del(self.projectiles[ind])
     def move_left(self):
         self.rect.x -= self.speed
         self.direction = 1  # Gauche
