@@ -95,6 +95,7 @@ def ouvrir_niveau(screen):
         character_rect = character_obj.get_rect()
         for monstre in monstres:
             if character_rect.colliderect(monstre.rect):
+                character_obj.take_damage(1)
                 character_obj.update()
                 if not character_obj.is_alive():
                     # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées

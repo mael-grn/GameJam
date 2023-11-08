@@ -34,6 +34,9 @@ class Character:
         self.hp_timer = 0
         self.heart_image = pygame.image.load("./assets/img/coeur.png")
         self.heart_width, self.heart_height = self.heart_image.get_width(), self.heart_image.get_height()
+        #test
+        self.invincible = False  # Variable pour gérer l'invincibilité
+        self.invincible_start_time = 0  # Temps où l'invincibilité a commencé
 
     def move_left(self):
         self.rect.x -= self.speed
@@ -86,10 +89,13 @@ class Character:
         screen.blit(image, self.rect)
 
     def take_damage(self, damage):
-        self.hp -= damage
-        if self.hp <= 0:
-            self.hp = 0  # Le personnage a 0 points de vie
-            self.eliminated = True  # Marquez l'ennemi comme éliminé
+        if not self.invincible:
+            self.hp -= damage
+            if self.hp <= 0:
+                self.hp = 0  # L'ennemi a 0 points de vie
+                self.eliminated = True  # Marquez l'ennemi comme éliminé
+            self.invincible = True
+            self.invincible_start_time = pygame.time.get_ticks()  # Enregistrez le moment où l'invincibilité a commencé
         
 
     def heal(self, amount):
@@ -106,14 +112,12 @@ class Character:
     def is_alive(self):
         return self.hp > 0
 
-    def update(self):   
-        # Augmentez le compteur du timer de la santé
-        self.hp_timer += 1 / 60  # Augmente d'une seconde chaque frame (60 FPS)
-
-        # Vérifiez si le timer de la santé a atteint 1 seconde
-        if self.hp_timer >= 1:
-            self.hp_timer = 0  # Réinitialisez le timer
-            self.take_damage(1)  # Faites perdre 1 HP au personnage
+    def update(self):
+        # Vérifiez si le personnage est invincible et si la durée d'invincibilité a dépassé 1 seconde
+        if self.invincible:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.invincible_start_time >= 1000:  # 1000 ms = 1 seconde
+                self.invincible = False
 
     def draw_hearts(self, screen):
         heart_spacing = 5  # Espace entre les cœurs
