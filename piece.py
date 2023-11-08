@@ -29,3 +29,6 @@ class Piece:
     def animate(self):
         # Cette méthode permet de passer à l'image suivante dans l'animation
         self.frame_counter = (self.frame_counter + 1) % len(self.animation_frames)
+
+    def check_collision(self, character_rect):
+        return self.rect.colliderect(character_rect)

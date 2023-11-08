@@ -38,6 +38,10 @@ class Character:
         self.invincible = False  # Variable pour gérer l'invincibilité
         self.invincible_start_time = 0  # Temps où l'invincibilité a commencé
 
+        self.piece_image = pygame.image.load("./assets/img/piece.png")
+
+        self.pieces = 0
+
         self.projectiles = []
     def get_proj(self):
         return self.projectiles
@@ -127,7 +131,7 @@ class Character:
                 self.invincible = False
 
     def draw_hearts(self, screen):
-        heart_spacing = 5  # Espace entre les cœurs
+        heart_spacing = 0 # Espace entre les cœurs
         heart_size = 60  # Taille des cœurs
 
         for i in range(self.get_hp()):
@@ -135,4 +139,28 @@ class Character:
             y = 5  # Position y
             heart_image = pygame.transform.scale(self.heart_image, (heart_size, heart_size))
             screen.blit(heart_image, (x, y))
+
+    def draw_pieces(self, screen):
+        piece_spacing = 5  # Espace entre l'image de la pièce et le nombre
+        piece_size = 50  # Taille de l'image de la pièce
+        x = screen.get_width() - piece_size - piece_spacing
+        y = 5  # Position y en haut à droite
+
+        # Dessinez l'image de la pièce
+        piece_image = pygame.transform.scale(self.piece_image, (piece_size, piece_size))
+        screen.blit(piece_image, (x, y))
+
+        # Affichez le nombre de pièces du personnage à côté de l'image de la pièce
+        font = pygame.font.Font(None, 36)
+        text = font.render(str(self.get_pieces()), True, (255, 255, 255))
+        text_x = x - text.get_width() - piece_spacing  # Position x pour le texte
+        text_y = y + (piece_size - text.get_height()) // 2  # Centrer le texte verticalement
+        screen.blit(text, (text_x, text_y))
+        
+
+    def increase_pieces(self, amount):
+        self.pieces += amount
+
+    def get_pieces(self):
+        return self.pieces
 

@@ -72,6 +72,7 @@ def ouvrir_niveau(screen):
 
         #afficher les coeurs
         character_obj.draw_hearts(screen)
+        character_obj.draw_pieces(screen)
 
         # Parcourt tous les événements pour les traiter
         for event in pygame.event.get():
@@ -106,6 +107,10 @@ def ouvrir_niveau(screen):
         if len(pieces)>0:
             for piece_obj in pieces:
                 piece_obj.draw(screen)
+                if piece_obj.check_collision(character_rect):
+                    character_obj.increase_pieces(1)
+                    pieces.remove(piece_obj)  # Supprimez la pièce
+
         # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
         indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
         for index in indices_proj_a_supprimer:
