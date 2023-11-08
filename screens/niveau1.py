@@ -103,7 +103,8 @@ def ouvrir_niveau(screen):
                 delay=0
             if(len(monstre.get_proj())>0):
                 for proj in monstre.get_proj():
-                    if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(proj.get_x(),proj.get_y(),50,2,tmx_map_data):
+                    rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
+                    if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(rectangle,tmx_map_data):
                         monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemiQZ
                     proj.update()
                     proj.draw(screen)
