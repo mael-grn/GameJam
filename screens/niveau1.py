@@ -19,7 +19,7 @@ def ouvrir_niveau(screen):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = False
+    there_is_monsters = True
     pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
@@ -170,19 +170,24 @@ def ouvrir_niveau(screen):
         
         if there_is_monsters:
             for monstre in monstres:
-                num_proj =0
-                delay += 1/60
-                if (len(monstre.get_proj())<3 and delay>=1):
-                    monstre.add_proj(game_logic.tirer(monstre.get_centre_x(),monstre.get_centre_y(),character_obj.get_centre_x(),character_obj.get_centre_y(),screen, "./assets/img/tir_pc.png"))
-                    delay=0
-                if(len(monstre.get_proj())>0):
+                current_time = time.time()  # Obtenez le temps actuel
+
+                # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                if current_time - monstre.last_shot_time >= 2.0:
+                    # Permet à l'ennemi de tirer un projectile
+                    monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                    monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
+
+                num_proj = 0
+                if len(monstre.get_proj()) > 0:
                     for proj in monstre.get_proj():
-                        rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
-                        if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle,tmx_map_data):
+                        rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
+                        if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
                             monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
                         proj.update()
                         proj.draw(screen)
-                        num_proj = num_proj+1   
+                        num_proj = num_proj + 1
+
             
             for monstre in monstres:
                 monstre.draw(screen)  # Dessinez le monstre à l'écran

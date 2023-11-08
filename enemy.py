@@ -1,4 +1,5 @@
 import pygame
+import time
 class Enemy:
     def __init__(self, name, x, y, size, hp, image_path):
         self.name = name
@@ -22,10 +23,15 @@ class Enemy:
         self.speed = 5  # Vitesse de déplacement de l'ennemi
         self.eliminated = False  # Par défaut, l'ennemi n'est pas éliminé
 
+        self.last_shot_time = 0 
+
     def get_proj(self):
         return self.projectlies
     def add_proj(self, proj):
         self.projectlies.append(proj)
+        self.last_shot_time = time.time()
+
+
     def del_proj(self,ind):
         del(self.projectlies[ind])
     def move_left(self):
