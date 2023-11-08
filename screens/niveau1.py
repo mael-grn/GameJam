@@ -41,8 +41,14 @@ def ouvrir_niveau(screen):
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
     pygame.mixer.music.play()
 
+    
+
     while running:
-        screen.fill((0, 0, 0))
+
+        #remplissage de l'ecran
+        screen.fill((0, 255, 0))
+
+        #musique
         if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
                 if(tire):
                     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
@@ -52,12 +58,17 @@ def ouvrir_niveau(screen):
                     pygame.mixer.music.load('./assets/music/combat.mp3')
                     pygame.mixer.music.play()
                     tire = True
-       #affichage de la carte
-        for layer in tmx_map.visible_layers:
-            if isinstance(layer, pytmx.TiledTileLayer):
-                for x, y, image in layer.tiles():
-                    screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
 
+
+        #affichage de la map
+        game_logic.afficher_map(screen, tmx_map)
+
+        #affiche la premiere fenetre de dialogue
+        
+        if dt==0:
+            game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.")
+
+        #afficher les coeurs
         character_obj.draw_hearts(screen)
 
         # Parcourt tous les événements pour les traiter

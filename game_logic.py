@@ -96,3 +96,93 @@ def move_character(character_obj, key, map_data):
 def tirer(character_x,character_y,souris_x,souris_y,screen,path):
     un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path)
     return un_proj
+
+def afficher_map(screen, tmx_map):
+    for layer in tmx_map.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer):
+                for x, y, image in layer.tiles():
+                    screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
+
+def affiche_dialogue(screen, text):
+
+    running = True
+    clock = pygame.time.Clock()
+    dt = 0
+
+    button_path = "./assets/buttons/enter.png"
+
+    #traitement du texte (retour à la ligne au bout de 62 caractères)
+
+    while running:
+
+        #afficher la fenetre de dialogue
+        bg = pygame.image.load("./assets/img/dialog.png")
+        bg_big = pygame.transform.scale(bg, (bg.get_width()*4, bg.get_height()*4))
+        bg_rec = bg_big.get_rect()
+        bg_rec.center = ((screen.get_width() // 2),screen.get_height()- (50 +bg.get_height()*2) )
+        screen.blit(bg_big, bg_rec)
+        #affichage du texte
+
+        font = pygame.font.Font("./assets/fonts/pinball.ttf", 20) 
+        line_height = font.get_linesize() +10
+
+
+        lines = wrap_text(text, 55)
+        count =1
+        
+        for line in lines:
+            
+            content = font.render(line, True, (0,0,0))
+            content_rec = content.get_rect()
+            content_rec.topleft=(110, (screen.get_height() - bg.get_height()*4.5) + count*line_height)
+            screen.blit(content, content_rec)
+            count += 1
+
+
+        #afficher du bouton entrer
+        button = pygame.image.load(button_path)
+        button_big = pygame.transform.scale(button, (button.get_width()*4, button.get_height()*4))
+        button_rec = button_big.get_rect()
+        button_rec.center = ((screen.get_width() -150),screen.get_height()- 100 )
+        screen.blit(button_big, button_rec)
+
+
+
+        # Parcourt tous les evenements pour les traiter
+        for event in pygame.event.get():
+            # QUIT signifie que l'utilisateur a fermé la fenêtre
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+
+            #si les touches du clavier sont pressées
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    button_path = "./assets/buttons/enter_press.png"
+
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    running = False
+                    
+                    
+
+                    
+
+        # Comme les dessions sont fait dans un buffer, permute le buffer
+        pygame.display.flip()
+        # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
+        dt = clock.tick(60) 
+
+def wrap_text(text, max_line_length=62):
+
+    nbr_ligne = len(text)//max_line_length +1
+    lines = []
+
+    for i in range(0, nbr_ligne):
+        start = i * max_line_length
+        end = (i + 1) * max_line_length
+        ligne = text[start:end]
+        lines.append(ligne)
+
+    return lines

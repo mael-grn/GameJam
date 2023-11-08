@@ -18,14 +18,15 @@ def ouvrir_menu(screen) :
     score_button_path = "./assets/buttons/normal.png"
     quitter_button_path = "./assets/buttons/normal.png"
 
+    #chargement de la police
+    chemin = "./assets/fonts/pinball.ttf"
+    font = pygame.font.Font(chemin, 30) 
+    font_big = pygame.font.Font(chemin, 50) 
+
     while running :
 
         #arriere plan
         screen.fill("black")
-        #chargement de la police
-        chemin = "./assets/fonts/pinball.ttf"
-        font = pygame.font.Font(chemin, 30) 
-        font_big = pygame.font.Font(chemin, 50) 
 
         #chargement du logo
         logo = pygame.image.load("./assets/img/game_logo.jpg")
