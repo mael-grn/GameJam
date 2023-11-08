@@ -30,7 +30,7 @@ def check_collision(rect, tmx_data):
                         if "99" in layer.name:
                             return {2 : ""} #retour du code 2 (collision)
                         elif "vers" in layer.name:
-                            return {1 : layer.name.split("_")}
+                            return {1 : layer.name.split("_")[1]}
                         
     return {0:""}
                 

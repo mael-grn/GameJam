@@ -16,12 +16,14 @@ def ouvrir_niveau(screen):
     # Le temps passé entre deux rafraîchissements de l'écran en millisecondes
     dt = 0
 
+    current_room = "sol"
+    tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
+    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
+
     # Crée un personnage
     character_obj = character.Character(640, 360)  # Position initiale du personnage
 
      # Chargement de la carte
-    tmx_map = pytmx.load_pygame('./assets/maps/sol.tmx')
-    tmx_map_data = pytmx.TiledMap('./assets/maps/sol.tmx')
 
     i=0
     ind_proj_char =0
@@ -43,10 +45,11 @@ def ouvrir_niveau(screen):
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
     pygame.mixer.music.play()
 
-    
 
     while running:
         screen.fill((0, 0, 0))
+        
+
         if len(monstres)==0:
             tire = False
 
@@ -163,11 +166,14 @@ def ouvrir_niveau(screen):
         character_obj.draw(screen)
 
         
-        #coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
+        coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
 
         #code changement salle : 1 : xx ou xx est le nom de la salle
-        #if 1 in coll:
-        #    print(coll[1])
+        if 1 in coll:
+            if current_room != coll[1]:
+                current_room = coll[1]
+                tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
+                tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
 
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()
