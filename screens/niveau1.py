@@ -24,40 +24,42 @@ def ouvrir_niveau(screen):
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
 
-    character_obj = character.Character(640, 360)  # Position initiale du personnage
+    character_obj = character.Character(450, 600)  # Position initiale du personnage
+
+    #montre salle 21
+    monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png")
 
     # Création des salles
-    amphi_c1 = salle.Salle("amphi_c1.tmx", character_obj,[], [], {"amphi" : (19*32, 6*32), "etage1" : (16*32, 18*32)})
-    amphi = salle.Salle("amphi.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    couloir1 = salle.Salle("couloir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    couloir2 = salle.Salle("couloir2.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    couloir3 = salle.Salle("couloir3.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    etage1_couoir1 = salle.Salle("etage1_couoir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    etage1 = salle.Salle("etage1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    foodtruck = salle.Salle("foodtruck.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salle21 = salle.Salle("salle21.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salle33 = salle.Salle("salle33.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salle39 = salle.Salle("salle39.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salle110 = salle.Salle("salle110.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salle115 = salle.Salle("salle115.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salleS35 = salle.Salle("salleS35.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salleS36 = salle.Salle("salleS36.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    salleS37 = salle.Salle("salleS37.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    sol = salle.Salle("sol.tmx", character_obj, [], [], {"couloir1" : (5*32, 14*32)})
-    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
-    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3.tmx", character_obj, [], [], {"sol" : (29*32, 11*32)})
+    amphi_c1 = salle.Salle("amphi_c1", character_obj,[], [])
+    amphi = salle.Salle("amphi", character_obj, [], [])
+    couloir1 = salle.Salle("couloir1", character_obj, [], []) 
+    couloir2 = salle.Salle("couloir2", character_obj, [], [])
+    couloir3 = salle.Salle("couloir3", character_obj, [], [])
+    etage1_couoir1 = salle.Salle("etage1_couoir1", character_obj, [], [])
+    etage1 = salle.Salle("etage1", character_obj, [], [])
+    foodtruck = salle.Salle("foodtruck", character_obj, [], [])
+    salle21 = salle.Salle("salle21", character_obj, [], []) 
+    salle33 = salle.Salle("salle33", character_obj, [], [])
+    salle39 = salle.Salle("salle39", character_obj, [], [])
+    salle110 = salle.Salle("salle110", character_obj, [], [])
+    salle115 = salle.Salle("salle115", character_obj, [], [])
+    salleS35 = salle.Salle("salleS35", character_obj, [], [])
+    salleS36 = salle.Salle("salleS36", character_obj, [], [])
+    salleS37 = salle.Salle("salleS37", character_obj, [], [])
+    sol = salle.Salle("sol", character_obj, [], [])
+    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1", character_obj, [], [])
+    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2", character_obj, [], [])
+    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3", character_obj, [], [])
 
-    room_list = {}
-    for salle in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
-        room_list[game_logic.get_name(salle)] = salle
-    
-    
-    current_salle=sol ## Salle de spawn
+    #maj des salles
+
+    salle21.enemies.append(monstre21)
+
+    current_salle=salle21 ## Salle de spawn
 
     
-    tmx_map = pytmx.load_pygame('./assets/maps/' + current_salle.map)
-    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_salle.map)
+    tmx_map = pytmx.load_pygame('./assets/maps/' + current_salle.map+".tmx")
+    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_salle.map+".tmx")
 
     
     
@@ -82,6 +84,8 @@ def ouvrir_niveau(screen):
     pygame.mixer.init()
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
     pygame.mixer.music.play()
+
+    
 
 
     while running:
