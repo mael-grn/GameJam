@@ -82,9 +82,14 @@ def ouvrir_niveau(screen):
             # QUIT signifie que l'utilisateur a fermé la fenêtrez
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire and len(character_obj.get_proj())<5:
                 mouse_x, mouse_y = event.pos
                 character_obj.add_proj(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png"))
+                tire = False
+                while(delay<1.0):
+                    delay += 1/60
+                    tire = True
+                delay=0
         # Liste des indices des projectiles à supprimer
         indices_proj_a_supprimer = []
 
