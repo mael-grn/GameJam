@@ -6,6 +6,7 @@ import game_logic
 import enemy
 import screens.game_over
 import time
+import piece
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -36,6 +37,7 @@ def ouvrir_niveau(screen):
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
+    pieces=[]
     tire = False
     pygame.mixer.init()
     pygame.mixer.music.load('./assets/music/intro_chill.mp3')
@@ -44,9 +46,9 @@ def ouvrir_niveau(screen):
     
 
     while running:
-
-        #remplissage de l'ecran
-        screen.fill((0, 255, 0))
+        screen.fill((0, 0, 0))
+        if len(monstres)==0:
+            tire = False
 
         #musique
         if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
@@ -88,13 +90,22 @@ def ouvrir_niveau(screen):
             
             # Parcourez les monstres
             for monstre in monstres:
+                rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
                 if proj.rect.colliderect(monstre.rect):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
+                        une_piece=piece.Piece(monstre.rect.x, monstre.rect.y, "./assets/img/piece.png", "./assets/img/pieceReverse.png")
+                        pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
-                    indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
+                    # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
+            
+            if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
 
+        if len(pieces)>0:
+            for piece_obj in pieces:
+                piece_obj.draw(screen)
         # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
         indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
         for index in indices_proj_a_supprimer:
@@ -116,7 +127,7 @@ def ouvrir_niveau(screen):
                 for proj in monstre.get_proj():
                     rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
                     if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(rectangle,tmx_map_data):
-                        monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemiQZ
+                        monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
                     proj.update()
                     proj.draw(screen)
                     num_proj = num_proj+1   
@@ -126,13 +137,21 @@ def ouvrir_niveau(screen):
 
         character_rect = character_obj.get_rect()
         for monstre in monstres:
+            if(len(monstre.get_proj())>0):
+                for proj in monstre.get_proj():
+                    if proj.rect.colliderect(character_obj.rect):
+                        character_obj.take_damage(1)
+                        character_obj.update()
             if character_rect.colliderect(monstre.rect):
                 character_obj.take_damage(1)
                 character_obj.update()
-                if not character_obj.is_alive():
-                    # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées
-                    running = False
-                    screens.game_over.ouvrir_game_over(screen)
+            if not character_obj.is_alive():
+                # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées
+                running = False
+                pygame.mixer.music.stop
+                pygame.mixer.music.load('./assets/music/menu.mp3')
+                pygame.mixer.music.play()
+                screens.game_over.ouvrir_game_over(screen)
 
         # Affiche le personnage
         game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
