@@ -77,7 +77,8 @@ def ouvrir_niveau(screen):
             
             # Parcourez les monstres
             for monstre in monstres:
-                if proj.rect.colliderect(monstre.rect):
+                rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
+                if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
@@ -105,7 +106,7 @@ def ouvrir_niveau(screen):
                 for proj in monstre.get_proj():
                     rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
                     if proj.rect.colliderect(character_obj.rect) or game_logic.check_collision(rectangle,tmx_map_data):
-                        monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemiQZ
+                        monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
                     proj.update()
                     proj.draw(screen)
                     num_proj = num_proj+1   
@@ -115,13 +116,21 @@ def ouvrir_niveau(screen):
 
         character_rect = character_obj.get_rect()
         for monstre in monstres:
+            if(len(monstre.get_proj())>0):
+                for proj in monstre.get_proj():
+                    if proj.rect.colliderect(character_obj.rect):
+                        character_obj.take_damage(1)
+                        character_obj.update()
             if character_rect.colliderect(monstre.rect):
                 character_obj.take_damage(1)
                 character_obj.update()
-                if not character_obj.is_alive():
-                    # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées
-                    running = False
-                    screens.game_over.ouvrir_game_over(screen)
+            if not character_obj.is_alive():
+                # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées
+                running = False
+                pygame.mixer.music.stop
+                pygame.mixer.music.load('./assets/music/menu.mp3')
+                pygame.mixer.music.play()
+                screens.game_over.ouvrir_game_over(screen)
 
         # Affiche le personnage
         game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
