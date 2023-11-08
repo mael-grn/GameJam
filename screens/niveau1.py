@@ -8,6 +8,7 @@ import screens.game_over
 import time
 import piece
 import salle
+import random
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -27,7 +28,7 @@ def ouvrir_niveau(screen):
     character_obj = character.Character(450, 600)  # Position initiale du personnage
 
     #montre salle 21
-    monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png")
+    monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png",1)
 
     # Création des salles
     amphiC1 = salle.Salle("amphiC1", character_obj,[], [], {"amphi" : (19*32, 7*32), "etage1" : (16*32, 17*32)})
@@ -74,9 +75,10 @@ def ouvrir_niveau(screen):
 
     
     monstres = []  # Créez une liste vide pour stocker les monstres
-    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png")
-    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png")
-    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png")
+    projectilesMonstres = [] #crée liste pour projectiles monstres
+    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png",1)
+    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png",1)
+    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png",2)
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
@@ -171,22 +173,43 @@ def ouvrir_niveau(screen):
         if there_is_monsters:
             for monstre in monstres:
                 current_time = time.time()  # Obtenez le temps actuel
+                if monstre.attaque ==1:   
+                    # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                    if current_time - monstre.last_shot_time >= 2.0:
+                        # Permet à l'ennemi de tirer un projectile
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
 
-                # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                if current_time - monstre.last_shot_time >= 2.0:
-                    # Permet à l'ennemi de tirer un projectile
-                    monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
-                    monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
+                    num_proj = 0
+                    if len(monstre.get_proj()) > 0:
+                        for proj in monstre.get_proj():
+                            rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
+                            if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
+                                monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
+                            proj.update()
+                            proj.draw(screen)
+                            num_proj = num_proj + 1
+                else:
+                    temps_act = time.time()
+                    if temps_act - monstre.last_deplacement >=0.5:      
+                        n = random.random()
+                        if n<0.3:
+                                collu = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "u"), tmx_map_data)
+                                if not 2 in collu:
+                                        monstre.move_up() 
+                        elif n>0.3 and n<0.5:
+                                collb = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "d"), tmx_map_data)  
+                                if not 2 in collb:
+                                    monstre.move_down()
+                        elif n>0.5 and n<0.7:
+                                colld = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "l"), tmx_map_data)  
+                                if not 2 in colld:
+                                    monstre.move_right()
+                        else:
+                                collg = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "r"), tmx_map_data)  
+                                if not 2 in collg:
+                                    monstre.move_left() 
 
-                num_proj = 0
-                if len(monstre.get_proj()) > 0:
-                    for proj in monstre.get_proj():
-                        rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
-                        if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
-                            monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
-                        proj.update()
-                        proj.draw(screen)
-                        num_proj = num_proj + 1
 
             
             for monstre in monstres:

@@ -1,7 +1,8 @@
 import pygame
 import time
 class Enemy:
-    def __init__(self, name, x, y, size, hp, image_path):
+    def __init__(self, name, x, y, size, hp, image_path, attaque):
+        self.attaque = attaque
         self.name = name
         self.x = x
         self.y = y
@@ -22,6 +23,7 @@ class Enemy:
 
         self.speed = 5  # Vitesse de déplacement de l'ennemi
         self.eliminated = False  # Par défaut, l'ennemi n'est pas éliminé
+        self.last_deplacement =0
 
         self.last_shot_time = 0 
 
@@ -36,16 +38,16 @@ class Enemy:
         del(self.projectlies[ind])
     def move_left(self):
         self.rect.x -= self.speed
-
+        self.last_deplacement = time.time()
     def move_right(self):
         self.rect.x += self.speed
-
+        self.last_deplacement = time.time()
     def move_up(self):
         self.rect.y -= self.speed
-
+        self.last_deplacement = time.time()
     def move_down(self):
         self.rect.y += self.speed
-
+        self.last_deplacement = time.time()
     def take_damage(self, damage):
         self.hp -= damage
         if self.hp <= 0:
