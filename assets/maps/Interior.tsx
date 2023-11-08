@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.8" tiledversion="1.8.2" name="Interior" tilewidth="32" tileheight="32" tilecount="1024" columns="32">
  <image source="Interior.png" width="1024" height="1024"/>
+ <tile id="206">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="31.8923" y="0.25563" visible="0">
+    <polygon points="0,0 -17.904,-0.102054 -23.804,2.95974 -23.9575,31.6369 0.102602,31.7904"/>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="756">
   <objectgroup draworder="index" id="2">
    <object id="1" x="32.1053" y="31.8421">
