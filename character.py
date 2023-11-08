@@ -25,7 +25,7 @@ class Character:
         self.rect = self.images[0][0].get_rect()
         self.rect.width=50
         self.rect.height=70
-        self.rect.center = (x, y)
+        self.rect.center = [x, y]
         self.speed = constants.CHARACTER_SPEED
         self.direction = 0  # 0 pour droite, 1 pour gauche
         self.walk_step = 0  # 0 pour image 1, 1 pour image 2
@@ -39,10 +39,13 @@ class Character:
         self.invincible_start_time = 0  # Temps où l'invincibilité a commencé
 
         self.piece_image = pygame.image.load("./assets/img/piece.png")
-
+        self.key_image = pygame.image.load("./assets/img/key.png")
         self.pieces = 0
 
         self.projectiles = []
+        self.keys = 0 
+        self.last_move = list((0, 0))
+
     def get_proj(self):
         return self.projectiles
     def add_proj(self, proj):
@@ -50,7 +53,10 @@ class Character:
         self.projectiles.append(proj)
     def del_proj(self,ind):
         del(self.projectiles[ind])
+
     def move_left(self):
+        self.last_move[0] = -1
+        self.last_move[1] = 0
         self.rect.x -= self.speed
         self.direction = 1  # Gauche
         current_time = pygame.time.get_ticks()
@@ -59,6 +65,8 @@ class Character:
             self.last_image_time = current_time
 
     def move_right(self):
+        self.last_move[0] = 1
+        self.last_move[1] = 0
         self.rect.x += self.speed
         self.direction = 0  # Droite
         current_time = pygame.time.get_ticks()
@@ -67,6 +75,8 @@ class Character:
             self.last_image_time = current_time
 
     def move_up(self):
+        self.last_move[1] = -1
+        self.last_move[0] = 0
         self.rect.y -= self.speed
         current_time = pygame.time.get_ticks()
         if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
@@ -74,6 +84,8 @@ class Character:
             self.last_image_time = current_time
 
     def move_down(self):
+        self.last_move[1] = 1
+        self.last_move[0] = 0
         self.rect.y += self.speed
         current_time = pygame.time.get_ticks()
         if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
@@ -142,6 +154,23 @@ class Character:
             heart_image = pygame.transform.scale(self.heart_image, (heart_size, heart_size))
             screen.blit(heart_image, (x, y))
 
+    def draw_keys(self, screen):
+        key_spacing = 5
+        key_size = 60
+        x = screen.get_width() - key_size - key_spacing - 110
+        y = 15  # Position y en haut à droite
+
+        # Dessinez l'image de la pièce
+        key_image = pygame.transform.scale(self.key_image, (self.key_image.get_width()//15, self.key_image.get_height()//15))
+        screen.blit(key_image, (x, y))
+
+        # Affichez le nombre de pièces du personnage à côté de l'image de la pièce
+        font = pygame.font.Font(None, 36)
+        text = font.render(str(self.keys), True, (255, 255, 255))
+        text_x = x - text.get_width() - key_spacing  # Position x pour le texte
+        text_y = y + (key_size - text.get_height()) // 2 -15  # Centrer le texte verticalement
+        screen.blit(text, (text_x, text_y))
+
     def draw_pieces(self, screen):
         piece_spacing = 5  # Espace entre l'image de la pièce et le nombre
         piece_size = 50  # Taille de l'image de la pièce
@@ -166,4 +195,8 @@ class Character:
 
     def get_pieces(self):
         return self.pieces
+    
+    def increase_keys(self):
+        game_logic.play_sound("coin")
+        self.keys +=1
 

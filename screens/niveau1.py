@@ -9,6 +9,8 @@ import time
 import piece
 import salle
 import random
+import key
+import constants
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -20,12 +22,15 @@ def ouvrir_niveau(screen):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = True
+    there_is_monsters = False
     pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
+    there_is_key=False
 
     character_obj = character.Character(450, 600)  # Position initiale du personnage
+    key_obj = key.Key(480, 384)
+
 
     #montre salle 21
     monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png",1)
@@ -36,17 +41,17 @@ def ouvrir_niveau(screen):
     couloir1 = salle.Salle("couloir1", character_obj, [], [], {"salle33" : (10*32, 9*32), "salle39" : (25*32, 9*32), "sol" : (29*32, 12*32), "couloir2" : (2*32, 12*32)}) 
     couloir2 = salle.Salle("couloir2", character_obj, [], [], {"couloir3" : (2*32, 12*32), "sousSolCouloir1" : (17*32, 10*32), "couloir1" : (29*32, 12*32)})
     couloir3 = salle.Salle("couloir3", character_obj, [], [], {"salle21" : (18*32, 10*32), "couloir2" : (29*32, 12*32)})
-    etage1Couoir1 = salle.Salle("etage1Couoir1", character_obj, [], [], {"etage1" : (2*32, 12*32), "salle110" : (10*32, 10*32), "salle115" : (25*32, 10*32)})
+    etage1Couoir1 = salle.Salle("etage1Couloir1", character_obj, [], [], {"etage1" : (2*32, 12*32), "salle110" : (10*32, 10*32), "salle115" : (25*32, 10*32)})
     etage1 = salle.Salle("etage1", character_obj, [], [], {"sol" : (8*32, 12*32), "amphiC1" : (24*32, 10*32), "etage1Couloir1" : (25*32, 17*32)})
     foodtruck = salle.Salle("foodtruck", character_obj, [], [], {"sol" : (22*32, 20*32), "sousSolCouloir2" : (5*32, 9*32)})
-    salle21 = salle.Salle("salle21", character_obj, [], [], {"couloir3" : (16*32, 19*32)}) 
+    salle21 = salle.Salle("salle21", character_obj, [], [], {"couloir3" : (16*32, 19*32)}, constants.COLLECTE_CLEE) 
     salle33 = salle.Salle("salle33", character_obj, [], [], {"couloir1" : (17*32, 20*32)})
     salle39 = salle.Salle("salle39", character_obj, [], [], {"couloir1" : (16*32, 18*32)})
     salle110 = salle.Salle("salle110", character_obj, [], [], {"etage1Couloir1" : (8*32, 19*32)})
-    salle115 = salle.Salle("salle115", character_obj, [], [], {"etage1Couloir1" : (16*32, 19*32)})
+    salle115 = salle.Salle("salle115", character_obj, [], [], {"etage1Couloir1" : (16*32, 19*32)}, constants.COLLECTE_CLEE)
     salleS35 = salle.Salle("salleS35", character_obj, [], [], {"sousSolCouloir2" : (14*32, 14*32)})
     salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sousSolCouloir1" : (14*32, 14*32)})
-    salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sousSolCouloir3" : (24*32, 18*32)})
+    salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sousSolCouloir3" : (24*32, 18*32)}, constants.COLLECTE_CLEE)
     sol = salle.Salle("sol", character_obj, [], [], {"couloir1" : (4*32, 14*32),"etage1" : (7*32, 9*32), "foodtruck" : (19*32, 9*32)})
     sousSolCouloir1 = salle.Salle("sousSolCouloir1", character_obj, [], [], {"sousSolCouloir2" : (2*32, 12*32), "couloir2" : (10*32, 10*32), "salleS36" : (25*32, 10*32), "sousSolCouloir3" : (29*32, 12*32)})
     sousSolCouloir2 = salle.Salle("sousSolCouloir2", character_obj, [], [], {"foodtruck" : (9*32, 10*32), "sousSolCouloir1" : (29*32, 12*32), "salleS35" : (18*32, 10*32)})
@@ -59,6 +64,7 @@ def ouvrir_niveau(screen):
 
     salle21.enemies.append(monstre21)
 
+    #pas supprimer!!
     current_salle=sol ## Salle de spawn
 
     
@@ -119,17 +125,48 @@ def ouvrir_niveau(screen):
         #gestion changement de salle
         coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
 
+       
+            
+
         #code changement salle : 1 : xx ou xx est le nom de la salle
         if 1 in coll:
-            if current_room != coll[1]:
-                char_rect = character_obj.get_rect()
+            char_rect = character_obj.get_rect()
+            have_access=True
+            #si le personnage n'as pas de clées, il ne peut pas aller au sous sol ou à l'etage.
+
+            if constants.COLLECTE_CLEE:
+                if character_obj.keys == 0 and coll[1] in [etage1.map, sousSolCouloir1.map, sousSolCouloir2.map, sousSolCouloir3.map, amphiC1.map]:
+                    have_access=False
+
+                    character_obj.move_down()
+                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
+
+                if character_obj.keys == 1 and coll[1] in [etage1.map, amphiC1]:
+                    have_access=False
+                    character_obj.move_down()
+                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais deux clee...")
+
+                if character_obj.keys == 2 and coll[1] == amphiC1.map:
+                    have_access=False
+                    character_obj.move_down()
+                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais trois clee...")
+
+            if current_room != coll[1] and have_access:
+
+                #repositionner le personnage
                 next_room = room_list[coll[1]]
                 print(next_room.map)
                 char_rect.centerx = next_room.entry[current_room][0]
                 char_rect.centery = next_room.entry[current_room][1]
                 current_room = coll[1]
+
+                #charger la map
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
+
+                current_salle = next_room
+
+
                 
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
@@ -140,6 +177,8 @@ def ouvrir_niveau(screen):
         #coeurs
         character_obj.draw_hearts(screen)
         character_obj.draw_pieces(screen)
+        if constants.COLLECTE_CLEE:
+            character_obj.draw_keys(screen)
 
         #personnage
         game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
@@ -234,6 +273,14 @@ def ouvrir_niveau(screen):
                     game_logic.play_sound("gameOver")
                     screens.game_over.ouvrir_game_over(screen)
 
+        #affiche la clee (s'il y en a une)
+        if current_salle.key:
+            
+            key_obj.draw(screen)
+
+            if character_obj.get_rect().colliderect(key_obj.get_rect()):
+                current_salle.key=False
+                character_obj.increase_keys()
 
 
         
