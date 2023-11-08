@@ -54,6 +54,8 @@ def ouvrir_niveau(screen):
                 for x, y, image in layer.tiles():
                     screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
 
+        character_obj.draw_hearts(screen)
+
         # Parcourt tous les événements pour les traiter
         for event in pygame.event.get():
             # QUIT signifie que l'utilisateur a fermé la fenêtrez
@@ -93,7 +95,8 @@ def ouvrir_niveau(screen):
         character_rect = character_obj.get_rect()
         for monstre in monstres:
             if character_rect.colliderect(monstre.rect):
-                character_obj.take_damage(1)  # Le personnage perd 1 point de vie en cas de collision
+                character_obj.take_damage(1)
+                character_obj.update()
                 if not character_obj.is_alive():
                     # Le personnage est mort, vous pouvez gérer la fin du jeu ou d'autres actions appropriées
                     running = False
