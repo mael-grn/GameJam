@@ -18,21 +18,17 @@ import constants
 #c d
 def check_collision(rect, tmx_data):
     #pour chaque layer:
-    
     for layer in tmx_data.visible_layers:
-
         #s'il existe :
-        
         if layer.data:
-
             #on regarde pour chaque tuiles correspondant au rectangle du personnage sur la carte :
-
             for x in range (rect.left // tmx_data.tilewidth +1, rect.left // tmx_data.tilewidth + rect.width // tmx_data.tilewidth+1):
                 for y in range (rect.top // tmx_data.tileheight+1, rect.top // tmx_data.tileheight + rect.height // tmx_data.tileheight+1):
                     tile = layer.data[y][x]
                     if tile:
+                        #si le rectangle est superposé à un mur (code 99 dans le nom du layer):
                         if "99" in layer.name:
-                            return 2
+                            return 2 #retour du code 2 (collision)
                 
             
 #direction = u pour up, d pour down, l pour left et r pour right
