@@ -52,8 +52,8 @@ def ouvrir_niveau(screen):
     sous_sol_couloir3 = salle.Salle("sous_sol_couloir3", character_obj, [], [])
 
     room_list = {}
-    for salle in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
-        room_list[salle.map] = salle
+    for salle_item in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
+        room_list[salle_item.map] = salle_item
     #maj des salles
 
     salle21.enemies.append(monstre21)
@@ -122,7 +122,8 @@ def ouvrir_niveau(screen):
             if current_room != coll[1]:
                 char_rect = character_obj.get_rect()
                 next_room = room_list[coll[1]]
-                char_rect.x = next_room.dict[current_room]
+                char_rect.centerx = next_room.dict[current_room].item(0)
+                char_rect.centery = next_room.dict[current_room].item(1)
                 current_room = coll[1]
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
