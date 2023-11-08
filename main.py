@@ -1,5 +1,5 @@
 import pygame
-import screens.error as errordddddddd
+import screens.error as error
 import screens.main_menu as menu
 import constants
 

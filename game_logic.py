@@ -5,6 +5,7 @@ import projectile
 import enemy
 import math
 import pytmx
+import constants
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #tmx_data correspond aux données de la map chargée
@@ -15,22 +16,40 @@ import pytmx
 #format hitbox :
 #a b
 #c d
-def check_collision(x, y, w, h, tmx_data):
-
-    for layer in tmx_data.visible_layers:
-        
-        
-
-        if layer.data:
-            tile = layer.data[y // tmx_data.tileheight][x // tmx_data.tilewidth]
-            if tile:
-                
-                print(f"Coordonnées ({x}, {y}) correspondent au layer : {layer.name}")
-
-                if "collision" in layer.name:
-                    return 2
-
+def check_collision(rect, tmx_data):
+    #pour chaque layer:
     
+    for layer in tmx_data.visible_layers:
+
+        #s'il existe :
+        
+        if layer.data:
+
+            #on regarde pour chaque tuiles correspondant au rectangle du personnage sur la carte :
+
+            for x in range (rect.left // tmx_data.tilewidth +1, rect.left // tmx_data.tilewidth + rect.width // tmx_data.tilewidth+1):
+                for y in range (rect.top // tmx_data.tileheight+1, rect.top // tmx_data.tileheight + rect.height // tmx_data.tileheight+1):
+                    tile = layer.data[y][x]
+                    if tile:
+                        if "collision" in layer.name:
+                            return 2
+                
+            
+#direction = u pour up, d pour down, l pour left et r pour right
+#retourne un nouveau rectangle correspondant à la prochaine position du rectangle en parametre
+def get_next_rect(rect, direction):
+    if "u" in direction:
+        rectangle = pygame.Rect(rect.x, rect.y-constants.CHARACTER_SPEED, rect.width, rect.height)
+    elif "d" in direction:
+        rectangle = pygame.Rect(rect.x, rect.y+constants.CHARACTER_SPEED, rect.width, rect.height)
+    elif "l" in direction:
+        rectangle = pygame.Rect(rect.x-constants.CHARACTER_SPEED, rect.y, rect.width, rect.height)
+    elif "r" in direction:
+        rectangle = pygame.Rect(rect.x+constants.CHARACTER_SPEED, rect.y, rect.width, rect.height)
+    else:
+        rectangle = pygame.Rect(rect.x, rect.y, rect.width, rect.height)
+    
+    return rectangle
 
 
 def get_score():  
@@ -57,24 +76,24 @@ def move_character(character_obj, key, map_data):
 
     
     rect = character_obj.get_rect()
-    x = rect.centerx+1
-    y = rect.centery+1
+    x = rect.centerx
+    y = rect.centery
     w = rect.width
     h = rect.height
     if key[pygame.K_q]:
-        coll = check_collision(x-3, y+1, w, h, map_data) #simulation mouvement à gauche
+        coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
         if coll != 2:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
     elif key[pygame.K_d]:
-        coll = check_collision(x+3, y-1, w, h, map_data) #simulation mouvement à droite
+        coll = check_collision(get_next_rect(rect, "r"), map_data)  #simulation mouvement à droite
         if coll != 2:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
     if key[pygame.K_z]:
-        coll = check_collision(x+1, y-3, w, h, map_data) #simulation mouvement à haut
+        coll = check_collision(get_next_rect(rect, "u"), map_data)  #simulation mouvement à haut
         if coll != 2:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
     elif key[pygame.K_s]:
-        coll = check_collision(x-1, y+3, w, h, map_data) #simulation mouvement à bas
+        coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
         if coll != 2:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
