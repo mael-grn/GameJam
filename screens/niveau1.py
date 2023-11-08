@@ -8,6 +8,7 @@ import screens.game_over
 import time
 import piece
 import salle
+import random
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -74,9 +75,10 @@ def ouvrir_niveau(screen):
 
     
     monstres = []  # Créez une liste vide pour stocker les monstres
-    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png")
-    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png")
-    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png")
+    projectilesMonstres = [] #crée liste pour projectiles monstres
+    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png",1)
+    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png",1)
+    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png",2)
     monstres.append(monstre1)
     monstres.append(monstre2)
     monstres.append(monstre3)
