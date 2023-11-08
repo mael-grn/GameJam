@@ -89,15 +89,14 @@ def ouvrir_niveau(screen):
                         pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemi
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
+            
+            if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
+                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
+
         if len(pieces)>0:
             for piece_obj in pieces:
                 piece_obj.draw(screen)
-            
-        if proj.rect.colliderect(monstre.rect) or game_logic.check_collision(rectangle,tmx_map_data):
-            indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-
-
         # Supprimez les projectiles de character_obj à partir de la fin pour éviter les problèmes d'index
         indices_proj_a_supprimer.reverse()  # Inversez la liste des indices
         for index in indices_proj_a_supprimer:
