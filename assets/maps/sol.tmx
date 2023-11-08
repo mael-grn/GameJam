@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="26" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="26" nextobjectid="1">
  <tileset firstgid="1" source="couleur.tsx"/>
  <tileset firstgid="10" source="Interior.tsx"/>
  <tileset firstgid="1034" source="porte.tsx"/>
@@ -171,7 +171,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="7" name="noir 99" width="32" height="24" visible="0">
+ <layer id="7" name="noir 99" width="32" height="24">
   <data encoding="csv">
 1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1035,1034,1034,1035,1034,
 1034,1034,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1035,1034,1035,1034,

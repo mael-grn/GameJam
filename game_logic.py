@@ -31,7 +31,7 @@ def check_collision(rect, tmx_data):
                 for y in range (rect.top // tmx_data.tileheight+1, rect.top // tmx_data.tileheight + rect.height // tmx_data.tileheight+1):
                     tile = layer.data[y][x]
                     if tile:
-                        if "collision" in layer.name:
+                        if "99" in layer.name:
                             return 2
                 
             
