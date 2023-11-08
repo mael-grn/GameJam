@@ -51,6 +51,9 @@ def ouvrir_niveau(screen):
     sous_sol_couloir2 = salle.Salle("sous_sol_couloir2", character_obj, [], [])
     sous_sol_couloir3 = salle.Salle("sous_sol_couloir3", character_obj, [], [])
 
+    room_list = {}
+    for salle in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
+        room_list[salle.map] = salle
     #maj des salles
 
     salle21.enemies.append(monstre21)
