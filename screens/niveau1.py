@@ -30,29 +30,29 @@ def ouvrir_niveau(screen):
     monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png")
 
     # Création des salles
-    amphi_c1 = salle.Salle("amphi_c1", character_obj,[], [], {"amphi" : (19*32, 7*32), "etage1" : (16*32, 17*32)})
-    amphi = salle.Salle("amphi", character_obj, [], [], {"amphi_c1" : (6*32, 20*32)})
+    amphiC1 = salle.Salle("amphiC1", character_obj,[], [], {"amphi" : (19*32, 7*32), "etage1" : (16*32, 17*32)})
+    amphi = salle.Salle("amphi", character_obj, [], [], {"amphiC1" : (6*32, 20*32)})
     couloir1 = salle.Salle("couloir1", character_obj, [], [], {"salle33" : (10*32, 9*32), "salle39" : (25*32, 9*32), "sol" : (29*32, 12*32), "couloir2" : (2*32, 12*32)}) 
-    couloir2 = salle.Salle("couloir2", character_obj, [], [], {"couloir3" : (2*32, 12*32), "sous_sol_couloir1" : (17*32, 10*32), "couloir1" : (29*32, 12*32)})
+    couloir2 = salle.Salle("couloir2", character_obj, [], [], {"couloir3" : (2*32, 12*32), "sousSolCouloir1" : (17*32, 10*32), "couloir1" : (29*32, 12*32)})
     couloir3 = salle.Salle("couloir3", character_obj, [], [], {"salle21" : (18*32, 10*32), "couloir2" : (29*32, 12*32)})
-    etage1_couoir1 = salle.Salle("etage1_couoir1", character_obj, [], [], {"etage1" : (2*32, 12*32), "salle110" : (10*32, 10*32), "salle115" : (25*32, 10*32)})
-    etage1 = salle.Salle("etage1", character_obj, [], [], {"sol" : (8*32, 14*32), "amphi_c1" : (24*32, 10*32), "etage1_couloir1" : (25*32, 17*32)})
-    foodtruck = salle.Salle("foodtruck", character_obj, [], [], {"sol" : (22*32, 20*32), "sous_sol_couloir2" : (5*32, 9*32)})
+    etage1Couoir1 = salle.Salle("etage1Couoir1", character_obj, [], [], {"etage1" : (2*32, 12*32), "salle110" : (10*32, 10*32), "salle115" : (25*32, 10*32)})
+    etage1 = salle.Salle("etage1", character_obj, [], [], {"sol" : (8*32, 12*32), "amphiC1" : (24*32, 10*32), "etage1Couloir1" : (25*32, 17*32)})
+    foodtruck = salle.Salle("foodtruck", character_obj, [], [], {"sol" : (22*32, 20*32), "sousSolCouloir2" : (5*32, 9*32)})
     salle21 = salle.Salle("salle21", character_obj, [], [], {"couloir3" : (16*32, 19*32)}) 
     salle33 = salle.Salle("salle33", character_obj, [], [], {"couloir1" : (17*32, 20*32)})
     salle39 = salle.Salle("salle39", character_obj, [], [], {"couloir1" : (16*32, 18*32)})
-    salle110 = salle.Salle("salle110", character_obj, [], [], {"etage1_couloir1" : (8*32, 19*32)})
-    salle115 = salle.Salle("salle115", character_obj, [], [], {"etage1_couloir1" : (16*32, 19*32)})
-    salleS35 = salle.Salle("salleS35", character_obj, [], [], {"sous_sol_couloir2" : (14*32, 14*32)})
-    salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sous_sol_couloir1" : (14*32, 14*32)})
-    salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sous_sol_couloir3" : (24*32, 18*32)})
-    sol = salle.Salle("sol", character_obj, [], [], {"couloir1" : (4*32, 14*32)})
-    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1", character_obj, [], [], {"sous_sol_couloir2" : (2*32, 12*32), "couloir2" : (10*32, 10*32), "salleS36" : (25*32, 10*32), "sous_sol_couloir3" : (29*32, 12*32)})
-    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2", character_obj, [], [], {"foodtruck" : (9*32, 10*32), "sous_sol_couloir1" : (29*32, 12*32), "salleS35" : (18*32, 10*32)})
-    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3", character_obj, [], [], {"salleS37" : (11*32, 10*32), "sous_sol_couloir1" : (2*32, 12*32)})
+    salle110 = salle.Salle("salle110", character_obj, [], [], {"etage1Couloir1" : (8*32, 19*32)})
+    salle115 = salle.Salle("salle115", character_obj, [], [], {"etage1Couloir1" : (16*32, 19*32)})
+    salleS35 = salle.Salle("salleS35", character_obj, [], [], {"sousSolCouloir2" : (14*32, 14*32)})
+    salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sousSolCouloir1" : (14*32, 14*32)})
+    salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sousSolCouloir3" : (24*32, 18*32)})
+    sol = salle.Salle("sol", character_obj, [], [], {"couloir1" : (4*32, 14*32),"etage1" : (7*32, 9*32), "foodtruck" : (19*32, 9*32)})
+    sousSolCouloir1 = salle.Salle("sousSolCouloir1", character_obj, [], [], {"sousSolCouloir2" : (2*32, 12*32), "couloir2" : (10*32, 10*32), "salleS36" : (25*32, 10*32), "sousSolCouloir3" : (29*32, 12*32)})
+    sousSolCouloir2 = salle.Salle("sousSolCouloir2", character_obj, [], [], {"foodtruck" : (9*32, 10*32), "sousSolCouloir1" : (29*32, 12*32), "salleS35" : (18*32, 10*32)})
+    sousSolCouloir3 = salle.Salle("sousSolCouloir3", character_obj, [], [], {"salleS37" : (11*32, 10*32), "sousSolCouloir1" : (2*32, 12*32)})
 
     room_list = {}
-    for salle_item in [amphi_c1, amphi, couloir1, couloir2, couloir3, etage1_couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sous_sol_couloir1, sous_sol_couloir2, sous_sol_couloir3]:
+    for salle_item in [amphiC1, amphi, couloir1, couloir2, couloir3, etage1Couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sousSolCouloir1, sousSolCouloir2, sousSolCouloir3]:
         room_list[salle_item.map] = salle_item
     #maj des salles
 
@@ -122,6 +122,7 @@ def ouvrir_niveau(screen):
             if current_room != coll[1]:
                 char_rect = character_obj.get_rect()
                 next_room = room_list[coll[1]]
+                print(next_room.map)
                 char_rect.centerx = next_room.entry[current_room][0]
                 char_rect.centery = next_room.entry[current_room][1]
                 current_room = coll[1]
