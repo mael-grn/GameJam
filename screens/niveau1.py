@@ -7,6 +7,7 @@ import enemy
 import screens.game_over
 import time
 import piece
+import salle
 
 def ouvrir_niveau(screen):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -23,13 +24,42 @@ def ouvrir_niveau(screen):
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
 
-    tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
-    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
-
-    # Crée un personnage
     character_obj = character.Character(640, 360)  # Position initiale du personnage
 
+    # Création des salles
+    amphi_c1 = salle.Salle("amphi_c1.tmx", character_obj,[], [])
+    amphi = salle.Salle("amphi.tmx", character_obj, [], [])
+    couloir1 = salle.Salle("couloir1.tmx", character_obj, [], [])
+    couloir2 = salle.Salle("couloir2.tmx", character_obj, [], [])
+    couloir3 = salle.Salle("couloir3.tmx", character_obj, [], [])
+    etage1_couoir1 = salle.Salle("etage1_couoir1.tmx", character_obj, [], [])
+    etage1 = salle.Salle("etage1.tmx", character_obj, [], [])
+    foodtruck = salle.Salle("foodtruck.tmx", character_obj, [], [])
+    salle21 = salle.Salle("salle21.tmx", character_obj, [], [])
+    salle33 = salle.Salle("salle33.tmx", character_obj, [], [])
+    salle39 = salle.Salle("salle39.tmx", character_obj, [], [])
+    salle110 = salle.Salle("salle110.tmx", character_obj, [], [])
+    salle115 = salle.Salle("salle115.tmx", character_obj, [], [])
+    salleS35 = salle.Salle("salleS35.tmx", character_obj, [], [])
+    salleS36 = salle.Salle("salleS36.tmx", character_obj, [], [])
+    salleS37 = salle.Salle("salleS37.tmx", character_obj, [], [])
+    sol = salle.Salle("sol.tmx", character_obj, [], [])
+    sous_sol_couloir1 = salle.Salle("sous_sol_couloir1.tmx", character_obj, [], [])
+    sous_sol_couloir2 = salle.Salle("sous_sol_couloir2.tmx", character_obj, [], [])
+    sous_sol_couloir3 = salle.Salle("sous_sol_couloir3.tmx", character_obj, [], [])
+
+    current_salle=sol ## Salle de spawn
+
+    
+    tmx_map = pytmx.load_pygame('./assets/maps/' + current_salle.map)
+    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_salle.map)
+
+    
+    
+
      # Chargement de la carte
+
+
 
 
     
