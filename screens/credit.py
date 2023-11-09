@@ -112,9 +112,17 @@ def ouvrir_credit(screen):
             "        Lien:https://pixabay.com/music/dance-utopia-cosmic-trance-mix-7523/",
             "        Crédit:https://pixabay.com/users/juliush-3433550/",
             "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/",
+            "   Musique de fin:",
+            "        Lien:https:https://pixabay.com/fr/music/ambiant-bathroom-chill-background-music-14977/",
+            "        Crédit:https://pixabay.com/fr/users/chillmore-25283030/",
+            "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/",
             "    Bruitage:",
             "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/"
-        ]
+            "    Réveil:",
+            "        Lien:https:https://lasonotheque.org/detail-2814-reveil-mecanique-sonnerie-11.html",
+            "        Sons additionnels : Joseph SARDIN - LaSonotheque.org",
+            "        Crédit:https://BigSoundBank.com",
+            "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/",
         ligneP4 = [
             "Équipe:",
             "    Conjard Maxime - Codeur, concepteur et musicien",
