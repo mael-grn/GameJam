@@ -7,3 +7,5 @@ ANIMATION_SPEED = 250 #millisecondes
 TAILLE_ECRAN = (1024, 768)
 
 COLLECTE_CLEE = False
+
+PROJ_SPEED = 5

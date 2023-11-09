@@ -22,7 +22,7 @@ def ouvrir_niveau(screen):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = False
+    there_is_monsters = True
     pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
