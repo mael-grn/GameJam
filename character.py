@@ -212,6 +212,7 @@ class Character:
         if self.pieces >=3 and entier ==0:
             self.pieces = self.pieces-3
             self.hp=self.hp+1
+            game_logic.play_sound("eating")
         
             
         
