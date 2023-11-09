@@ -292,11 +292,13 @@ def ouvrir_niveau(screen, pseudo):
                             num_proj = num_proj + 1
                 elif monstre.attaque==4:
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                    if current_time - monstre.last_shot_time >= 2.0:
+                    if current_time - monstre.last_shot_time >= 2.0 and monstre.get_centre_x() > character_obj.get_centre_x():
                         # Permet à l'ennemi de tirer un projectile
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_projecteur.png"))
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir-livre.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
-
+                    elif current_time - monstre.last_shot_time >= 2.0:
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir-livre.png"))
+                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
                     num_proj = 0
                     if len(monstre.get_proj()) > 0:
                         for proj in monstre.get_proj():
