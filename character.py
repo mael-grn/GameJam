@@ -114,15 +114,16 @@ class Character:
         screen.blit(image, self.rect)
 
     def take_damage(self, damage):
-        game_logic.play_sound("takeDamage")
-        if not self.invincible:
-            self.hp -= damage
-            if self.hp <= 0:
-                self.hp = 0  # L'ennemi a 0 points de vie
-                self.eliminated = True  # Marquez l'ennemi comme éliminé
-            self.invincible = constants.TEMP_INVINCIBILITE
-            self.invincible_start_time = pygame.time.get_ticks()  # Enregistrez le moment où l'invincibilité a commencé
-        
+        if not constants.INVINCIBILITE:
+            game_logic.play_sound("takeDamage")
+            if not self.invincible:
+                self.hp -= damage
+                if self.hp <= 0:
+                    self.hp = 0  # L'ennemi a 0 points de vie
+                    self.eliminated = True  # Marquez l'ennemi comme éliminé
+                self.invincible = constants.INVINCIBILITE_TEMPORAIRE
+                self.invincible_start_time = pygame.time.get_ticks()  # Enregistrez le moment où l'invincibilité a commencé
+            
 
     def heal(self, amount):
         self.hp += amount

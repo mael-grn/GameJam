@@ -429,7 +429,7 @@ def affiche_pause(screen):
 def set_difficulty(diff):
     if "demo" in diff:
         constants.COLLECTE_CLEE = False
-        constants.TEMP_INVINCIBILITE=100000
+        constants.INVINCIBILITE=True
         constants.CHARACTER_SPEED=7
     elif "easy" in diff:
         constants.PROJ_SPEED=3
@@ -437,4 +437,4 @@ def set_difficulty(diff):
     #normal prends les valeurs par defaut
     elif "hard" in diff:
         constants.PROJ_SPEED = 7
-        constants.TEMP_INVINCIBILITE=0
+        constants.INVINCIBILITE_TEMPORAIRE=False
