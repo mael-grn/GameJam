@@ -53,7 +53,7 @@ def ouvrir_niveau(screen, pseudo):
     monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",2)
-    boss = enemy.Enemy("boss",512,50,100,30,"./assets/img/monstre_amphi_1.png",3)
+    boss = enemy.Enemy("boss",512,50,100,1,"./assets/img/monstre_amphi_1.png",3)
     iteration_img =0
 
 
@@ -355,18 +355,23 @@ def ouvrir_niveau(screen, pseudo):
                                 proj.draw(screen)
                                 num_proj = num_proj + 1
                     else:
-                        character_obj.invincible=True
                         monstre.draw_dead(screen)
+                        current_time = time.time()
                         if current_time - monstre.last_img_time >= 2.0 and iteration_img==0:
+                            print(monstre.hp)
                             monstre.set_img("./assets/img/monstre_amphi_5.png")
                             iteration_img+=1
                             monstre.last_img_time = current_time
                         elif current_time - monstre.last_img_time >= 2.0 and iteration_img==1:
-                            monstre.set_img("./assets/img/monstre_amphi_1.png")
+                            print(monstre.hp)
+                            monstre.set_img("./assets/img/mort1_micro.png")
                             monstre.last_img_time = current_time
                             iteration_img+=1
-                        elif current_time - monstre.last_shot_time >= 2.0 and iteration_img==2:
-                            monstre.set_img("./assets/img/monstre_amphi_1.png")
+                        elif current_time - monstre.last_img_time >= 2.0 and iteration_img==2:
+                            print(monstre.hp)
+                            monstre.set_img("./assets/img/mort2_micro.png")
+                            monstre.last_img_time = current_time
+                            iteration_img+=1
 
             for monstre in current_room_obj.enemies:
                 monstre.draw(screen)  # Dessinez le monstre à l'écran
@@ -380,11 +385,10 @@ def ouvrir_niveau(screen, pseudo):
                         rectangle2 = game_logic.get_next_rect(rectangle, 'd')
                         rectangle3 = game_logic.get_next_rect(rectangle, 'l')
                         rectangle4 = game_logic.get_next_rect(rectangle, 'r')
-                        if proj.rect.colliderect(rectangle) or proj.rect.colliderect(rectangle1) or proj.rect.colliderect(rectangle2) or proj.rect.colliderect(rectangle3) or proj.rect.colliderect(rectangle4) :
-                            print(True)
+                        if (proj.rect.colliderect(rectangle) or proj.rect.colliderect(rectangle1) or proj.rect.colliderect(rectangle2) or proj.rect.colliderect(rectangle3) or proj.rect.colliderect(rectangle4)) and monstre.hp>0 :
                             character_obj.take_damage(1)
                             character_obj.update()
-                if character_obj.get_rect().colliderect(monstre.rect):
+                if character_obj.get_rect().colliderect(monstre.rect) and monstre.hp>0:
                     character_obj.take_damage(1)
                     character_obj.update()
                 if not character_obj.is_alive():
