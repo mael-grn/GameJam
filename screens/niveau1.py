@@ -207,6 +207,9 @@ def ouvrir_niveau(screen, pseudo):
                     delay += 1/60
                     tire = True
                 delay=0
+            
+            if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
+                 game_logic.affiche_pause(screen)
 
 #---------------------------------------------------------------------------------------------------------------gestion du jeu (monstre, piece, projectile)
         # Liste des indices des projectiles à supprimer

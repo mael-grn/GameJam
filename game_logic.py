@@ -7,6 +7,7 @@ import math
 import pytmx
 import constants
 import piece
+import screens.main_menu as main_menu
 
 #x et y correspondent au coordonées du personnage, ou n'importe quel autre objet sur la carte.
 #tmx_data correspond aux données de la map chargée
@@ -334,3 +335,116 @@ def play_sound(sound):
 
     # Jouez le son
     son.play()
+
+def affiche_pause(screen):
+
+    running = True
+    clock = pygame.time.Clock()
+    dt = 0
+
+    resume_button_path = "./assets/buttons/normal.png"
+    quit_button_path = "./assets/buttons/normal.png"
+
+
+
+    #traitement du texte (retour à la ligne au bout de 62 caractères)
+
+    while running:
+
+        font = pygame.font.Font("./assets/fonts/pinball.ttf", 30) 
+        font_big = pygame.font.Font("./assets/fonts/pinball.ttf", 50)
+
+        # Affichage du titre
+        #arriere plan
+        titre_bg = pygame.image.load("./assets/img/title_bg.png")
+        #redimmensionner le logo
+        titre_bg_big = pygame.transform.scale(titre_bg, (titre_bg.get_width()*4, titre_bg.get_height()*4))
+        titre_bg_rec = titre_bg_big.get_rect()
+        titre_bg_rec.center = ((screen.get_width() // 2), screen.get_height()//2)
+        screen.blit(titre_bg_big, titre_bg_rec)
+        #texte
+        titre = font_big.render("PAUSE", True, (0,0,0))
+        titre_rec = titre.get_rect()
+        titre_rec.center = (screen.get_width() // 2, screen.get_height()//2)
+        screen.blit(titre, titre_rec)
+
+        #afficher du bouton resume
+        resume_button = pygame.image.load(resume_button_path)
+        resume_button_big = pygame.transform.scale(resume_button, (resume_button.get_width()*4, resume_button.get_height()*4))
+        resume_button_rec = resume_button_big.get_rect()
+        resume_button_rec.center = ((screen.get_width() //3),screen.get_height()//3 *2 )
+        screen.blit(resume_button_big, resume_button_rec)
+        #texte
+        resume = font.render("RESUME", True, (0,0,0))
+        resume_rec = resume.get_rect()
+        resume_rec.center = ((screen.get_width() //3),screen.get_height()//3 *2)
+        screen.blit(resume, resume_rec)
+
+        #afficher le bouton quitter
+        quit_button = pygame.image.load(quit_button_path)
+        quit_button_big = pygame.transform.scale(quit_button, (quit_button.get_width()*4, quit_button.get_height()*4))
+        quit_button_rec = quit_button_big.get_rect()
+        quit_button_rec.center = ((screen.get_width() //3)*2,screen.get_height()//3 *2)
+        screen.blit(quit_button_big, quit_button_rec)
+        #texte
+        quit = font.render("MENU", True, (0,0,0))
+        quit_rec = quit.get_rect()
+        quit_rec.center = (screen.get_width() //3)*2,screen.get_height()//3 *2
+        screen.blit(quit, quit_rec)
+
+        # Parcourt tous les evenements pour les traiter
+        for event in pygame.event.get():
+            # QUIT signifie que l'utilisateur a fermé la fenêtre
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Si clique sur bouton quitter
+                if quit_button_rec.collidepoint(event.pos):
+                    quit_button_path = "./assets/buttons/press.png"
+                #si clique sur bouton jouer
+                if resume_button_rec.collidepoint(event.pos):
+                    resume_button_path = "./assets/buttons/press.png"
+
+
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                # Si clique sur bouton quitter
+                if quit_button_rec.collidepoint(event.pos):
+                    play_sound("clic")
+                    running=False
+                    main_menu.ouvrir_menu(screen)
+
+  
+                if resume_button_rec.collidepoint(event.pos):
+                    play_sound("clic")
+                    running=False
+                    
+
+
+            if event.type == pygame.MOUSEMOTION:
+                if quit_button_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    quit_button_path = "./assets/buttons/over.png"
+                else:
+                    quit_button_path = "./assets/buttons/normal.png"
+
+                if resume_button_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    resume_button_path = "./assets/buttons/over.png"
+                else:
+                    resume_button_path = "./assets/buttons/normal.png"
+
+
+
+
+                    
+                    
+
+                    
+
+        # Comme les dessions sont fait dans un buffer, permute le buffer
+        pygame.display.flip()
+        # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
+        dt = clock.tick(60) 
