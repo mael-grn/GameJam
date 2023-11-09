@@ -54,7 +54,7 @@ def ouvrir_niveau(screen, pseudo):
     monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",2)
-    boss = enemy.Enemy("boss",512,50,100,1,"./assets/img/monstre_amphi_1.png",3)
+    boss = enemy.Enemy("boss",512,50,100,30,"./assets/img/monstre_amphi_1.png",3)
     iteration_img =0
     le_reveil = reveil.Reveil(544,64,"./assets/img/reveille_toiiii.png")
 
@@ -377,6 +377,7 @@ def ouvrir_niveau(screen, pseudo):
                                 proj.draw(screen)
                                 num_proj = num_proj + 1
                     else:
+                        character_obj.boss_defeated = True
                         current_time = time.time()
                         if current_time - monstre.last_img_time >= 2.0 and iteration_img==0:
                             monstre.set_img("./assets/img/monstre_amphi_5.png")
@@ -415,6 +416,8 @@ def ouvrir_niveau(screen, pseudo):
                                     tmx_map_data = pytmx.TiledMap('./assets/maps/' + 'chambre' + '.tmx')
                         elif iteration_img==6:
                             iteration_img +=1
+                            pygame.mixer.music.load('./assets/music/music_fin.mp3')
+                            pygame.mixer.music.play()
                             game_logic.affiche_dialogue(screen,"ouf, ce n'etait qu'un cauchemar...")
 
 

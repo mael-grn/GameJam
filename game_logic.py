@@ -422,6 +422,8 @@ def affiche_pause(screen, character_obj):
                         bonus=50
                     print(character_obj.pseudo + " : " + str(character_obj.pieces))
                     set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
+                    pygame.mixer.music.load('./assets/music/menu.mp3')
+                    pygame.mixer.music.play()
                     main_menu.ouvrir_menu(screen)
 
   
