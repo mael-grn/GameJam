@@ -12,6 +12,7 @@ import random
 import key
 import constants
 import reveil
+import screens.credit as credit
 
 def ouvrir_niveau(screen, pseudo):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -417,6 +418,16 @@ def ouvrir_niveau(screen, pseudo):
                                     iteration_img +=1
                                     tmx_map = pytmx.load_pygame('./assets/maps/' + 'chambre' + '.tmx')
                                     tmx_map_data = pytmx.TiledMap('./assets/maps/' + 'chambre' + '.tmx')
+                                    coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
+                                    if 3 in coll:
+                                        running=False
+                                        bonus = 0
+                                        if character_obj.boss_defeated:
+                                            bonus=50
+                                        game_logic.set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
+                                        pygame.mixer.music.load('./assets/music/menu.mp3')
+                                        pygame.mixer.music.play()
+                                        credit.ouvrir_credit(screens)
                         elif iteration_img==6:
                             iteration_img +=1
                             pygame.mixer.music.load('./assets/music/music_fin.mp3')

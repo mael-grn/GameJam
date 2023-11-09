@@ -35,6 +35,8 @@ def check_collision(rect, tmx_data):
                             return {2 : ""}
                         elif "vers" in layer.name:
                             return {1 : layer.name.split("_")[1]}
+                        elif "fin" in layer.name:
+                            return {3 : ""}
                         
                         
     return {0:""}
