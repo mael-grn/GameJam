@@ -82,18 +82,30 @@ def move_character(character_obj, key, map_data):
         coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
         if not 2 in coll:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_right()
+            
+
     elif key[pygame.K_d]:
         coll = check_collision(get_next_rect(rect, "r"), map_data)  #simulation mouvement à droite
         if not 2 in coll:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_left()
+
     if key[pygame.K_z]:
         coll = check_collision(get_next_rect(rect, "u"), map_data)  #simulation mouvement à haut
         if not 2 in coll:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_down()
+
     elif key[pygame.K_s]:
         coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
         if not 2 in coll:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_up()
 
 def tirer(character_x,character_y,souris_x,souris_y,screen,path):
     un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path)
