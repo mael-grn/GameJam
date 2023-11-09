@@ -145,9 +145,15 @@ def affiche_dialogue(screen, text, other_button= []):
 
     font = pygame.font.Font(constants.ROBOTO_PATH, 20) 
 
+
+
     #traitement du texte (retour à la ligne au bout de 62 caractères)
 
     while running:
+
+        if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
+                pygame.mixer.music.load('./assets/music/intro_chill.mp3')
+                pygame.mixer.music.play()
 
         #afficher la fenetre de dialogue
         bg = pygame.image.load("./assets/img/dialog.png")
@@ -240,6 +246,8 @@ def affiche_dialogue(screen, text, other_button= []):
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
         dt = clock.tick(60) 
+
+    pygame.mixer.music.stop()
 
 def wrap_text(text, max_line_length=62):
 
@@ -448,6 +456,8 @@ def affiche_pause(screen, character_obj):
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
         dt = clock.tick(60) 
+
+
 
 def set_difficulty(diff):
     if "demo" in diff:
