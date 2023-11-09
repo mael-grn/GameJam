@@ -123,6 +123,7 @@ def ouvrir_credit(screen):
             "        Sons additionnels : Joseph SARDIN - LaSonotheque.org",
             "        Crédit:https://BigSoundBank.com",
             "        Lien licence:https://creativecommons.org/publicdomain/zero/1.0/deed.fr",
+        ]
         ligneP4 = [
             "Équipe:",
             "    Conjard Maxime - Codeur, concepteur et musicien",
