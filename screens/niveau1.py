@@ -309,17 +309,17 @@ def ouvrir_niveau(screen, pseudo):
         #affiche la clee (s'il y en a une)
         if current_room_obj.key:
             
-            if current_room == "salle21":
+            if current_room == "salle21" and len(current_room_obj.enemies)==0:
                  key_obj.rect.centerx=16*32
                  key_obj.rect.centery=6*32
-            elif current_room == "salleS37":
+            elif current_room == "salleS37"and len(current_room_obj.enemies)==0:
                  key_obj.rect.centerx=10*32
                  key_obj.rect.centery=10*32
-            elif current_room == "salle115" :
+            elif current_room == "salle115"and len(current_room_obj.enemies)==0 :
                  key_obj.rect.centerx=16*32
                  key_obj.rect.centery=16*32
-
-            key_obj.draw(screen)
+            if len(current_room_obj.enemies)==0:
+                key_obj.draw(screen)
 
             if character_obj.get_rect().colliderect(key_obj.get_rect()):
                 current_room_obj.key=False
