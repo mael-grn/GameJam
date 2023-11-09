@@ -11,16 +11,12 @@ class Character:
         # Charge les images depuis les nouveaux chemins
         self.images = [
             [
-                pygame.image.load("./assets/img/new_bonhomme_1.png"),
-                pygame.image.load("./assets/img/new_bonhomme_2.png"),
-                pygame.image.load("./assets/img/new_bonhomme_3.png"),
-                pygame.image.load("./assets/img/new_bonhomme_4.png")
+                pygame.image.load("./assets/img/bonhomme1.png"),
+                pygame.image.load("./assets/img/bonhomme2.png")
             ],
             [
-                pygame.image.load("./assets/img/new_bonhomme_1_retourne.png"),
-                pygame.image.load("./assets/img/new_bonhomme_2_retourne.png"),
-                pygame.image.load("./assets/img/new_bonhomme_3_retourne.png"),
-                pygame.image.load("./assets/img/new_bonhomme_4_retourne.png")
+                pygame.image.load("./assets/img/bonhomme1retourne.png"),
+                pygame.image.load("./assets/img/bonhomme2retourne.png")
             ]
         ]
 
@@ -28,8 +24,8 @@ class Character:
         self.pseudo = pseudo
         self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
-        self.rect.width=80
-        self.rect.height=100
+        self.rect.width=95
+        self.rect.height=95
         self.rect.center = [x, y]
         self.speed = constants.CHARACTER_SPEED
         self.direction = 0  # 0 pour droite, 1 pour gauche
@@ -64,31 +60,37 @@ class Character:
         self.last_move[1] = 0
         self.rect.x -= self.speed
         self.direction = 1  # Gauche
-        self.update_animation()
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
     def move_right(self):
         self.last_move[0] = 1
         self.last_move[1] = 0
         self.rect.x += self.speed
         self.direction = 0  # Droite
-        self.update_animation()
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
     def move_up(self):
         self.last_move[1] = -1
         self.last_move[0] = 0
         self.rect.y -= self.speed
-        self.update_animation()
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
+            self.last_image_time = current_time
 
     def move_down(self):
         self.last_move[1] = 1
         self.last_move[0] = 0
         self.rect.y += self.speed
-        self.update_animation()
-
-    def update_animation(self):
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_image_time > constants.ANIMATION_SPEED:
-            self.walk_step = (self.walk_step + 1) % len(self.images[self.direction])
+        if current_time - self.last_image_time > constants.ANIMATION_SPEED:  # Change d'image toutes les 0,5 secondes
+            self.walk_step = 1 - self.walk_step
             self.last_image_time = current_time
 
     def get_rect(self):  # left high
@@ -211,7 +213,6 @@ class Character:
         if self.pieces >=3 and entier ==0:
             self.pieces = self.pieces-3
             self.hp=self.hp+1
-            game_logic.play_sound("eating")
         
             
         

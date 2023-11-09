@@ -25,7 +25,7 @@ def check_collision(rect, tmx_data):
         if layer.data:
             #on regarde pour chaque tuiles correspondant au rectangle du personnage sur la carte :
             for x in range (rect.left // tmx_data.tilewidth +1, rect.left // tmx_data.tilewidth + rect.width // tmx_data.tilewidth+1):
-                for y in range (rect.top // tmx_data.tileheight+1, rect.top // tmx_data.tileheight + rect.height // tmx_data.tileheight+1):
+                for y in range (rect.top // tmx_data.tileheight+2, rect.top // tmx_data.tileheight + rect.height // tmx_data.tileheight+2):
                     tile = layer.data[y][x]
                     if tile:
                         #si le rectangle est superposé à un mur (code 99 dans le nom du layer):
@@ -79,6 +79,7 @@ def ajout_score(pseudo, score=0) :
 
 def move_character(screen,character_obj, key, map_data): 
     rect = character_obj.get_rect()
+    
 
     if key[pygame.K_q]:
         coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
