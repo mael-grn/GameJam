@@ -8,6 +8,9 @@ import sys
 def main(difficulty):
     # Démmarre le module 
     pygame.init()
+    
+    pygame.mixer.music.load('./assets/music/menu.mp3')
+    pygame.mixer.music.play()
     # définit l'écran et sa taille
     screen = pygame.display.set_mode(constants.TAILLE_ECRAN)
     # Définit l'horloge pour connaitre le temps qui a passé
@@ -16,6 +19,10 @@ def main(difficulty):
     running = True
     # Le temps passé entre deux rafraichissement de l'écran en millisecondes
     dt = 0
+
+    icon = pygame.image.load("./assets/img/new_bonhomme_1.png")
+    pygame.display.set_icon(icon)
+    pygame.display.set_caption("Eveil à l'IUT2")
 
     game_logic.set_difficulty(difficulty)
 
