@@ -29,7 +29,7 @@ def ouvrir_niveau(screen):
     there_is_key=False
 
     character_obj = character.Character(450, 600)  # Position initiale du personnage
-    key_obj = key.Key(480, 384)
+    key_obj = key.Key(0, 0)
 
 
     #montre salle 21
@@ -39,7 +39,7 @@ def ouvrir_niveau(screen):
     amphiC1 = salle.Salle("amphiC1", character_obj,[], [], {"amphi" : (19*32, 7*32), "etage1" : (16*32, 17*32)})
     amphi = salle.Salle("amphi", character_obj, [], [], {"amphiC1" : (6*32, 20*32)})
     couloir1 = salle.Salle("couloir1", character_obj, [], [], {"salle33" : (10*32, 9*32), "salle39" : (25*32, 9*32), "sol" : (29*32, 12*32), "couloir2" : (2*32, 12*32)}) 
-    couloir2 = salle.Salle("couloir2", character_obj, [], [], {"couloir3" : (2*32, 12*32), "sousSolCouloir1" : (17*32, 10*32), "couloir1" : (29*32, 12*32)})
+    couloir2 = salle.Salle("couloir2", character_obj, [], [], {"couloir3" : (2*32, 12*32), "sousSolCouloir1" : (20*32, 10*32), "couloir1" : (29*32, 12*32)})
     couloir3 = salle.Salle("couloir3", character_obj, [], [], {"salle21" : (18*32, 10*32), "couloir2" : (29*32, 12*32)})
     etage1Couoir1 = salle.Salle("etage1Couloir1", character_obj, [], [], {"etage1" : (2*32, 12*32), "salle110" : (10*32, 10*32), "salle115" : (25*32, 10*32)})
     etage1 = salle.Salle("etage1", character_obj, [], [], {"sol" : (8*32, 12*32), "amphiC1" : (24*32, 10*32), "etage1Couloir1" : (25*32, 17*32)})
@@ -53,8 +53,8 @@ def ouvrir_niveau(screen):
     salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sousSolCouloir1" : (14*32, 14*32)})
     salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sousSolCouloir3" : (24*32, 18*32)}, constants.COLLECTE_CLEE)
     sol = salle.Salle("sol", character_obj, [], [], {"couloir1" : (4*32, 14*32),"etage1" : (7*32, 9*32), "foodtruck" : (19*32, 9*32)})
-    sousSolCouloir1 = salle.Salle("sousSolCouloir1", character_obj, [], [], {"sousSolCouloir2" : (2*32, 12*32), "couloir2" : (10*32, 10*32), "salleS36" : (25*32, 10*32), "sousSolCouloir3" : (29*32, 12*32)})
-    sousSolCouloir2 = salle.Salle("sousSolCouloir2", character_obj, [], [], {"foodtruck" : (9*32, 10*32), "sousSolCouloir1" : (29*32, 12*32), "salleS35" : (18*32, 10*32)})
+    sousSolCouloir1 = salle.Salle("sousSolCouloir1", character_obj, [], [], {"sousSolCouloir2" : (2*32, 12*32), "couloir2" : (13*32, 10*32), "salleS36" : (25*32, 10*32), "sousSolCouloir3" : (29*32, 12*32)})
+    sousSolCouloir2 = salle.Salle("sousSolCouloir2", character_obj, [], [], {"foodtruck" : (12*32, 10*32), "sousSolCouloir1" : (29*32, 12*32), "salleS35" : (18*32, 10*32)})
     sousSolCouloir3 = salle.Salle("sousSolCouloir3", character_obj, [], [], {"salleS37" : (11*32, 10*32), "sousSolCouloir1" : (2*32, 12*32)})
 
     room_list = {}
@@ -65,11 +65,11 @@ def ouvrir_niveau(screen):
     salle21.enemies.append(monstre21)
 
     #pas supprimer!!
-    current_salle=sol ## Salle de spawn
+    current_room_obj=sol ## Salle de spawn
 
     
-    tmx_map = pytmx.load_pygame('./assets/maps/' + current_salle.map+".tmx")
-    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_salle.map+".tmx")
+    tmx_map = pytmx.load_pygame('./assets/maps/' + current_room_obj.map+".tmx")
+    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room_obj.map+".tmx")
 
     
     
@@ -164,15 +164,15 @@ def ouvrir_niveau(screen):
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
 
-                current_salle = next_room
+                current_room_obj = next_room
 
 
                 
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
         if dt==0: #si toute premiere iteration boucle (debut du jeu)
-            game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.")
-
+            val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.", [1, 2])
+            print(val)
 #----------------------------------------------------------------------------------------------------------------afficher elements
         #coeurs
         character_obj.draw_hearts(screen)
@@ -274,12 +274,22 @@ def ouvrir_niveau(screen):
                     screens.game_over.ouvrir_game_over(screen)
 
         #affiche la clee (s'il y en a une)
-        if current_salle.key:
+        if current_room_obj.key:
             
+            if current_room == "salle21":
+                 key_obj.rect.centerx=16*32
+                 key_obj.rect.centery=6*32
+            elif current_room == "salleS37":
+                 key_obj.rect.centerx=10*32
+                 key_obj.rect.centery=10*32
+            elif current_room == "salle115" :
+                 key_obj.rect.centerx=16*32
+                 key_obj.rect.centery=16*32
+
             key_obj.draw(screen)
 
             if character_obj.get_rect().colliderect(key_obj.get_rect()):
-                current_salle.key=False
+                current_room_obj.key=False
                 character_obj.increase_keys()
 
 

@@ -6,4 +6,4 @@ ANIMATION_SPEED = 250 #millisecondes
 #jeu
 TAILLE_ECRAN = (1024, 768)
 
-COLLECTE_CLEE = True
+COLLECTE_CLEE = False

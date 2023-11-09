@@ -102,13 +102,23 @@ def afficher_map(screen, tmx_map):
                 for x, y, image in layer.tiles():
                     screen.blit(image, (x * tmx_map.tilewidth, y * tmx_map.tileheight))
 
-def affiche_dialogue(screen, text):
+#other_button est une liste d'autre bouton à etre pris en compte. si passé en parametre, alors :
+#   - si 1 dans la liste : bouton a apparait, la fonction renvoie 1 si pressé
+#   - si 2 dans la liste : bouton e apparait, la fonction renvoie 2 si pressé
+#la fonction renvoi 0 si entrer (bouton pour fermer le dialogue) est pressé
+
+def affiche_dialogue(screen, text, other_button= []):
 
     running = True
     clock = pygame.time.Clock()
     dt = 0
 
-    button_path = "./assets/buttons/enter.png"
+    enter_button_path = "./assets/buttons/enter.png"
+    a_button_path = "./assets/buttons/a.png"
+    e_button_path = "./assets/buttons/e.png"
+
+    there_is_a = 1 in other_button
+    there_is_e = 2 in other_button
 
     #traitement du texte (retour à la ligne au bout de 62 caractères)
 
@@ -139,11 +149,29 @@ def affiche_dialogue(screen, text):
 
 
         #afficher du bouton entrer
-        button = pygame.image.load(button_path)
-        button_big = pygame.transform.scale(button, (button.get_width()*4, button.get_height()*4))
-        button_rec = button_big.get_rect()
-        button_rec.center = ((screen.get_width() -150),screen.get_height()- 100 )
-        screen.blit(button_big, button_rec)
+        enter_button = pygame.image.load(enter_button_path)
+        enter_button_big = pygame.transform.scale(enter_button, (enter_button.get_width()*4, enter_button.get_height()*4))
+        enter_button_rec = enter_button_big.get_rect()
+        enter_button_rec.center = ((screen.get_width() -150),screen.get_height()- 100 )
+        screen.blit(enter_button_big, enter_button_rec)
+
+        #afficher le bouton a s'il existe
+        a_button = pygame.image.load(a_button_path)
+        a_button_big = pygame.transform.scale(a_button, (a_button.get_width()*4, a_button.get_height()*4))
+        a_button_rec = a_button_big.get_rect()
+        a_button_rec.center = ((screen.get_width() -250),screen.get_height()- 100 )
+
+        #afficher le bouton e s'il existe
+        e_button = pygame.image.load(e_button_path)
+        e_button_big = pygame.transform.scale(e_button, (e_button.get_width()*4, e_button.get_height()*4))
+        e_button_rec = e_button_big.get_rect()
+        e_button_rec.center = ((screen.get_width() -320),screen.get_height()- 100 )
+
+        if there_is_a:
+            screen.blit(a_button_big, a_button_rec)
+
+        if there_is_e:
+            screen.blit(e_button_big, e_button_rec)
 
 
 
@@ -157,12 +185,27 @@ def affiche_dialogue(screen, text):
             #si les touches du clavier sont pressées
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                    button_path = "./assets/buttons/enter_press.png"
+                    enter_button_path = "./assets/buttons/enter_press.png"
+                
+                if event.key == pygame.K_a and there_is_a:
+                    a_button_path = "./assets/buttons/a_press.png"
+
+                if event.key == pygame.K_e and there_is_e:
+                    e_button_path = "./assets/buttons/e_press.png"
 
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     running = False
+                    return 0
+                
+                if event.key == pygame.K_a and there_is_a:
+                    running = False
+                    return 1
+
+                if event.key == pygame.K_e and there_is_e:
+                    running = False
+                    return 2
                     
                     
 
@@ -226,12 +269,6 @@ def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):
         proj.draw(screen)
 
     return indices_proj_a_supprimer
-
-def get_name(v):
- 
-    for lv in locals():
-        if eval(lv) is v:
-            return lv
         
 def play_sound(sound):
     # Initialisation de Pygame
