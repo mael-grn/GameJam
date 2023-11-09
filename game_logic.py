@@ -283,10 +283,10 @@ def wrap_text(text, max_line_length=62):
 #gere les impacts des projectiles sur les monstres
 def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_supprimer):
     for index, proj in enumerate(character_obj.get_proj()):
+            rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
             proj.update()
             
             for monstre in monstres:
-                rectangle = pygame.Rect(proj.get_x(),proj.get_y(),50,50)
                 if proj.rect.colliderect(monstre.rect):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
                     if not monstre.is_alive():
@@ -295,9 +295,12 @@ def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_sup
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemies
-            
-            if proj.rect.colliderect(monstre.rect) or 2 in check_collision(rectangle,tmx_data):
-                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
+            if len(monstres)>0:
+                if proj.rect.colliderect(monstre.rect) or 2 in check_collision(rectangle,tmx_data):
+                    indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
+            else:
+                if 2 in check_collision(rectangle,tmx_data):
+                   indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
     return indices_proj_a_supprimer
 
 def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):

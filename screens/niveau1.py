@@ -22,8 +22,7 @@ def ouvrir_niveau(screen, pseudo):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = False
-    pieces=[]
+    there_is_monsters = True
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
     there_is_key=False
@@ -38,6 +37,12 @@ def ouvrir_niveau(screen, pseudo):
 
     #montre salle 21
     monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png",1)
+    monstre33_1 = enemy.Enemy("m33_1",384,150,100,5,"./assets/img/mechant_pc.png",1)
+    monstre33_2 = enemy.Enemy("m33_2",768,150,100,5,"./assets/img/mechant_pc.png",1)
+    monstre39 = enemy.Enemy("m39",512,300,100,5,"./assets/img/mechant_pc.png",1)
+    monstre110 = enemy.Enemy("m110",896,448,100,5,"./assets/img/mechant_pc.png",1)
+
+
 
     # Création des salles
     amphiC1 = salle.Salle("amphiC1", character_obj,[], [], {"amphi" : (19*32, 7*32), "etage1" : (16*32, 17*32)})
@@ -67,6 +72,9 @@ def ouvrir_niveau(screen, pseudo):
     #maj des salles
 
     salle21.enemies.append(monstre21)
+    salle33.enemies.append(monstre33_1)
+    salle33.enemies.append(monstre33_2)
+    salle39.enemies.append(monstre39)
 
     #pas supprimer!!
     current_room_obj=sol ## Salle de spawn
@@ -203,8 +211,8 @@ def ouvrir_niveau(screen, pseudo):
 #---------------------------------------------------------------------------------------------------------------gestion du jeu (monstre, piece, projectile)
         # Liste des indices des projectiles à supprimer
         indices_proj_a_supprimer = []
-        indices_proj_a_supprimer = game_logic.impact_handler(character_obj, pieces, current_room_obj.enemies, tmx_map_data, indices_proj_a_supprimer)        
-        indices_proj_a_supprimer = game_logic.coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer)
+        indices_proj_a_supprimer = game_logic.impact_handler(character_obj, current_room_obj.pieces, current_room_obj.enemies, tmx_map_data, indices_proj_a_supprimer)        
+        indices_proj_a_supprimer = game_logic.coin_handler(character_obj, current_room_obj.pieces, screen, indices_proj_a_supprimer)
 
         #-------------------------------------------------------------------------------------------------attaque (projectiles) des monstres et affichage
         
