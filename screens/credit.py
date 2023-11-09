@@ -122,7 +122,7 @@ def ouvrir_credit(screen):
             "        Lien:https:https://lasonotheque.org/detail-2814-reveil-mecanique-sonnerie-11.html",
             "        Sons additionnels : Joseph SARDIN - LaSonotheque.org",
             "        Crédit:https://BigSoundBank.com",
-            "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/",
+            "        Lien licence:https://creativecommons.org/publicdomain/zero/1.0/deed.fr",
         ligneP4 = [
             "Équipe:",
             "    Conjard Maxime - Codeur, concepteur et musicien",
