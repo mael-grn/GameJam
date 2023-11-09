@@ -51,6 +51,7 @@ def ouvrir_niveau(screen, pseudo):
     monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
     monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
     monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",1)
+    boss = enemy.Enemy("boss",512,50,100,20,"./assets/img/monstre_amphi_1.png",3)
 
 
 
@@ -73,7 +74,7 @@ def ouvrir_niveau(screen, pseudo):
     salle110 = salle.Salle("salle110", character_obj, [], [], {"etage1Couloir1" : (8*32, 19*32)})
     salle115 = salle.Salle("salle115", character_obj, [], [], {"etage1Couloir1" : (16*32, 19*32)}, constants.COLLECTE_CLEE)
     salleS35 = salle.Salle("salleS35", character_obj, [], [], {"sousSolCouloir2" : (14*32, 14*32)})
-    salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sousSolCouloir1" : (14*32, 14*32)})
+    salleS36 = salle.Salle("salleS36", character_obj, [], [], {"sousSolCouloir1" : (14*32, 18*32)})
     salleS37 = salle.Salle("salleS37", character_obj, [], [], {"sousSolCouloir3" : (24*32, 18*32)}, constants.COLLECTE_CLEE)
     sol = salle.Salle("sol", character_obj, [], [], {"couloir1" : (4*32, 14*32),"etage1" : (7*32, 9*32), "foodtruck" : (19*32, 9*32)})
     sousSolCouloir1 = salle.Salle("sousSolCouloir1", character_obj, [], [], {"sousSolCouloir2" : (2*32, 12*32), "couloir2" : (13*32, 10*32), "salleS36" : (25*32, 10*32), "sousSolCouloir3" : (29*32, 12*32)})
@@ -101,6 +102,7 @@ def ouvrir_niveau(screen, pseudo):
     salleS36.enemies.append(monstres36_2)
     salleS37.enemies.append(monstres37_1)
     salleS37.enemies.append(monstres37_2)
+    amphi.enemies.append(boss)
     #pas supprimer!!
     current_room_obj=sol ## Salle de spawn
 
@@ -133,8 +135,8 @@ def ouvrir_niveau(screen, pseudo):
         screen.fill((0, 0, 0))
 
         #ne pas activer le tire si aucun monstre
-        if len(current_room_obj.enemies)==0 and not there_is_monsters:
-            tire = False
+        # if len(current_room_obj.enemies)==0 and not there_is_monsters:
+        #     tire = False
 
 #----------------------------------------------------------------------------------------------------------------gestion musique
         if pygame.mixer.music.get_busy() == 0:  # La musique s'est terminée
@@ -272,27 +274,38 @@ def ouvrir_niveau(screen, pseudo):
                             proj.update()
                             proj.draw(screen)
                             num_proj = num_proj + 1
-                else:
-                    temps_act = time.time()
-                    if temps_act - monstre.last_deplacement >=0.5:      
-                        n = random.random()
-                        if n<0.3:
-                                collu = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "u"), tmx_map_data)
-                                if not 2 in collu:
-                                        monstre.move_up() 
-                        elif n>0.3 and n<0.5:
-                                collb = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "d"), tmx_map_data)  
-                                if not 2 in collb:
-                                    monstre.move_down()
-                        elif n>0.5 and n<0.7:
-                                colld = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "l"), tmx_map_data)  
-                                if not 2 in colld:
-                                    monstre.move_right()
-                        else:
-                                collg = game_logic.check_collision(game_logic.get_next_rect(monstre.rect, "r"), tmx_map_data)  
-                                if not 2 in collg:
-                                    monstre.move_left() 
+                elif monstre.attaque==2:
+                    # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                    if current_time - monstre.last_shot_time >= 2.0:
+                        # Permet à l'ennemi de tirer un projectile
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
 
+                    num_proj = 0
+                    if len(monstre.get_proj()) > 0:
+                        for proj in monstre.get_proj():
+                            rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
+                            if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
+                                monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
+                            proj.update()
+                            proj.draw(screen)
+                            num_proj = num_proj + 1
+                else:
+                                         # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                    if current_time - monstre.last_shot_time >= 2.0:
+                        # Permet à l'ennemi de tirer un projectile
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
+
+                    num_proj = 0
+                    if len(monstre.get_proj()) > 0:
+                        for proj in monstre.get_proj():
+                            rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
+                            if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
+                                monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
+                            proj.update()
+                            proj.draw(screen)
+                            num_proj = num_proj + 1
 
             
             for monstre in current_room_obj.enemies:
