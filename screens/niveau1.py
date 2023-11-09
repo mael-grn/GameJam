@@ -39,6 +39,8 @@ def ouvrir_niveau(screen, pseudo):
     
     key_obj = key.Key(0, 0)
 
+    salle_fin = False
+
 
     #montres
     monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png",1)
@@ -417,18 +419,10 @@ def ouvrir_niveau(screen, pseudo):
                                     character_obj.rect.x = 320
                                     character_obj.rect.y = 320
                                     iteration_img +=1
+                                    salle_fin = True
                                     tmx_map = pytmx.load_pygame('./assets/maps/' + 'chambre' + '.tmx')
                                     tmx_map_data = pytmx.TiledMap('./assets/maps/' + 'chambre' + '.tmx')
-                                    coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
-                                    if 3 in coll:
-                                        running=False
-                                        bonus = 0
-                                        if character_obj.boss_defeated:
-                                            bonus=50
-                                        game_logic.set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
-                                        pygame.mixer.music.load('./assets/music/menu.mp3')
-                                        pygame.mixer.music.play()
-                                        credit.ouvrir_credit(screens)
+                                    
                         elif iteration_img==6:
                             iteration_img +=1
                             pygame.mixer.music.load('./assets/music/music_fin.mp3')
@@ -438,7 +432,17 @@ def ouvrir_niveau(screen, pseudo):
 
                                     
 
-
+            if salle_fin:
+                coll = game_logic.check_collision(character_obj.get_rect(), tmx_map_data)
+                if 3 in coll:
+                    running=False
+                    bonus = 0
+                    if character_obj.boss_defeated:
+                        bonus=50
+                    game_logic.set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
+                    pygame.mixer.music.load('./assets/music/menu.mp3')
+                    pygame.mixer.music.play()
+                    credit.ouvrir_credit(screen)
 
             for monstre in current_room_obj.enemies:
                 monstre.draw(screen)  # Dessinez le monstre à l'écran
