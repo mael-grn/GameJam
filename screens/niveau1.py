@@ -41,16 +41,16 @@ def ouvrir_niveau(screen, pseudo):
     monstre33_1 = enemy.Enemy("m33_1",384,150,100,5,"./assets/img/mechant_pc.png",1)
     monstre33_2 = enemy.Enemy("m33_2",768,150,100,5,"./assets/img/mechant_pc.png",1)
     monstre39 = enemy.Enemy("m39",512,300,100,5,"./assets/img/mechant_pc.png",1)
-    monstre110_1 = enemy.Enemy("m110_1",850,400,100,5,"./assets/img/monstre_projecteur_3.png",1)
+    monstre110_1 = enemy.Enemy("m110_1",850,400,100,5,"./assets/img/monstre_projecteur_3.png",2)
     monstre110_2 = enemy.Enemy("m110_2",100,300,100,5,"./assets/img/mechant_pc.png",1)
     monstre115_1 = enemy.Enemy("m115_1",220,224,100,5,"./assets/img/mechant_pc.png",1)
     monstre115_2 = enemy.Enemy("m115_2",700,224,100,5,"./assets/img/mechant_pc.png",1)
-    monstres35_1 = enemy.Enemy("ms35_1",864,400,80,5,"./assets/img/monstre_projecteur_3.png",1)
-    monstres35_2 = enemy.Enemy("ms35_2",864,220,80,5,"./assets/img/monstre_projecteur_1.png",1)
-    monstres36_1 = enemy.Enemy("ms36_1",256,352,80,5,"./assets/img/monstre_projecteur_1.png",1)
-    monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
-    monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
-    monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",1)
+    monstres35_1 = enemy.Enemy("ms35_1",864,400,80,5,"./assets/img/monstre_projecteur_3.png",2)
+    monstres35_2 = enemy.Enemy("ms35_2",864,220,80,5,"./assets/img/monstre_projecteur_1.png",2)
+    monstres36_1 = enemy.Enemy("ms36_1",256,352,80,5,"./assets/img/monstre_projecteur_1.png",2)
+    monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
+    monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
+    monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",2)
     boss = enemy.Enemy("boss",512,50,100,20,"./assets/img/monstre_amphi_1.png",3)
 
 
@@ -278,7 +278,7 @@ def ouvrir_niveau(screen, pseudo):
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
                     if current_time - monstre.last_shot_time >= 2.0:
                         # Permet à l'ennemi de tirer un projectile
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_projecteur.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
 
                     num_proj = 0
@@ -291,10 +291,12 @@ def ouvrir_niveau(screen, pseudo):
                             proj.draw(screen)
                             num_proj = num_proj + 1
                 else:
-                                         # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                    if monstre.hp<=10:
+                        monstre.set_img("./assets/img/monstre_amphi_5.png") 
+                    # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
                     if current_time - monstre.last_shot_time >= 2.0:
                         # Permet à l'ennemi de tirer un projectile
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_pc.png"))
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
 
                     num_proj = 0
@@ -306,6 +308,7 @@ def ouvrir_niveau(screen, pseudo):
                             proj.update()
                             proj.draw(screen)
                             num_proj = num_proj + 1
+                    
 
             
             for monstre in current_room_obj.enemies:
