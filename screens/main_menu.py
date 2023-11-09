@@ -25,6 +25,9 @@ def ouvrir_menu(screen) :
 
     font = pygame.font.Font(constants.PINBALL_PATH, 30) 
     font_big = pygame.font.Font(constants.PINBALL_PATH, 50) 
+    font_small = pygame.font.Font(constants.ROBOTO_PATH, 15) 
+
+    text_info = "Veuillez rentrer un pseudo pour jouer"
 
     while running :
 
@@ -57,15 +60,27 @@ def ouvrir_menu(screen) :
         #creation du bouton jouer
         #arriere plan
         jouer_button = pygame.image.load(jouer_button_path)
-        jouer_button_big = pygame.transform.scale(jouer_button, (jouer_button.get_width()*2, jouer_button.get_height()*2))
+        jouer_button_big = pygame.transform.scale(jouer_button, (jouer_button.get_width()*4, jouer_button.get_height()*4))
         jouer_button_rec = jouer_button_big.get_rect()
-        jouer_button_rec.center = ((screen.get_width() // 5), (screen.get_height() // 3)*2.5)
+        jouer_button_rec.center = ((screen.get_width() // 2), (screen.get_height() // 3)*1.4)
         screen.blit(jouer_button_big, jouer_button_rec)
         #texte
-        jouer = font.render("PLAY", True, (0,0,0))
+        jouer = font_big.render("PLAY", True, (0,0,0))
         jouer_rec = jouer.get_rect()
-        jouer_rec.center = ((screen.get_width() // 5), (screen.get_height() // 3)*2.5)
+        jouer_rec.center = ((screen.get_width() // 2), (screen.get_height() // 3)*1.4)
         screen.blit(jouer, jouer_rec)
+
+        if nom_joueur == "":
+            text_info = "Veuillez rentrer un pseudo pour jouer"
+        elif nom_joueur in game_logic.get_score():
+            text_info = "Ce pseudo à dejà été utilisé"
+        else:
+            text_info = "ce pseudo est valide"
+        
+        info = font_small.render(text_info, True, (0,0,0))
+        info_rec = info.get_rect()
+        info_rec.center = ((screen.get_width() // 2), (screen.get_height() // 3)*1.8)
+        screen.blit(info, info_rec)
         
 
         #creation du bouton score
@@ -73,12 +88,12 @@ def ouvrir_menu(screen) :
         score_button = pygame.image.load(score_button_path)
         score_button_big = pygame.transform.scale(score_button, (score_button.get_width()*2, score_button.get_height()*2))
         score_button_rec = score_button_big.get_rect()
-        score_button_rec.center = ((screen.get_width() // 5)*2, (screen.get_height() // 3)*2.5)
+        score_button_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
         screen.blit(score_button_big, score_button_rec)
         #texte
         score = font.render("SCORE", True, (0,0,0))
         score_rec = score.get_rect()
-        score_rec.center = ((screen.get_width() // 5)*2, (screen.get_height() // 3)*2.5)
+        score_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
         screen.blit(score, score_rec)
 
         #creation du bouton credit
@@ -86,12 +101,12 @@ def ouvrir_menu(screen) :
         credit_button = pygame.image.load(credit_button_path)
         credit_button_big = pygame.transform.scale(credit_button, (credit_button.get_width()*2, credit_button.get_height()*2))
         credit_button_rec = credit_button_big.get_rect()
-        credit_button_rec.center = ((screen.get_width() // 5)*3, (screen.get_height() // 3)*2.5)
+        credit_button_rec.center = ((screen.get_width() // 4)*2, (screen.get_height() // 3)*2.5)
         screen.blit(credit_button_big, credit_button_rec)
         #texte
         credit = font.render("CREDIT", True, (0,0,0))
         credit_rec = credit.get_rect()
-        credit_rec.center = ((screen.get_width() // 5)*3, (screen.get_height() // 3)*2.5)
+        credit_rec.center = ((screen.get_width() // 4)*2, (screen.get_height() // 3)*2.5)
         screen.blit(credit, credit_rec)
 
 
@@ -100,12 +115,12 @@ def ouvrir_menu(screen) :
         quitter_button = pygame.image.load(quitter_button_path)
         quitter_button_big = pygame.transform.scale(quitter_button, (quitter_button.get_width()*2, quitter_button.get_height()*2))
         quitter_button_rec = quitter_button_big.get_rect()
-        quitter_button_rec.center = ((screen.get_width() // 5)*4, (screen.get_height() // 3)*2.5)
+        quitter_button_rec.center = ((screen.get_width() // 4)*3, (screen.get_height() // 3)*2.5)
         screen.blit(quitter_button_big, quitter_button_rec)
         #texte
         quitter = font.render("QUIT", True, (0,0,0))
         quitter_rec = quitter.get_rect()
-        quitter_rec.center = ((screen.get_width() // 5)*4, (screen.get_height() // 3)*2.5)
+        quitter_rec.center = ((screen.get_width() // 4)*3, (screen.get_height() // 3)*2.5)
         screen.blit(quitter, quitter_rec)
 
         #gestion des evenements
