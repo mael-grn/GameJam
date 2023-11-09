@@ -2,8 +2,9 @@ import pygame
 import screens.error as error
 import screens.main_menu as menu
 import constants
+import game_logic
 
-def main():
+def main(difficulty = "normal"):
     # Démmarre le module 
     pygame.init()
     # définit l'écran et sa taille
@@ -14,6 +15,8 @@ def main():
     running = True
     # Le temps passé entre deux rafraichissement de l'écran en millisecondes
     dt = 0
+
+    game_logic.set_difficulty(difficulty)
 
     # Boucle de l'animation
     while running:
@@ -38,4 +41,4 @@ def main():
     pygame.quit()
 
 # Appel au programme principal
-main()
+main(difficulty = "normal")

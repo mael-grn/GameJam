@@ -313,6 +313,8 @@ def play_sound(sound):
 
 def affiche_pause(screen):
 
+
+
     running = True
     clock = pygame.time.Clock()
     dt = 0
@@ -423,3 +425,16 @@ def affiche_pause(screen):
         pygame.display.flip()
         # Limite le frame rate à 60 images par secondes et retourne le temps réel passé
         dt = clock.tick(60) 
+
+def set_difficulty(diff):
+    if "demo" in diff:
+        constants.COLLECTE_CLEE = False
+        constants.TEMP_INVINCIBILITE=100000
+        constants.CHARACTER_SPEED=7
+    if "easy" in diff:
+        constants.PROJ_SPEED=3
+        constants.CHARACTER_SPEED=7
+    #normal prends les valeurs par defaut
+    if "difficult" in diff:
+        constants.PROJ_SPEED = 7
+        constants.TEMP_INVINCIBILITE=0

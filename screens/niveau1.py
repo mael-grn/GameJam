@@ -236,6 +236,7 @@ def ouvrir_niveau(screen, pseudo):
 
             #gestion du tire 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire and len(character_obj.get_proj())<5:
+                
                 mouse_x, mouse_y = event.pos
                 character_obj.add_proj(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png", True))
                 tire = False

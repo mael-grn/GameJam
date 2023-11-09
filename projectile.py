@@ -10,7 +10,7 @@ class Projectile:
         # Redimensionne le projectile à 20x20 pixels
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
+        self.rect.center = (x, y)
         dx = target_x -x
         dy = target_y -y
         self.angle_rad = math.atan2(dy,dx)
