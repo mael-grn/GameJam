@@ -125,7 +125,7 @@ def ouvrir_menu(screen) :
                     pygame.quit()
                 #si clique sur bouton jouer
                 if jouer_button_rec.collidepoint(event.pos):
-                    if (nom_joueur != "") :
+                    if (nom_joueur != "") and not nom_joueur in game_logic.get_score() :
                         game_logic.play_sound("clic")
                         game_logic.ajout_score(nom_joueur)
                         running=False

@@ -91,9 +91,8 @@ def ouvrir_score(screen, dictionnaire_score):
             if compteur_iterations >= 14:
                 break  # Sortir de la boucle si nous avons atteint 14 itérations
             
-            salle = game_logic.get_char_room_pseudo(pseudo)
             # Affichage du score
-            unScore = font.render(f"{pseudo} : {val}, salle : {salle}", True, (0, 0, 0))
+            unScore = font.render(f"{pseudo} : {val}", True, (0, 0, 0))
             unScore_rec = unScore.get_rect()
             unScore_rec.center = (screen.get_width() // 2, from_top)
             screen.blit(unScore, unScore_rec)
@@ -121,8 +120,7 @@ def ouvrir_score(screen, dictionnaire_score):
                 if reset_button_rec.collidepoint(event.pos):
                     with io.open("./data/score.pkl", "w") as f:
                         f.write("")
-                    with io.open("./data/room.pkl", "w") as f:
-                        f.write("")
+
 
                     menu.ouvrir_menu(screen)
 

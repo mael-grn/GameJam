@@ -206,8 +206,7 @@ class Character:
     def defeat_boss(self):
         game_logic.ajout_score(self.pseudo, 50)
 
-    def set_room(self, room):
-        game_logic.set_char_room(self.pseudo, room)
+
     def echange_foodtruck(self,entier):
         if self.pieces >=3 and entier ==0:
             self.pieces = self.pieces-3

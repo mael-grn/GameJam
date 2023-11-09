@@ -28,11 +28,11 @@ def ouvrir_niveau(screen, pseudo):
     delay =0 #control de la cadence de tire
     there_is_key=False
 
-    dict_char_room=game_logic.get_char_room()
 
+    current_room = "sol"
+    
     character_obj = character.Character(450, 600, pseudo)  # Position initiale du personnage
-    current_room = game_logic.get_char_room_pseudo(pseudo)
-    character_obj.set_room(current_room)
+    
     key_obj = key.Key(0, 0)
 
 
@@ -84,6 +84,8 @@ def ouvrir_niveau(screen, pseudo):
     for salle_item in [amphiC1, amphi, couloir1, couloir2, couloir3, etage1Couoir1, etage1, foodtruck, salle21, salle33, salle39, salle110, salle115, salleS35, salleS36, salleS37, sol, sousSolCouloir1, sousSolCouloir2, sousSolCouloir3]:
         room_list[salle_item.map] = salle_item
     #maj des salles
+
+
 
     salle21.enemies.append(monstre21)
     salle33.enemies.append(monstre33_1)
@@ -166,16 +168,26 @@ def ouvrir_niveau(screen, pseudo):
                     have_access=False
 
                     character_obj.move_down()
+                    if coll[1] == etage1.map:
+                        character_obj.move_right()
+                    if coll[1] == sousSolCouloir1.map:
+                         character_obj.move_down()
+                         character_obj.move_down()
+                         character_obj.move_down()
                     game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
 
                 if character_obj.keys == 1 and coll[1] in [etage1.map, amphiC1]:
                     have_access=False
                     character_obj.move_down()
+                    character_obj.move_right()
+
                     game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais deux clee...")
 
                 if character_obj.keys == 2 and coll[1] == amphiC1.map:
                     have_access=False
                     character_obj.move_down()
+                    character_obj.move_right()
+
                     game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais trois clee...")
 
             if current_room != coll[1] and have_access:
@@ -191,7 +203,6 @@ def ouvrir_niveau(screen, pseudo):
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
 
-                character_obj.set_room(next_room.map)
                 current_room_obj = next_room
 
                 #verifier s'il doit y avoir des monstres
@@ -200,8 +211,8 @@ def ouvrir_niveau(screen, pseudo):
 
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
-        if dt==0 and game_logic.get_char_room_pseudo(pseudo) == "sol" : #si toute premiere iteration boucle (debut du jeu)
-            val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.", [1, 2])
+        if dt==0 : #si toute premiere iteration boucle (debut du jeu)
+            val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.")
             print(val)
 #----------------------------------------------------------------------------------------------------------------afficher elements
         #coeurs

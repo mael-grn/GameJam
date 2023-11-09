@@ -69,41 +69,7 @@ def get_score():
         dict_score = {}
     
     return dict_score
-def get_char_room():
-    dict_room = {}
 
-        #recuperation des scores sauvegardés
-    try:
-        with open("./data/room.pkl", "rb") as fichier:
-            dict_room = pickle.load(fichier)
-
-    except (EOFError, FileNotFoundError):
-        # Gérer le cas où le fichier est vide ou n'existe pas
-        dict_room = {}
-    
-    return dict_room
-
-def get_char_room_pseudo(pseudo):
-    dict_room = {}
-    val = "sol"
-        #recuperation des scores sauvegardés
-    try:
-        with open("./data/room.pkl", "rb") as fichier:
-            dict_room = pickle.load(fichier)
-            if pseudo in dict_room:
-                val = dict_room[pseudo]
-
-    except (EOFError, FileNotFoundError):
-        # Gérer le cas où le fichier est vide ou n'existe pas
-        dict_room = {}
-    
-    return val
-
-def set_char_room(pseudo, room) :
-    dict_room = get_char_room()
-    dict_room[pseudo] = room
-    with open("./data/room.pkl", "wb") as fichier:
-        pickle.dump(dict_room, fichier)
 
 def ajout_score(pseudo, score=0) :
     dict_score = get_score()
