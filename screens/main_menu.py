@@ -4,6 +4,8 @@ import screens.error as error
 import screens.niveau1 as n1
 import screens.score as menu_score
 import game_logic
+import screens.credit as menu_credit
+import constants
 
 def ouvrir_menu(screen) : 
     running = True
@@ -16,12 +18,13 @@ def ouvrir_menu(screen) :
 
     jouer_button_path = "./assets/buttons/normal.png"
     score_button_path = "./assets/buttons/normal.png"
+    credit_button_path = "./assets/buttons/normal.png"
     quitter_button_path = "./assets/buttons/normal.png"
 
     #chargement de la police
-    chemin = "./assets/fonts/pinball.ttf"
-    font = pygame.font.Font(chemin, 30) 
-    font_big = pygame.font.Font(chemin, 50) 
+
+    font = pygame.font.Font(constants.PINBALL_PATH, 30) 
+    font_big = pygame.font.Font(constants.PINBALL_PATH, 50) 
 
     while running :
 
@@ -52,12 +55,12 @@ def ouvrir_menu(screen) :
         jouer_button = pygame.image.load(jouer_button_path)
         jouer_button_big = pygame.transform.scale(jouer_button, (jouer_button.get_width()*2, jouer_button.get_height()*2))
         jouer_button_rec = jouer_button_big.get_rect()
-        jouer_button_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
+        jouer_button_rec.center = ((screen.get_width() // 5), (screen.get_height() // 3)*2.5)
         screen.blit(jouer_button_big, jouer_button_rec)
         #texte
         jouer = font.render("PLAY", True, (0,0,0))
         jouer_rec = jouer.get_rect()
-        jouer_rec.center = ((screen.get_width() // 4), (screen.get_height() // 3)*2.5)
+        jouer_rec.center = ((screen.get_width() // 5), (screen.get_height() // 3)*2.5)
         screen.blit(jouer, jouer_rec)
         
 
@@ -66,13 +69,26 @@ def ouvrir_menu(screen) :
         score_button = pygame.image.load(score_button_path)
         score_button_big = pygame.transform.scale(score_button, (score_button.get_width()*2, score_button.get_height()*2))
         score_button_rec = score_button_big.get_rect()
-        score_button_rec.center = ((screen.get_width() // 4)*2, (screen.get_height() // 3)*2.5)
+        score_button_rec.center = ((screen.get_width() // 5)*2, (screen.get_height() // 3)*2.5)
         screen.blit(score_button_big, score_button_rec)
         #texte
         score = font.render("SCORE", True, (0,0,0))
         score_rec = score.get_rect()
-        score_rec.center = ((screen.get_width() // 4)*2, (screen.get_height() // 3)*2.5)
+        score_rec.center = ((screen.get_width() // 5)*2, (screen.get_height() // 3)*2.5)
         screen.blit(score, score_rec)
+
+        #creation du bouton credit
+        #arriere plan
+        credit_button = pygame.image.load(credit_button_path)
+        credit_button_big = pygame.transform.scale(credit_button, (credit_button.get_width()*2, credit_button.get_height()*2))
+        credit_button_rec = credit_button_big.get_rect()
+        credit_button_rec.center = ((screen.get_width() // 5)*3, (screen.get_height() // 3)*2.5)
+        screen.blit(credit_button_big, credit_button_rec)
+        #texte
+        credit = font.render("CREDIT", True, (0,0,0))
+        credit_rec = credit.get_rect()
+        credit_rec.center = ((screen.get_width() // 5)*3, (screen.get_height() // 3)*2.5)
+        screen.blit(credit, credit_rec)
 
 
         #creation du bouton quitter
@@ -80,12 +96,12 @@ def ouvrir_menu(screen) :
         quitter_button = pygame.image.load(quitter_button_path)
         quitter_button_big = pygame.transform.scale(quitter_button, (quitter_button.get_width()*2, quitter_button.get_height()*2))
         quitter_button_rec = quitter_button_big.get_rect()
-        quitter_button_rec.center = ((screen.get_width() // 4)*3, (screen.get_height() // 3)*2.5)
+        quitter_button_rec.center = ((screen.get_width() // 5)*4, (screen.get_height() // 3)*2.5)
         screen.blit(quitter_button_big, quitter_button_rec)
         #texte
         quitter = font.render("QUIT", True, (0,0,0))
         quitter_rec = quitter.get_rect()
-        quitter_rec.center = ((screen.get_width() // 4)*3, (screen.get_height() // 3)*2.5)
+        quitter_rec.center = ((screen.get_width() // 5)*4, (screen.get_height() // 3)*2.5)
         screen.blit(quitter, quitter_rec)
 
         #gestion des evenements
@@ -112,6 +128,9 @@ def ouvrir_menu(screen) :
                 #si clique sur bouton jouer
                 if jouer_button_rec.collidepoint(event.pos):
                     jouer_button_path = "./assets/buttons/press.png"
+                    #si clique sur bouton jouer
+                if credit_button_rec.collidepoint(event.pos):
+                    credit_button_path = "./assets/buttons/press.png"
                 #si clique sur bouton score
                 if score_button_rec.collidepoint(event.pos):
                     score_button_path = "./assets/buttons/press.png"
@@ -135,6 +154,11 @@ def ouvrir_menu(screen) :
                     game_logic.play_sound("clic")
                     running=False
                     menu_score.ouvrir_score(screen, game_logic.get_score())
+                    #si clique sur bouton score
+                if credit_button_rec.collidepoint(event.pos):
+                    game_logic.play_sound("clic")
+                    running=False
+                    menu_credit.ouvrir_credit(screen)
 
 
             if event.type == pygame.MOUSEMOTION:
@@ -155,6 +179,11 @@ def ouvrir_menu(screen) :
                     score_button_path = "./assets/buttons/over.png"
                 else:
                     score_button_path = "./assets/buttons/normal.png"
+                if credit_button_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    credit_button_path = "./assets/buttons/over.png"
+                else:
+                    credit_button_path = "./assets/buttons/normal.png"
 
             
 

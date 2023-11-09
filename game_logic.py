@@ -142,6 +142,8 @@ def affiche_dialogue(screen, text, other_button= []):
     there_is_a = 1 in other_button
     there_is_e = 2 in other_button
 
+    font = pygame.font.Font(constants.ROBOTO_PATH, 20) 
+
     #traitement du texte (retour à la ligne au bout de 62 caractères)
 
     while running:
@@ -154,8 +156,8 @@ def affiche_dialogue(screen, text, other_button= []):
         screen.blit(bg_big, bg_rec)
         #affichage du texte
 
-        font = pygame.font.Font("./assets/fonts/pinball.ttf", 20) 
-        line_height = font.get_linesize() +10
+        
+        line_height = font.get_linesize() +2
 
 
         lines = wrap_text(text, 55)
