@@ -3,8 +3,9 @@ import screens.error as error
 import screens.main_menu as menu
 import constants
 import game_logic
+import sys
 
-def main(difficulty = "normal"):
+def main(difficulty):
     # Démmarre le module 
     pygame.init()
     # définit l'écran et sa taille
@@ -40,5 +41,14 @@ def main(difficulty = "normal"):
     # Termine proprement le module
     pygame.quit()
 
+difficulty = "normal"
+
+if "demo" in sys.argv:
+    difficulty = "demo"
+elif "easy" in sys.argv:
+    difficulty = "easy"
+elif "hard" in sys.argv:
+    difficulty = "hard"
+
 # Appel au programme principal
-main(difficulty = "normal")
+main(difficulty)

@@ -431,10 +431,10 @@ def set_difficulty(diff):
         constants.COLLECTE_CLEE = False
         constants.TEMP_INVINCIBILITE=100000
         constants.CHARACTER_SPEED=7
-    if "easy" in diff:
+    elif "easy" in diff:
         constants.PROJ_SPEED=3
         constants.CHARACTER_SPEED=7
     #normal prends les valeurs par defaut
-    if "difficult" in diff:
+    elif "hard" in diff:
         constants.PROJ_SPEED = 7
         constants.TEMP_INVINCIBILITE=0
