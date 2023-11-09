@@ -1,5 +1,6 @@
 import pygame
 import time
+import math
 class Enemy:
     def __init__(self, name, x, y, size, hp, image_path, attaque):
         self.attaque = attaque
@@ -21,7 +22,7 @@ class Enemy:
         self.rect.height = hitbox_height
         self.rect.topleft = (x + 5, y + 5)  # Ajoutez 5 pixels à la position pour centrer le rectangle
 
-        self.speed = 5  # Vitesse de déplacement de l'ennemi
+        self.speed = 2  # Vitesse de déplacement de l'ennemi
         self.eliminated = False  # Par défaut, l'ennemi n'est pas éliminé
         self.last_deplacement =0
 
@@ -64,3 +65,23 @@ class Enemy:
     def draw(self, screen):
         if not self.eliminated:  # Dessinez l'ennemi uniquement s'il n'est pas éliminé
             screen.blit(self.image, self.rect)
+    def update(self, target_y1, target_x1, target_y2, target_x2, target_y3, target_x3, target_y4, target_x4):
+        # Déplacez l'ennemi en fonction du motif prédéfini
+        if self.rect.y <=55 and self.rect.x > 50 and self.rect.x < 862:
+            self.move_right()
+        elif self.rect.y < 555 and self.rect.x >= 576:
+            self.move_down()
+        elif self.rect.y > 554 and self.rect.x > 160:
+            self.move_left()
+        elif self.rect.y > 50 and self.rect.x <= 192:
+            self.move_up()
+
+        # Mettez à jour la position en fonction de la direction actuelle
+        if self.rect.y == target_y1 and self.rect.x == target_x1:
+            self.move_right()
+        elif self.rect.y == target_y2 and self.rect.x == target_x2:
+            self.move_down()
+        elif self.rect.y == target_y3 and self.rect.x == target_x3:
+            self.move_left()
+        elif self.rect.y == target_y4 and self.rect.x == target_x4:
+            self.move_up()
