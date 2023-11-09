@@ -24,8 +24,8 @@ class Character:
         self.pseudo = pseudo
         self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
-        self.rect.width=95
-        self.rect.height=120
+        self.rect.width=80
+        self.rect.height=100
         self.rect.center = [x, y]
         self.speed = constants.CHARACTER_SPEED
         self.direction = 0  # 0 pour droite, 1 pour gauche
