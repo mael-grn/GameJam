@@ -79,16 +79,6 @@ def ouvrir_niveau(screen):
 
 
 
-    
-    monstres = []  # Créez une liste vide pour stocker les monstres
-    projectilesMonstres = [] #crée liste pour projectiles monstres
-    monstre1 = enemy.Enemy("Monstre1", 200, 200, 100, 10, "./assets/img/mechant_pc.png",1)
-    monstre2 = enemy.Enemy("Monstre2", 300, 300, 100, 10, "./assets/img/mechant_pc.png",1)
-    monstre3 = enemy.Enemy("Monstre3", 400, 400, 100, 10, "./assets/img/mechant_pc.png",2)
-    monstres.append(monstre1)
-    monstres.append(monstre2)
-    monstres.append(monstre3)
-
 
 
     #musique
@@ -104,7 +94,7 @@ def ouvrir_niveau(screen):
         screen.fill((0, 0, 0))
 
         #ne pas activer le tire si aucun monstre
-        if len(monstres)==0 and not there_is_monsters:
+        if len(current_room_obj.enemies)==0 and not there_is_monsters:
             tire = False
 
 #----------------------------------------------------------------------------------------------------------------gestion musique
@@ -204,13 +194,13 @@ def ouvrir_niveau(screen):
 #---------------------------------------------------------------------------------------------------------------gestion du jeu (monstre, piece, projectile)
         # Liste des indices des projectiles à supprimer
         indices_proj_a_supprimer = []
-        indices_proj_a_supprimer = game_logic.impact_handler(character_obj, pieces, monstres, tmx_map_data, indices_proj_a_supprimer)        
+        indices_proj_a_supprimer = game_logic.impact_handler(character_obj, pieces, current_room_obj.enemies, tmx_map_data, indices_proj_a_supprimer)        
         indices_proj_a_supprimer = game_logic.coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer)
 
         #-------------------------------------------------------------------------------------------------attaque (projectiles) des monstres et affichage
         
         if there_is_monsters:
-            for monstre in monstres:
+            for monstre in current_room_obj.enemies:
                 current_time = time.time()  # Obtenez le temps actuel
                 if monstre.attaque ==1:   
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
@@ -251,11 +241,11 @@ def ouvrir_niveau(screen):
 
 
             
-            for monstre in monstres:
+            for monstre in current_room_obj.enemies:
                 monstre.draw(screen)  # Dessinez le monstre à l'écran
 
             #gestion des degats que fonts les projectiles :
-            for monstre in monstres:
+            for monstre in current_room_obj.enemies:
                 if(len(monstre.get_proj())>0):
                     for proj in monstre.get_proj():
                         if proj.rect.colliderect(character_obj.rect):

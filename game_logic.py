@@ -259,11 +259,10 @@ def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_sup
                         pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemies
             
             if proj.rect.colliderect(monstre.rect) or 2 in check_collision(rectangle,tmx_data):
-                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-    
+                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
     return indices_proj_a_supprimer
 
 def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):
