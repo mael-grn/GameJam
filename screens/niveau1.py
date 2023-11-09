@@ -179,7 +179,10 @@ def ouvrir_niveau(screen, pseudo):
                          character_obj.move_down()
                          character_obj.move_down()
                          character_obj.move_down()
-                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
+                    if coll[1] in [sousSolCouloir1.map, sousSolCouloir2.map, sousSolCouloir3.map]:
+                        game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
+                    else:
+                        game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais deux clee...")
 
                 
 
