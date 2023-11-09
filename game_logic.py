@@ -110,7 +110,7 @@ def ajout_score(pseudo, score=0) :
     with open("./data/score.pkl", "wb") as fichier:
         pickle.dump(dict_score, fichier)
 
-def move_character(character_obj, key, map_data): 
+def move_character(screen,character_obj, key, map_data): 
     rect = character_obj.get_rect()
 
     if key[pygame.K_q]:
@@ -119,6 +119,7 @@ def move_character(character_obj, key, map_data):
             character_obj.move_left()  # Appel à la méthode move_left du personnage
         elif 2 in coll and coll[2]=="foodtruck":
             character_obj.move_right()
+            character_obj.echange_foodtruck(affiche_dialogue(screen, "Si vous avez 3 pièces sur votre compte Izly, vous pouvez acheter un sawndwich qui vous donnera 1 coeur suplémentaire ( E pour annuler )", [2]))
             
 
     elif key[pygame.K_d]:
@@ -127,6 +128,7 @@ def move_character(character_obj, key, map_data):
             character_obj.move_right()  # Appel à la méthode move_right du personnage
         elif 2 in coll and coll[2]=="foodtruck":
             character_obj.move_left()
+            character_obj.echange_foodtruck(affiche_dialogue(screen, "Si vous avez 3 pièces sur votre compte Izly, vous pouvez acheter un sawndwich qui vous donnera 1 coeur suplémentaire ( E pour annuler )", [2]))
 
     if key[pygame.K_z]:
         coll = check_collision(get_next_rect(rect, "u"), map_data)  #simulation mouvement à haut
@@ -134,6 +136,7 @@ def move_character(character_obj, key, map_data):
             character_obj.move_up()  # Appel à la méthode move_up du personnage
         elif 2 in coll and coll[2]=="foodtruck":
             character_obj.move_down()
+            character_obj.echange_foodtruck(affiche_dialogue(screen, "Si vous avez 3 pièces sur votre compte Izly, vous pouvez acheter un sawndwich qui vous donnera 1 coeur suplémentaire ( E pour annuler )", [2]))
 
     elif key[pygame.K_s]:
         coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
@@ -141,6 +144,7 @@ def move_character(character_obj, key, map_data):
             character_obj.move_down()  # Appel à la méthode move_down du personnage
         elif 2 in coll and coll[2]=="foodtruck":
             character_obj.move_up()
+            character_obj.echange_foodtruck(affiche_dialogue(screen, "Si vous avez 3 pièces sur votre compte Izly, vous pouvez acheter un sawndwich qui vous donnera 1 coeur suplémentaire ( E pour annuler )", [2]))
 
 def tirer(character_x,character_y,souris_x,souris_y,screen,path, character=False):
     un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path, character)
@@ -334,3 +338,7 @@ def play_sound(sound):
 
     # Jouez le son
     son.play()
+
+
+
+

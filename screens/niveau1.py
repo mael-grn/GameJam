@@ -22,7 +22,8 @@ def ouvrir_niveau(screen, pseudo):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = True
+    there_is_monsters = False
+    pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
     there_is_key=False
@@ -210,7 +211,7 @@ def ouvrir_niveau(screen, pseudo):
             character_obj.draw_keys(screen)
 
         #personnage
-        game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
+        game_logic.move_character(screen,character_obj, pygame.key.get_pressed(), tmx_map_data)
         character_obj.draw(screen)
 
 #------------------------------------------------------------------------------------------------------------------- event handler

@@ -41,7 +41,7 @@ class Character:
 
         self.piece_image = pygame.image.load("./assets/img/piece.png")
         self.key_image = pygame.image.load("./assets/img/key.png")
-        self.pieces = 0
+        self.pieces = 3
 
         self.projectiles = []
         self.keys = 0 
@@ -208,3 +208,17 @@ class Character:
 
     def set_room(self, room):
         game_logic.set_char_room(self.pseudo, room)
+    def echange_foodtruck(self,entier):
+        if self.pieces >=3 and entier ==0:
+            self.pieces = self.pieces-3
+            self.hp=self.hp+1
+        
+            
+        
+            
+            
+            
+        
+
+
+
