@@ -1,7 +1,8 @@
 import pygame
 import screens.error as error
 import screens.main_menu as menu
-
+import game_logic
+import io
 def ouvrir_score(screen, dictionnaire_score):
 
     # Définit l'horloge pour connaitre le temps qui a passé
@@ -16,6 +17,8 @@ def ouvrir_score(screen, dictionnaire_score):
     dict_score = dictionnaire_score
 
     retour_button_path = "./assets/buttons/simple_normal.png"
+
+    reset_button_path = "./assets/buttons/normal.png"
 
     # Boucle de l'animation
     while running:
@@ -56,6 +59,19 @@ def ouvrir_score(screen, dictionnaire_score):
         retour_rec.center = (20, 20)
         screen.blit(retour, retour_rec)
 
+        # Affichage du bouton retour
+        #arriere plan
+        reset_button = pygame.image.load(reset_button_path)
+        reset_button_big = pygame.transform.scale(reset_button, (reset_button.get_width()*1.5, reset_button.get_height()*1.5))
+        reset_button_rec = reset_button_big.get_rect()
+        reset_button_rec.center = (screen.get_width()- 60,screen.get_height()- 50)
+        screen.blit(reset_button_big, reset_button_rec)
+        #texte
+        reset = font_small.render("RESET", True, (0,0,0))
+        reset_rec = retour.get_rect()
+        reset_rec.center = (screen.get_width()-75, screen.get_height()-50)
+        screen.blit(reset, reset_rec)
+
         from_top = 175 #marge des score 
 
         #arriere plan des scores
@@ -69,12 +85,15 @@ def ouvrir_score(screen, dictionnaire_score):
         # Variable de compteur pour le nombre d'itérations
         compteur_iterations = 0
 
+
+
         for pseudo, val in dict_score.items():
             if compteur_iterations >= 14:
                 break  # Sortir de la boucle si nous avons atteint 14 itérations
-
+            
+            salle = game_logic.get_char_room_pseudo(pseudo)
             # Affichage du score
-            unScore = font.render(f"{pseudo} : {val}", True, (0, 0, 0))
+            unScore = font.render(f"{pseudo} : {val}, salle : {salle}", True, (0, 0, 0))
             unScore_rec = unScore.get_rect()
             unScore_rec.center = (screen.get_width() // 2, from_top)
             screen.blit(unScore, unScore_rec)
@@ -92,10 +111,19 @@ def ouvrir_score(screen, dictionnaire_score):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if retour_button_rec.collidepoint(event.pos):
                     retour_button_path = "./assets/buttons/simple_press.png"
+                if reset_button_rec.collidepoint(event.pos):
+                    reset_button_path = "./assets/buttons/press.png"
             
             if event.type == pygame.MOUSEBUTTONUP:
                 if retour_button_rec.collidepoint(event.pos):
                     running=False
+                    menu.ouvrir_menu(screen)
+                if reset_button_rec.collidepoint(event.pos):
+                    with io.open("./data/score.pkl", "w") as f:
+                        f.write("")
+                    with io.open("./data/room.pkl", "w") as f:
+                        f.write("")
+
                     menu.ouvrir_menu(screen)
 
             if event.type == pygame.MOUSEMOTION:
@@ -104,6 +132,11 @@ def ouvrir_score(screen, dictionnaire_score):
                     retour_button_path = "./assets/buttons/simple_over.png"
                 else:
                     retour_button_path = "./assets/buttons/simple_normal.png"
+                if reset_button_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    reset_button_path = "./assets/buttons/over.png"
+                else:
+                    reset_button_path = "./assets/buttons/normal.png"
 
         # Comme les dessins sont faits dans un buffer, permute le buffer
         pygame.display.flip()
