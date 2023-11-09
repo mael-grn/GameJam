@@ -12,7 +12,7 @@ import random
 import key
 import constants
 
-def ouvrir_niveau(screen):
+def ouvrir_niveau(screen, pseudo):
     # Définit l'horloge pour connaître le temps qui a passé
     clock = pygame.time.Clock()
     # Pour savoir quand la boucle du jeu se termine
@@ -28,7 +28,11 @@ def ouvrir_niveau(screen):
     delay =0 #control de la cadence de tire
     there_is_key=False
 
-    character_obj = character.Character(450, 600)  # Position initiale du personnage
+    dict_char_room=game_logic.get_char_room()
+
+    character_obj = character.Character(450, 600, pseudo)  # Position initiale du personnage
+    current_room = game_logic.get_char_room_pseudo(pseudo)
+    character_obj.set_room(current_room)
     key_obj = key.Key(0, 0)
 
 
@@ -67,9 +71,11 @@ def ouvrir_niveau(screen):
     #pas supprimer!!
     current_room_obj=sol ## Salle de spawn
 
+
+
     
-    tmx_map = pytmx.load_pygame('./assets/maps/' + current_room_obj.map+".tmx")
-    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room_obj.map+".tmx")
+    tmx_map = pytmx.load_pygame('./assets/maps/' + current_room+".tmx")
+    tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room+".tmx")
 
     
     
@@ -154,6 +160,7 @@ def ouvrir_niveau(screen):
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
 
+                character_obj.set_room(next_room.map)
                 current_room_obj = next_room
 
                 #verifier s'il doit y avoir des monstres
@@ -162,7 +169,7 @@ def ouvrir_niveau(screen):
 
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
-        if dt==0: #si toute premiere iteration boucle (debut du jeu)
+        if dt==0 and game_logic.get_char_room_pseudo(pseudo) == "sol" : #si toute premiere iteration boucle (debut du jeu)
             val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.", [1, 2])
             print(val)
 #----------------------------------------------------------------------------------------------------------------afficher elements

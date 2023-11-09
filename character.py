@@ -7,7 +7,7 @@ import constants
 # et la couleur bleu lui fait changer de salle
 
 class Character:
-    def __init__(self, x, y):
+    def __init__(self, x, y, pseudo):
         # Charge les images depuis les nouveaux chemins
         self.images = [
             [
@@ -21,6 +21,7 @@ class Character:
         ]
 
         # Redimensionne les images à 50x50 pixels
+        self.pseudo = pseudo
         self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
         self.rect.width=50
@@ -191,6 +192,7 @@ class Character:
 
     def increase_pieces(self, amount):
         game_logic.play_sound("coin")
+        game_logic.ajout_score(self.pseudo, 5)
         self.pieces += amount
 
     def get_pieces(self):
@@ -198,5 +200,11 @@ class Character:
     
     def increase_keys(self):
         game_logic.play_sound("coin")
+        game_logic.ajout_score(self.pseudo, 15)
         self.keys +=1
 
+    def defeat_boss(self):
+        game_logic.ajout_score(self.pseudo, 50)
+
+    def set_room(self, room):
+        game_logic.set_char_room(self.pseudo, room)
