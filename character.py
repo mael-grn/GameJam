@@ -26,7 +26,7 @@ class Character:
 
         # Redimensionne les images à 50x50 pixels
         self.pseudo = pseudo
-        self.images = [[pygame.transform.scale(img, (95, 95)) for img in direction] for direction in self.images]
+        self.images = [[pygame.transform.scale(img, (60, 95)) for img in direction] for direction in self.images]
         self.rect = self.images[0][0].get_rect()
         self.rect.width = self.images[0][0].get_width()
         self.rect.height = self.images[0][0].get_height()
@@ -110,7 +110,7 @@ class Character:
         # Récupère l'image en fonction de la direction et de l'étape de marche
         image = self.images[self.direction][self.walk_step]
         #afficher la hitbox:
-        pygame.draw.rect(screen, (255, 0, 0), self.rect)
+        #pygame.draw.rect(screen, (255, 0, 0), self.rect)
         screen.blit(image, self.rect)
 
     def take_damage(self, damage):
