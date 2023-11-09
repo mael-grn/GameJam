@@ -29,7 +29,9 @@ def check_collision(rect, tmx_data):
                     if tile:
                         #si le rectangle est superposé à un mur (code 99 dans le nom du layer):
                         if "99" in layer.name:
-                            return {2 : "foodtruck"} #retour du code 2 (collision)
+                            if "foodtruck" in layer.name:
+                                return {2 : "foodtruck"} #retour du code 2 (collision)
+                            return {2 : ""}
                         elif "vers" in layer.name:
                             return {1 : layer.name.split("_")[1]}
                         
