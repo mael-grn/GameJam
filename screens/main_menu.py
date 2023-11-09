@@ -165,7 +165,7 @@ def ouvrir_menu(screen) :
                 if jouer_button_rec.collidepoint(event.pos):
                     if (nom_joueur != "") and not nom_joueur in game_logic.get_score() :
                         game_logic.play_sound("clic")
-                        game_logic.ajout_score(nom_joueur)
+                        game_logic.set_score(nom_joueur)
                         running=False
                         n1.ouvrir_niveau(screen, nom_joueur)
                 #si clique sur bouton score

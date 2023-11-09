@@ -50,6 +50,7 @@ class Character:
         self.projectiles = []
         self.keys = 0 
         self.last_move = list((0, 0))
+        self.boss_defeated = False
 
     def get_proj(self):
         return self.projectiles
@@ -193,7 +194,6 @@ class Character:
 
     def increase_pieces(self, amount):
         game_logic.play_sound("coin")
-        game_logic.ajout_score(self.pseudo, 5)
         self.pieces += amount
 
     def get_pieces(self):
@@ -201,11 +201,7 @@ class Character:
     
     def increase_keys(self):
         game_logic.play_sound("coin")
-        game_logic.ajout_score(self.pseudo, 15)
         self.keys +=1
-
-    def defeat_boss(self):
-        game_logic.ajout_score(self.pseudo, 50)
 
 
     def echange_foodtruck(self,entier):

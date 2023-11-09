@@ -19,9 +19,9 @@ def ouvrir_niveau(screen, pseudo):
     running = True
     # Le temps passé entre deux rafraîchissements de l'écran en millisecondes
     dt = 0
-
+    affiche_dial_pc = False
     temps = 0
-
+    deja_rentre_salle_pc = False
     #variables d'etat
     current_room = "sol"
     there_is_monsters = False
@@ -181,6 +181,8 @@ def ouvrir_niveau(screen, pseudo):
                          character_obj.move_down()
                     game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
 
+                
+
                 if character_obj.keys == 1 and coll[1] in [etage1.map, amphiC1]:
                     have_access=False
                     character_obj.move_down()
@@ -195,6 +197,10 @@ def ouvrir_niveau(screen, pseudo):
 
                     game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais trois clee...")
 
+                if not deja_rentre_salle_pc and coll[1] in [salle33.map, salle39.map, salle21.map]:
+                    affiche_dial_pc = True
+                    deja_rentre_salle_pc = True
+
             if current_room != coll[1] and have_access:
 
                 #repositionner le personnage
@@ -208,21 +214,28 @@ def ouvrir_niveau(screen, pseudo):
                 tmx_map = pytmx.load_pygame('./assets/maps/' + current_room + '.tmx')
                 tmx_map_data = pytmx.TiledMap('./assets/maps/' + current_room + '.tmx')
 
+                
+
                 current_room_obj = next_room
 
                 #verifier s'il doit y avoir des monstres
                 if current_room_obj.enemies:
                      there_is_monsters=True
 
+
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
         if temps==0 : #si toute premiere iteration boucle (debut du jeu)
-            val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.")
+            val=game_logic.affiche_dialogue(screen, "Aujourd'hui, c'est la rentrée et aussi ma première journée à l'IUT. C'est tellement stressant... Mais tout devrait bien se passer. Tout de même, j'ai comme un mauvais pressentiment...")
             
         if temps==1:
-            val=game_logic.affiche_dialogue(screen, "Pour vous deplacer, utilisez les touches z, q, s, d. Pour tirer, cliquez sur votre cible.")
+            val=game_logic.affiche_dialogue(screen, "Pour vous déplacer, utilisez les touches Z, Q, S, D. Pour tirer, cliquez sur votre cible.")
         if temps==2:
-            val=game_logic.affiche_dialogue(screen, "Attention : pour savoir quand tirer, tendez l'oreille !")
+            val=game_logic.affiche_dialogue(screen, "Attention : pour savoir quand tirer, tendez bien l'oreille !")
+
+        if affiche_dial_pc:
+            game_logic.affiche_dialogue(screen, "J'ai un mauvais pressentiment... Je devrais rester sur mes gardes.")
+            affiche_dial_pc=False
 
 #----------------------------------------------------------------------------------------------------------------afficher elements
         #coeurs
@@ -241,6 +254,10 @@ def ouvrir_niveau(screen, pseudo):
             # fermer la fenetre
             if event.type == pygame.QUIT:
                 running = False
+                bonus = 0
+                if character_obj.boss_defeated:
+                    bonus=50
+                game_logic.set_score(pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
 
             #gestion du tire 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire and len(character_obj.get_proj())<5:
@@ -254,7 +271,7 @@ def ouvrir_niveau(screen, pseudo):
                 delay=0
             
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
-                 game_logic.affiche_pause(screen)
+                 game_logic.affiche_pause(screen, character_obj)
 
 #---------------------------------------------------------------------------------------------------------------gestion du jeu (monstre, piece, projectile)
         # Liste des indices des projectiles à supprimer
@@ -394,6 +411,10 @@ def ouvrir_niveau(screen, pseudo):
                     pygame.mixer.music.load('./assets/music/menu.mp3')
                     pygame.mixer.music.play()
                     game_logic.play_sound("gameOver")
+                    bonus = 0
+                    if character_obj.boss_defeated:
+                        bonus=50
+                    game_logic.set_score(pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
                     screens.game_over.ouvrir_game_over(screen)
 
         #affiche la clee (s'il y en a une)

@@ -26,8 +26,11 @@ def ouvrir_credit(screen):
         # Remplit l'écran avec une couleur de fond (avant de dessiner le texte)
         screen.fill((0, 0, 0))
 
+        background_image = pygame.image.load("./assets/img/EVeil A.png")
+        background_image = pygame.transform.scale(background_image, (screen.get_width(), screen.get_height()))
+        screen.blit(background_image, (0, 0))
         
-        font = pygame.font.Font(constants.ROBOTO_PATH, 17) 
+        font = pygame.font.Font(constants.ROBOTO_PATH, 14) 
         font_big = pygame.font.Font(constants.PINBALL_PATH, 50)
         font_small = pygame.font.Font(constants.PINBALL_PATH, 20)
         
@@ -59,7 +62,7 @@ def ouvrir_credit(screen):
         screen.blit(retour, retour_rec)
 
 
-        from_top = 175 #marge des score 
+        from_top = 185 #marge des score 
 
         lignesP1 = [
             "Tileset:",
@@ -119,16 +122,24 @@ def ouvrir_credit(screen):
         elif page==3:
             lignes_to_display=lignesP3
 
+        #arriere plan des scores
+        credit_bg = pygame.image.load("./assets/img/list_simple.png")
+        #redimmensionner le logo
+        credit_bg_big = pygame.transform.scale(credit_bg, (credit_bg.get_width()*4, credit_bg.get_height()*4))
+        credit_bg_rec = credit_bg_big.get_rect()
+        credit_bg_rec.center = ((screen.get_width() // 2), (screen.get_width() // 2)-100)
+        screen.blit(credit_bg_big, credit_bg_rec)
+
         for ligne in lignes_to_display:
             # Affichage du score
-            uneLigne = font.render(ligne, True, (255, 255, 255))
+            uneLigne = font.render(ligne, True, (0, 0, 0))
             uneLigne_rec = uneLigne.get_rect()
-            uneLigne_rec.bottomleft = (20, from_top)
+            uneLigne_rec.bottomleft = (100, from_top)
             screen.blit(uneLigne, uneLigne_rec)
 
             from_top += font.get_height() +10     
 
-        num_page = font.render(str(page) + "/3", True, (255, 255, 255))
+        num_page = font.render(str(page) + "/3", True, (0, 0, 0))
         num_page_rec = num_page.get_rect()
         num_page_rec.bottomleft = (screen.get_width()-50, screen.get_height()-20)
         screen.blit(num_page, num_page_rec)

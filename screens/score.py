@@ -27,6 +27,10 @@ def ouvrir_score(screen, dictionnaire_score):
         # Remplit l'écran avec une couleur de fond (avant de dessiner le texte)
         screen.fill((0, 0, 0))
 
+        background_image = pygame.image.load("./assets/img/EVeil A.png")
+        background_image = pygame.transform.scale(background_image, (screen.get_width(), screen.get_height()))
+        screen.blit(background_image, (0, 0))
+
         chemin = "./assets/fonts/pinball.ttf"
         font = pygame.font.Font(chemin, 27) 
         font_big = pygame.font.Font(chemin, 50)

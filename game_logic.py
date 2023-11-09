@@ -71,11 +71,12 @@ def get_score():
     return dict_score
 
 
-def ajout_score(pseudo, score=0) :
+def set_score(pseudo, score=0) :
     dict_score = get_score()
     dict_score[pseudo] = score
     with open("./data/score.pkl", "wb") as fichier:
         pickle.dump(dict_score, fichier)
+
 
 def move_character(screen,character_obj, key, map_data): 
     rect = character_obj.get_rect()
@@ -323,7 +324,7 @@ def play_sound(sound):
     # Jouez le son
     son.play()
 
-def affiche_pause(screen):
+def affiche_pause(screen, character_obj):
 
 
 
@@ -386,12 +387,17 @@ def affiche_pause(screen):
             # QUIT signifie que l'utilisateur a fermé la fenêtre
             if event.type == pygame.QUIT:
                 running = False
+                bonus = 0
+                if character_obj.boss_defeated:
+                    bonus=50
+                set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Si clique sur bouton quitter
                 if quit_button_rec.collidepoint(event.pos):
                     quit_button_path = "./assets/buttons/press.png"
+                    print(True)
                 #si clique sur bouton jouer
                 if resume_button_rec.collidepoint(event.pos):
                     resume_button_path = "./assets/buttons/press.png"
@@ -403,6 +409,11 @@ def affiche_pause(screen):
                 if quit_button_rec.collidepoint(event.pos):
                     play_sound("clic")
                     running=False
+                    bonus = 0
+                    if character_obj.boss_defeated:
+                        bonus=50
+                    print(character_obj.pseudo + " : " + str(character_obj.pieces))
+                    set_score(character_obj.pseudo, character_obj.pieces*5 + character_obj.keys*15 + bonus)
                     main_menu.ouvrir_menu(screen)
 
   

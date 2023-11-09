@@ -6,7 +6,7 @@ ANIMATION_SPEED = 150 #millisecondes
 #jeu
 TAILLE_ECRAN = (1024, 768)
 
-COLLECTE_CLEE = False
+COLLECTE_CLEE = True
 
 PROJ_SPEED = 5
 
