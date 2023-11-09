@@ -111,6 +111,7 @@ class Character:
     def draw(self, screen):
         # Récupère l'image en fonction de la direction et de l'étape de marche
         image = self.images[self.direction][self.walk_step]
+        pygame.draw.rect(screen, (255, 0, 0), self.rect)
         screen.blit(image, self.rect)
 
     def take_damage(self, damage):
@@ -120,7 +121,7 @@ class Character:
             if self.hp <= 0:
                 self.hp = 0  # L'ennemi a 0 points de vie
                 self.eliminated = True  # Marquez l'ennemi comme éliminé
-            self.invincible = True
+            self.invincible = constants.TEMP_INVINCIBILITE
             self.invincible_start_time = pygame.time.get_ticks()  # Enregistrez le moment où l'invincibilité a commencé
         
 

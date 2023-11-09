@@ -271,7 +271,9 @@ def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_sup
                     indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
             else:
                 if 2 in check_collision(rectangle,tmx_data):
-                   indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
+                   indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste 
+    
+       
     return indices_proj_a_supprimer
 
 def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):

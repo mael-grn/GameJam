@@ -318,7 +318,13 @@ def ouvrir_niveau(screen, pseudo):
             for monstre in current_room_obj.enemies:
                 if(len(monstre.get_proj())>0):
                     for proj in monstre.get_proj():
-                        if proj.rect.colliderect(character_obj.rect):
+                        rectangle = character_obj.rect
+                        rectangle1 = game_logic.get_next_rect(rectangle, 'u')
+                        rectangle2 = game_logic.get_next_rect(rectangle, 'd')
+                        rectangle3 = game_logic.get_next_rect(rectangle, 'l')
+                        rectangle4 = game_logic.get_next_rect(rectangle, 'r')
+                        if proj.rect.colliderect(rectangle) or proj.rect.colliderect(rectangle1) or proj.rect.colliderect(rectangle2) or proj.rect.colliderect(rectangle3) or proj.rect.colliderect(rectangle4) :
+                            print(True)
                             character_obj.take_damage(1)
                             character_obj.update()
                 if character_obj.get_rect().colliderect(monstre.rect):
