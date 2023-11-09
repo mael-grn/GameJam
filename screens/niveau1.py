@@ -185,9 +185,9 @@ def ouvrir_niveau(screen, pseudo):
                          character_obj.move_right()
 
                     if coll[1] in [sousSolCouloir1.map, sousSolCouloir2.map, sousSolCouloir3.map]:
-                        game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais une clee...")
+                        game_logic.affiche_dialogue(screen, "L'accès est bloqué. Il me faudrait une clé...")
                     else:
-                        game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais deux clee...")
+                        game_logic.affiche_dialogue(screen, "L'accès est bloqué. Il me faudrait deux clés...")
 
                 
 
@@ -196,14 +196,14 @@ def ouvrir_niveau(screen, pseudo):
                     character_obj.move_down()
                     character_obj.move_right()
 
-                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais deux clee...")
+                    game_logic.affiche_dialogue(screen, "L'accès est bloqué. Il me faudrait deux clés...")
 
                 if character_obj.keys == 2 and coll[1] == amphiC1.map:
                     have_access=False
                     character_obj.move_down()
                     character_obj.move_right()
 
-                    game_logic.affiche_dialogue(screen, "L'acces est bloque. Il me faudrais trois clee...")
+                    game_logic.affiche_dialogue(screen, "L'accès est bloqué. Il me faudrait deux clés...")
 
                 if not deja_rentre_salle_pc and coll[1] in [salle33.map, salle39.map, salle21.map]:
                     affiche_dial_pc = True
@@ -234,7 +234,7 @@ def ouvrir_niveau(screen, pseudo):
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
         if temps==0 : #si toute premiere iteration boucle (debut du jeu)
-            val=game_logic.affiche_dialogue(screen, "Aujourd'hui, c'est la rentrée et aussi ma première journée à l'IUT. C'est tellement stressant... Mais tout devrait bien se passer. Tout de même, j'ai comme un mauvais pressentiment...")
+            val=game_logic.affiche_dialogue(screen, "Aujourd'hui, c'est la rentrée, ma première journée à l'IUT. C'est tellement stressant... Mais tout devrait bien se passer. Tout de même, j'ai comme un mauvais pressentiment.")
             
         if temps==1:
             val=game_logic.affiche_dialogue(screen, "Pour vous déplacer, utilisez les touches Z, Q, S, D. Pour tirer, cliquez sur votre cible.")
@@ -403,7 +403,7 @@ def ouvrir_niveau(screen, pseudo):
                         elif iteration_img==3:
                             le_reveil.draw(screen)
                             monstre.draw_dead(screen)   
-                            game_logic.affiche_dialogue(screen,"oh, un reveil ? qu'est ce que c'est que ca ?")
+                            game_logic.affiche_dialogue(screen,"Oh, un réveil ? Qu'est-ce que c'est que ça ?")
                             iteration_img = iteration_img+1
                         elif iteration_img ==4:
                                 monstre.draw_dead(screen)   
@@ -421,7 +421,7 @@ def ouvrir_niveau(screen, pseudo):
                             iteration_img +=1
                             pygame.mixer.music.load('./assets/music/music_fin.mp3')
                             pygame.mixer.music.play()
-                            game_logic.affiche_dialogue(screen,"ouf, ce n'etait qu'un cauchemar...")
+                            game_logic.affiche_dialogue(screen,"Ouf, ce n'était qu'un cauchemar...")
 
 
                                     
