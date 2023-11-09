@@ -403,7 +403,8 @@ def ouvrir_niveau(screen, pseudo):
                         elif iteration_img==3:
                             le_reveil.draw(screen)
                             monstre.draw_dead(screen)   
-                            game_logic.affiche_dialogue(screen,"Oh, un réveil ? Qu'est-ce que c'est que ça ?")
+                            game_logic.play_sound("son_reveil")
+                            game_logic.affiche_dialogue(screen,"oh, un reveil ? qu'est ce que c'est que ca ?")
                             iteration_img = iteration_img+1
                         elif iteration_img ==4:
                                 monstre.draw_dead(screen)   
