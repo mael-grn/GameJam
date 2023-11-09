@@ -29,13 +29,15 @@ def ouvrir_menu(screen) :
     while running :
 
         #arriere plan
-        screen.fill("black")
+        background_image = pygame.image.load("./assets/img/EVeil A.png")
+        background_image = pygame.transform.scale(background_image, (screen.get_width(), screen.get_height()))
+        screen.blit(background_image, (0, 0))
 
         #chargement du logo
-        logo = pygame.image.load("./assets/img/game_logo.jpg")
+        #logo = pygame.image.load("./assets/img/game_logo.jpg")
         #redimmensionner le logo
-        logo_small = pygame.transform.scale(logo, (logo.get_width()/2, logo.get_height()/2))
-        screen.blit(logo_small, (screen.get_width() // 2 - logo_small.get_width()/2, screen.get_height() // 4 - logo_small.get_height()/2))
+        #logo_small = pygame.transform.scale(logo, (logo.get_width()/2, logo.get_height()/2))
+        #screen.blit(logo_small, (screen.get_width() // 2 - logo_small.get_width()/2, screen.get_height() // 4 - logo_small.get_height()/2))
 
         #creation du champs contenant le nom du joueur
         #arriere plan
@@ -49,6 +51,8 @@ def ouvrir_menu(screen) :
         player_rec = player.get_rect()
         player_rec.center = ((screen.get_width() // 2), (screen.get_height() // 3)*2)
         screen.blit(player, player_rec)
+
+        
 
         #creation du bouton jouer
         #arriere plan
