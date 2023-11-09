@@ -51,7 +51,7 @@ def ouvrir_niveau(screen, pseudo):
     monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",2)
     monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",2)
-    boss = enemy.Enemy("boss",512,50,100,20,"./assets/img/monstre_amphi_1.png",3)
+    boss = enemy.Enemy("boss",512,50,100,30,"./assets/img/monstre_amphi_1.png",3)
 
 
 
@@ -290,13 +290,11 @@ def ouvrir_niveau(screen, pseudo):
                             proj.update()
                             proj.draw(screen)
                             num_proj = num_proj + 1
-                else:
-                    if monstre.hp<=10:
-                        monstre.set_img("./assets/img/monstre_amphi_5.png") 
+                elif monstre.attaque==4:
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                    if current_time - monstre.last_shot_time >= 2.0 and monstre.hp>10 or current_time - monstre.last_shot_time >= 1.0 and monstre.hp<10 :
+                    if current_time - monstre.last_shot_time >= 2.0:
                         # Permet à l'ennemi de tirer un projectile
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_projecteur.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
 
                     num_proj = 0
@@ -308,7 +306,31 @@ def ouvrir_niveau(screen, pseudo):
                             proj.update()
                             proj.draw(screen)
                             num_proj = num_proj + 1
+                else:
+                    monstre.update(50,864,576,864,576,192,50,192)
+
+                    if monstre.hp<=20:
+                        monstre.set_img("./assets/img/monstre_amphi_5.png") 
+                        monstre.speed = 5
+                    if monstre.hp <=10:
+                        monstre.speed = 7
+
+                    # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
+                    if current_time - monstre.last_shot_time >= 2.0 and monstre.hp>20 or current_time - monstre.last_shot_time >= 0.5 and monstre.hp<20 and monstre.hp>10 :
+                        # Permet à l'ennemi de tirer un projectile
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
+                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
                     
+                    num_proj = 0
+                    if len(monstre.get_proj()) > 0:
+                        for proj in monstre.get_proj():
+                            rectangle = pygame.Rect(proj.get_x(), proj.get_y(), 50, 50)
+                            if proj.rect.colliderect(character_obj.rect) or 2 in game_logic.check_collision(rectangle, tmx_map_data):
+                                monstre.del_proj(num_proj)  # Supprimez le projectile s'il touche un ennemi
+                            proj.update()
+                            proj.draw(screen)
+                            num_proj = num_proj + 1
+
 
             
             for monstre in current_room_obj.enemies:
