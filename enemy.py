@@ -66,8 +66,6 @@ class Enemy:
         if not self.eliminated:  # Dessinez l'ennemi uniquement s'il n'est pas éliminé
             screen.blit(self.image, self.rect)
     def update(self, target_y1, target_x1, target_y2, target_x2, target_y3, target_x3, target_y4, target_x4):
-
-        print(f"Position actuelle: ({self.rect.x}, {self.rect.y})")
         # Déplacez l'ennemi en fonction du motif prédéfini
         if self.rect.y <=55 and self.rect.x > 50 and self.rect.x < 862:
             self.move_right()

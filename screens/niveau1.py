@@ -292,12 +292,12 @@ def ouvrir_niveau(screen, pseudo):
                             num_proj = num_proj + 1
                 elif monstre.attaque==4:
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                    if current_time - monstre.last_shot_time >= 2.0 and monstre.get_centre_x() > character_obj.get_centre_x():
+                    if current_time - monstre.last_shot_time >= 2.0 and monstre.get_centre_x() < character_obj.get_centre_x():
                         # Permet à l'ennemi de tirer un projectile
                         monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir-livre.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
                     elif current_time - monstre.last_shot_time >= 2.0:
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir-livre.png"))
+                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir-livre_retourne.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
                     num_proj = 0
                     if len(monstre.get_proj()) > 0:
@@ -316,13 +316,22 @@ def ouvrir_niveau(screen, pseudo):
                         monstre.speed = 5
                     if monstre.hp <=10:
                         monstre.speed = 7
+                        monstre.set_img("./assets/img/monstre_amphi_6.png")
 
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                    if current_time - monstre.last_shot_time >= 2.0 and monstre.hp>20 or current_time - monstre.last_shot_time >= 0.5 and monstre.hp<20 and monstre.hp>10 :
+                    if current_time - monstre.last_shot_time >= 2.0 and monstre.hp>20 or current_time - monstre.last_shot_time >= 0.5 and monstre.hp<20:
                         # Permet à l'ennemi de tirer un projectile
-                        monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
-                        monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
-                    
+                        if monstre.hp>10:
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
+                            monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
+                        else:
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), 928, 96, screen, "./assets/img/tir_micro_1.png"))
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), 928, 576, screen, "./assets/img/tir_micro_1.png"))
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), 192, 576, screen, "./assets/img/tir_micro_1.png"))
+                            monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), 192, 96, screen, "./assets/img/tir_micro_1.png"))
+                            monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
+
                     num_proj = 0
                     if len(monstre.get_proj()) > 0:
                         for proj in monstre.get_proj():
