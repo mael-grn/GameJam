@@ -116,9 +116,9 @@ class Character:
 
     def take_damage(self, damage):
         if not constants.INVINCIBILITE:
-            game_logic.play_sound("takeDamage")
             if not self.invincible:
                 self.hp -= damage
+                game_logic.play_sound("takeDamage")
                 if self.hp <= 0:
                     self.hp = 0  # L'ennemi a 0 points de vie
                     self.eliminated = True  # Marquez l'ennemi comme éliminé
