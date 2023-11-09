@@ -294,7 +294,7 @@ def ouvrir_niveau(screen, pseudo):
                     if monstre.hp<=10:
                         monstre.set_img("./assets/img/monstre_amphi_5.png") 
                     # Vérifiez si suffisamment de temps s'est écoulé depuis le dernier tir
-                    if current_time - monstre.last_shot_time >= 2.0:
+                    if current_time - monstre.last_shot_time >= 2.0 and monstre.hp>10 or current_time - monstre.last_shot_time >= 1.0 and monstre.hp<10 :
                         # Permet à l'ennemi de tirer un projectile
                         monstre.add_proj(game_logic.tirer(monstre.get_centre_x(), monstre.get_centre_y(), character_obj.get_centre_x(), character_obj.get_centre_y(), screen, "./assets/img/tir_micro_1.png"))
                         monstre.last_shot_time = current_time  # Mettez à jour le temps du dernier tir
