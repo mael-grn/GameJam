@@ -106,7 +106,7 @@ def move_character(screen,character_obj, key, map_data):
             character_obj.echange_foodtruck(affiche_dialogue(screen, "Si vous avez 3 pièces sur votre compte Izly, vous pouvez acheter un sawndwich qui vous donnera 1 coeur suplémentaire ( E pour annuler )", [2]))
 
     elif key[pygame.K_s]:
-        coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
+        coll = check_collision(get_next_rect(rect, "d"), map_data)  #simulation mouvement à bas
         if not 2 in coll:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
         elif 2 in coll and coll[2]=="foodtruck":
