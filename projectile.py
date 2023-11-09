@@ -1,7 +1,9 @@
 import pygame
 import math
+import constants
+
 class Projectile:
-    def __init__(self, x, y, target_x, target_y,path):
+    def __init__(self, x, y, target_x, target_y,path, character=False):
         # Charge l'image depuis le nouveau chemin
         self.image = pygame.image.load(path)
 
@@ -13,7 +15,9 @@ class Projectile:
         dy = target_y -y
         self.angle_rad = math.atan2(dy,dx)
         angle_deg = math.degrees(self.angle_rad)
-        self.speed = 5  # Vitesse du projectile
+        self.speed = constants.PROJ_SPEED  # Vitesse du projectile
+        if character:
+            self.speed = 5 #changer la vitesse seuelemtn pour les enemy
     def draw(self, screen):
         screen.blit(self.image, self.rect)
     def update(self):

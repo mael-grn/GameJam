@@ -22,7 +22,7 @@ def ouvrir_niveau(screen):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = True
+    there_is_monsters = False
     pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
@@ -166,8 +166,10 @@ def ouvrir_niveau(screen):
 
                 current_room_obj = next_room
 
+                #verifier s'il doit y avoir des monstres
+                if current_room_obj.enemies:
+                     there_is_monsters=True
 
-                
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
         if dt==0: #si toute premiere iteration boucle (debut du jeu)
@@ -194,7 +196,7 @@ def ouvrir_niveau(screen):
             #gestion du tire 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1 and tire and len(character_obj.get_proj())<5:
                 mouse_x, mouse_y = event.pos
-                character_obj.add_proj(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png"))
+                character_obj.add_proj(game_logic.tirer(character_obj.get_centre_x(),character_obj.get_centre_y(),mouse_x,mouse_y,screen,"./assets/img/note_tire.png", True))
                 tire = False
                 while(delay<1.0):
                     delay += 1/60

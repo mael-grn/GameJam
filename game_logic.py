@@ -95,8 +95,8 @@ def move_character(character_obj, key, map_data):
         if not 2 in coll:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
 
-def tirer(character_x,character_y,souris_x,souris_y,screen,path):
-    un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path)
+def tirer(character_x,character_y,souris_x,souris_y,screen,path, character=False):
+    un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path, character)
     return un_proj
 
 def afficher_map(screen, tmx_map):
