@@ -263,10 +263,11 @@ def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_sup
             for monstre in monstres:
                 if proj.rect.colliderect(monstre.rect):
                     monstre.take_damage(1)  # Chaque projectile inflige 1 point de dégât
-                    if not monstre.is_alive():
+                    if not monstre.is_alive() and monstre.attaque !=3:
                         une_piece=piece.Piece(monstre.rect.x, monstre.rect.y, "./assets/img/piece.png", "./assets/img/pieceReverse.png")
                         pieces.append(une_piece)
-                        monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
+                        if monstre.attaque !=3:
+                            monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
                     break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemies
             if len(monstres)>0:

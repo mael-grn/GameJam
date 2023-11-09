@@ -25,7 +25,7 @@ class Enemy:
         self.speed = 2  # Vitesse de déplacement de l'ennemi
         self.eliminated = False  # Par défaut, l'ennemi n'est pas éliminé
         self.last_deplacement =0
-
+        self.last_img_time = 0
         self.last_shot_time = time.time()
         self.premier_tire = True
     def set_img(self,image_path):
@@ -34,7 +34,8 @@ class Enemy:
         return self.projectlies
     def add_proj(self, proj):
         self.projectlies.append(proj)
-        self.last_shot_time = time.time()
+    def is_alive(self):
+        return self.hp > 0
 
 
     def del_proj(self,ind):
@@ -86,3 +87,6 @@ class Enemy:
             self.move_left()
         elif self.rect.y == target_y4 and self.rect.x == target_x4:
             self.move_up()
+    def draw_dead(self, screen):
+        if self.eliminated:  # Dessinez l'ennemi uniquement s'il est éliminé
+            screen.blit(self.image, self.rect)
