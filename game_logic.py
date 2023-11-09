@@ -82,18 +82,30 @@ def move_character(character_obj, key, map_data):
         coll = check_collision(get_next_rect(rect, "l"), map_data) #simulation mouvement à gauche
         if not 2 in coll:
             character_obj.move_left()  # Appel à la méthode move_left du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_right()
+            
+
     elif key[pygame.K_d]:
         coll = check_collision(get_next_rect(rect, "r"), map_data)  #simulation mouvement à droite
         if not 2 in coll:
             character_obj.move_right()  # Appel à la méthode move_right du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_left()
+
     if key[pygame.K_z]:
         coll = check_collision(get_next_rect(rect, "u"), map_data)  #simulation mouvement à haut
         if not 2 in coll:
             character_obj.move_up()  # Appel à la méthode move_up du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_down()
+
     elif key[pygame.K_s]:
         coll = check_collision(get_next_rect(rect, "s"), map_data)  #simulation mouvement à bas
         if not 2 in coll:
             character_obj.move_down()  # Appel à la méthode move_down du personnage
+        elif 2 in coll and coll[2]=="foodtruck":
+            character_obj.move_up()
 
 def tirer(character_x,character_y,souris_x,souris_y,screen,path, character=False):
     un_proj = projectile.Projectile(character_x,character_y,souris_x,souris_y, path, character)
@@ -247,11 +259,10 @@ def impact_handler(character_obj, pieces, monstres, tmx_data, indices_proj_a_sup
                         pieces.append(une_piece)
                         monstres.remove(monstre)  # Supprimez l'ennemi s'il n'a plus de points de vie
                     # indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennem
+                    break  # Sortez de la boucle des ennemis, car le projectile a déjà touché un ennemies
             
             if proj.rect.colliderect(monstre.rect) or 2 in check_collision(rectangle,tmx_data):
-                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste
-    
+                indices_proj_a_supprimer.append(index)  # Ajoutez l'index du projectile à supprimer à la liste    
     return indices_proj_a_supprimer
 
 def coin_handler(character_obj, pieces, screen, indices_proj_a_supprimer):
