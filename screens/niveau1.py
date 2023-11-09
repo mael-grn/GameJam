@@ -22,7 +22,8 @@ def ouvrir_niveau(screen, pseudo):
 
     #variables d'etat
     current_room = "sol"
-    there_is_monsters = True
+    there_is_monsters = False
+    pieces=[]
     tire = False #si on peut tirer
     delay =0 #control de la cadence de tire
     there_is_key=False
@@ -35,12 +36,25 @@ def ouvrir_niveau(screen, pseudo):
     key_obj = key.Key(0, 0)
 
 
-    #montre salle 21
+    #montres
     monstre21=enemy.Enemy("monstre21",450,180,100,5,"./assets/img/mechant_pc.png",1)
     monstre33_1 = enemy.Enemy("m33_1",384,150,100,5,"./assets/img/mechant_pc.png",1)
     monstre33_2 = enemy.Enemy("m33_2",768,150,100,5,"./assets/img/mechant_pc.png",1)
     monstre39 = enemy.Enemy("m39",512,300,100,5,"./assets/img/mechant_pc.png",1)
-    monstre110 = enemy.Enemy("m110",896,448,100,5,"./assets/img/mechant_pc.png",1)
+    monstre110_1 = enemy.Enemy("m110_1",850,400,100,5,"./assets/img/monstre_projecteur_3.png",1)
+    monstre110_2 = enemy.Enemy("m110_2",100,300,100,5,"./assets/img/mechant_pc.png",1)
+    monstre115_1 = enemy.Enemy("m115_1",220,224,100,5,"./assets/img/mechant_pc.png",1)
+    monstre115_2 = enemy.Enemy("m115_2",700,224,100,5,"./assets/img/mechant_pc.png",1)
+    monstres35_1 = enemy.Enemy("ms35_1",864,400,80,5,"./assets/img/monstre_projecteur_3.png",1)
+    monstres35_2 = enemy.Enemy("ms35_2",864,220,80,5,"./assets/img/monstre_projecteur_1.png",1)
+    monstres36_1 = enemy.Enemy("ms36_1",256,352,80,5,"./assets/img/monstre_projecteur_1.png",1)
+    monstres36_2 = enemy.Enemy("ms36_2",704,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
+    monstres37_1 = enemy.Enemy("ms37_1",320,320,80,5,"./assets/img/monstre_projecteur_2.png",1)
+    monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",1)
+
+
+
+
 
 
 
@@ -75,7 +89,16 @@ def ouvrir_niveau(screen, pseudo):
     salle33.enemies.append(monstre33_1)
     salle33.enemies.append(monstre33_2)
     salle39.enemies.append(monstre39)
-
+    salle110.enemies.append(monstre110_1)
+    salle110.enemies.append(monstre110_2)
+    salle115.enemies.append(monstre115_1)
+    salle115.enemies.append(monstre115_2)
+    salleS35.enemies.append(monstres35_1)
+    salleS35.enemies.append(monstres35_2)
+    salleS36.enemies.append(monstres36_1)
+    salleS36.enemies.append(monstres36_2)
+    salleS37.enemies.append(monstres37_1)
+    salleS37.enemies.append(monstres37_2)
     #pas supprimer!!
     current_room_obj=sol ## Salle de spawn
 
@@ -188,7 +211,7 @@ def ouvrir_niveau(screen, pseudo):
             character_obj.draw_keys(screen)
 
         #personnage
-        game_logic.move_character(character_obj, pygame.key.get_pressed(), tmx_map_data)
+        game_logic.move_character(screen,character_obj, pygame.key.get_pressed(), tmx_map_data)
         character_obj.draw(screen)
 
 #------------------------------------------------------------------------------------------------------------------- event handler
