@@ -164,7 +164,7 @@ class Character:
         y = 15  # Position y en haut à droite
 
         # Dessinez l'image de la pièce
-        key_image = pygame.transform.scale(self.key_image, (self.key_image.get_width()//15, self.key_image.get_height()//15))
+        key_image = pygame.transform.scale(self.key_image, (self.key_image.get_width()//2, self.key_image.get_height()//2))
         screen.blit(key_image, (x, y))
 
         # Affichez le nombre de pièces du personnage à côté de l'image de la pièce
