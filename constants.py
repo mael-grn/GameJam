@@ -1,7 +1,7 @@
 
 #personnage
 CHARACTER_SPEED = 5
-ANIMATION_SPEED = 250 #millisecondes
+ANIMATION_SPEED = 150 #millisecondes
 
 #jeu
 TAILLE_ECRAN = (1024, 768)
