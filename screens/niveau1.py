@@ -11,6 +11,7 @@ import salle
 import random
 import key
 import constants
+import reveil
 
 def ouvrir_niveau(screen, pseudo):
     # Définit l'horloge pour connaître le temps qui a passé
@@ -55,6 +56,7 @@ def ouvrir_niveau(screen, pseudo):
     monstres37_2 = enemy.Enemy("ms37_2",800,224,80,5,"./assets/img/monstre_projecteur_1.png",2)
     boss = enemy.Enemy("boss",512,50,100,1,"./assets/img/monstre_amphi_1.png",3)
     iteration_img =0
+    le_reveil = reveil.Reveil(544,64,"./assets/img/reveille_toiiii.png")
 
 
 
@@ -375,23 +377,50 @@ def ouvrir_niveau(screen, pseudo):
                                 proj.draw(screen)
                                 num_proj = num_proj + 1
                     else:
-                        monstre.draw_dead(screen)
                         current_time = time.time()
                         if current_time - monstre.last_img_time >= 2.0 and iteration_img==0:
-                            print(monstre.hp)
                             monstre.set_img("./assets/img/monstre_amphi_5.png")
                             iteration_img+=1
                             monstre.last_img_time = current_time
+                        elif iteration_img==0:
+                            monstre.draw_dead(screen)
                         elif current_time - monstre.last_img_time >= 2.0 and iteration_img==1:
-                            print(monstre.hp)
                             monstre.set_img("./assets/img/mort1_micro.png")
                             monstre.last_img_time = current_time
                             iteration_img+=1
+                        elif iteration_img==1:
+                            monstre.draw_dead(screen)
                         elif current_time - monstre.last_img_time >= 2.0 and iteration_img==2:
-                            print(monstre.hp)
                             monstre.set_img("./assets/img/mort2_micro.png")
                             monstre.last_img_time = current_time
                             iteration_img+=1
+                        elif iteration_img==2:
+                            monstre.draw_dead(screen)   
+                        elif iteration_img==3:
+                            le_reveil.draw(screen)
+                            monstre.draw_dead(screen)   
+                            game_logic.affiche_dialogue(screen,"oh, un reveil ? qu'est ce que c'est que ca ?")
+                            iteration_img = iteration_img+1
+                        elif iteration_img ==4:
+                                monstre.draw_dead(screen)   
+                                le_reveil.draw(screen)
+                                if le_reveil.check_collision(character_obj):
+                                    game_logic.affiche_dialogue(screen,"woaaaaaah")
+                                    iteration_img +=1
+                        elif iteration_img==5:
+                                    character_obj.rect.x = 320
+                                    character_obj.rect.y = 320
+                                    iteration_img +=1
+                                    tmx_map = pytmx.load_pygame('./assets/maps/' + 'chambre' + '.tmx')
+                                    tmx_map_data = pytmx.TiledMap('./assets/maps/' + 'chambre' + '.tmx')
+                        elif iteration_img==6:
+                            iteration_img +=1
+                            game_logic.affiche_dialogue(screen,"ouf, ce n'etait qu'un cauchemar...")
+
+
+                                    
+
+
 
             for monstre in current_room_obj.enemies:
                 monstre.draw(screen)  # Dessinez le monstre à l'écran
