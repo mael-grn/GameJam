@@ -115,12 +115,21 @@ def ouvrir_credit(screen):
             "    Bruitage:",
             "        Lien licence:https://pixabay.com/service/terms/https://pixabay.com/license-summary/"
         ]
+        ligneP4 = [
+            "Équipe:",
+            "    Conjard Maxime - Codeur, concepteur et musicien",
+            "    Garnier Maël - Codeur, concepteur et chef de projet",
+            "    Goumarre Yoann - Codeur, concepteur et narrateur",
+            "    Despesse Chloé - Designer, secrétaire et codeur"
+        ]
 
         lignes_to_display = lignesP1
         if page==2:
             lignes_to_display = lignesP2
         elif page==3:
             lignes_to_display=lignesP3
+        elif page==4:
+            lignes_to_display = ligneP4
 
         #arriere plan des scores
         credit_bg = pygame.image.load("./assets/img/list_simple.png")
@@ -139,7 +148,7 @@ def ouvrir_credit(screen):
 
             from_top += font.get_height() +10     
 
-        num_page = font.render(str(page) + "/3", True, (0, 0, 0))
+        num_page = font.render(str(page) + "/4", True, (0, 0, 0))
         num_page_rec = num_page.get_rect()
         num_page_rec.bottomleft = (screen.get_width()-50, screen.get_height()-20)
         screen.blit(num_page, num_page_rec)
@@ -172,7 +181,7 @@ def ouvrir_credit(screen):
                 if event.key == pygame.K_LEFT and page>1:
                     # Changer la couleur du texte lorsque la souris survole le bouton
                     page = page-1
-                if event.key == pygame.K_RIGHT and page<3:
+                if event.key == pygame.K_RIGHT and page<4:
                     # Changer la couleur du texte lorsque la souris survole le bouton
                     page = page+1
                 
