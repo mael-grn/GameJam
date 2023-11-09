@@ -160,7 +160,7 @@ def affiche_dialogue(screen, text, other_button= []):
         line_height = font.get_linesize() +2
 
 
-        lines = wrap_text(text, 55)
+        lines = wrap_text(text, 68)
         count =1
         
         for line in lines:
@@ -176,20 +176,20 @@ def affiche_dialogue(screen, text, other_button= []):
         enter_button = pygame.image.load(enter_button_path)
         enter_button_big = pygame.transform.scale(enter_button, (enter_button.get_width()*4, enter_button.get_height()*4))
         enter_button_rec = enter_button_big.get_rect()
-        enter_button_rec.center = ((screen.get_width() -150),screen.get_height()- 100 )
+        enter_button_rec.center = ((screen.get_width() -150),screen.get_height()- 50 )
         screen.blit(enter_button_big, enter_button_rec)
 
         #afficher le bouton a s'il existe
         a_button = pygame.image.load(a_button_path)
         a_button_big = pygame.transform.scale(a_button, (a_button.get_width()*4, a_button.get_height()*4))
         a_button_rec = a_button_big.get_rect()
-        a_button_rec.center = ((screen.get_width() -250),screen.get_height()- 100 )
+        a_button_rec.center = ((screen.get_width() -250),screen.get_height()- 50 )
 
         #afficher le bouton e s'il existe
         e_button = pygame.image.load(e_button_path)
         e_button_big = pygame.transform.scale(e_button, (e_button.get_width()*4, e_button.get_height()*4))
         e_button_rec = e_button_big.get_rect()
-        e_button_rec.center = ((screen.get_width() -320),screen.get_height()- 100 )
+        e_button_rec.center = ((screen.get_width() -320),screen.get_height()- 50 )
 
         if there_is_a:
             screen.blit(a_button_big, a_button_rec)
@@ -243,14 +243,25 @@ def affiche_dialogue(screen, text, other_button= []):
 def wrap_text(text, max_line_length=62):
 
 
-    nbr_ligne = len(text)//max_line_length +1
-    lines = []
+    # On sépare le texte en mots.
+# On initialise la liste des lignes avec une ligne vide.
+    lines = [""]
 
-    for i in range(0, nbr_ligne):
-        start = i * max_line_length
-        end = (i + 1) * max_line_length
-        ligne = text[start:end]
-        lines.append(ligne)
+    # On sépare le texte en mots.
+    words = text.split(" ")
+
+    # On parcourt les mots un par un.
+    for word in words:
+        # Si la ligne actuelle est trop longue, on la termine par des points de suspension.
+        if len(lines[-1]) + len(word) > max_line_length:
+            lines.append("")
+
+        # On ajoute le mot à la ligne actuelle.
+        lines[-1] += word + " "
+
+    # On enlève les points de suspension de la dernière ligne.
+    if lines[-1].endswith("..."):
+        lines[-1] = lines[-1][:-3]
 
     return lines
 

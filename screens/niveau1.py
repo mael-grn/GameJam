@@ -20,6 +20,8 @@ def ouvrir_niveau(screen, pseudo):
     # Le temps passé entre deux rafraîchissements de l'écran en millisecondes
     dt = 0
 
+    temps = 0
+
     #variables d'etat
     current_room = "sol"
     there_is_monsters = False
@@ -213,9 +215,14 @@ def ouvrir_niveau(screen, pseudo):
 
         
 #-----------------------------------------------------------------------------------------------------------------affichage dialogue debut
-        if dt==0 : #si toute premiere iteration boucle (debut du jeu)
+        if temps==0 : #si toute premiere iteration boucle (debut du jeu)
             val=game_logic.affiche_dialogue(screen, "Tot ce matin, je me suis decide a me rendre a l'IUT2 de Grenoble pour terminer mon TP en informatique. Pourtant, a cette heure matinale, il n'y a personne en vue. Une atmosphere etrangement calme regne dans les couloirs, eveillant en moi un sentiment d'inquietude. Que se trame-t-il ? C'est le debut d'une journee mysterieuse, et je suis bien determine a en decouvrir les secrets.")
-            print(val)
+            
+        if temps==1:
+            val=game_logic.affiche_dialogue(screen, "Pour vous deplacer, utilisez les touches z, q, s, d. Pour tirer, cliquez sur votre cible.")
+        if temps==2:
+            val=game_logic.affiche_dialogue(screen, "Attention : pour savoir quand tirer, tendez l'oreille !")
+
 #----------------------------------------------------------------------------------------------------------------afficher elements
         #coeurs
         character_obj.draw_hearts(screen)
@@ -403,6 +410,7 @@ def ouvrir_niveau(screen, pseudo):
         pygame.display.flip()
         # Limite le frame rate à 60 images par seconde et retourne le temps réel passé
         dt = clock.tick(60) 
+        temps += 1
 
     # Termine proprement le module
     pygame.quit()
