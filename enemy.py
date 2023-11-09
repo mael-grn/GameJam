@@ -26,7 +26,8 @@ class Enemy:
         self.eliminated = False  # Par défaut, l'ennemi n'est pas éliminé
         self.last_deplacement =0
 
-        self.last_shot_time = 0 
+        self.last_shot_time = time.time()
+        self.premier_tire = True
     def set_img(self,image_path):
         self.image = pygame.image.load(image_path)  # Chargez l'image de l'ennemi depuis le chemin fourni
     def get_proj(self):
