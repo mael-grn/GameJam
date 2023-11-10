@@ -216,7 +216,6 @@ def ouvrir_niveau(screen, pseudo):
 
                 #repositionner le personnage
                 next_room = room_list[coll[1]]
-                print(next_room.map)
                 char_rect.centerx = next_room.entry[current_room][0]
                 char_rect.centery = next_room.entry[current_room][1]
                 current_room = coll[1]
@@ -407,7 +406,7 @@ def ouvrir_niveau(screen, pseudo):
                             le_reveil.draw(screen)
                             monstre.draw_dead(screen)   
                             game_logic.play_sound("son_reveil")
-                            game_logic.affiche_dialogue(screen,"oh, un reveil ? qu'est ce que c'est que ca ?")
+                            game_logic.affiche_dialogue(screen,"Oh, un réveil ! Qu'est-ce que c'est que ça ?")
                             iteration_img = iteration_img+1
                         elif iteration_img ==4:
                                 monstre.draw_dead(screen)   

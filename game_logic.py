@@ -216,6 +216,37 @@ def affiche_dialogue(screen, text, other_button= []):
                 running = False
                 pygame.quit()
 
+            
+            if event.type == pygame.MOUSEBUTTONUP:
+
+                #si clique sur bouton jouer
+                if enter_button_rec.collidepoint(event.pos):
+                    running = False
+                    return 0
+                if a_button_rec.collidepoint(event.pos) and there_is_a:
+                    running = False
+                    return 1
+                if e_button_rec.collidepoint(event.pos) and there_is_e:
+                    running = False
+                    return 2
+                
+            if event.type == pygame.MOUSEMOTION:
+                if enter_button_rec.collidepoint(event.pos):
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    enter_button_path = "./assets/buttons/enter_press.png"
+                else:
+                    enter_button_path = "./assets/buttons/enter.png"
+                if a_button_rec.collidepoint(event.pos) and there_is_a:
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    a_button_path = "./assets/buttons/a_press.png"
+                else:
+                    a_button_path = "./assets/buttons/a.png"
+                if e_button_rec.collidepoint(event.pos) and there_is_e:
+                    # Changer la couleur du texte lorsque la souris survole le bouton
+                    e_button_path = "./assets/buttons/e_press.png"
+                else:
+                    e_button_path = "./assets/buttons/e.png"
+
             #si les touches du clavier sont pressées
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
